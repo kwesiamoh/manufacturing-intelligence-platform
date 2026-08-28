@@ -1,0 +1,16 @@
+source_variable,canonical_name,signal_type,unit,documented_meaning
+TP2,tp2_pressure,analog,bar,Pressure measured on the compressor
+TP3,tp3_pressure,analog,bar,Pressure generated at the pneumatic panel
+H1,h1_pressure,analog,bar,Pressure associated with pressure drop during cyclonic separator filter discharge
+DV_pressure,dv_pressure,analog,bar,Pressure drop when the air-dryer towers discharge
+Reservoirs,reservoir_pressure,analog,bar,Downstream reservoir pressure
+Motor_current,motor_current,analog,A,Current measured on one phase of the three-phase compressor motor
+Oil_temperature,oil_temperature,analog,degC,Compressor oil temperature
+COMP,comp_signal,digital,,Air-intake valve electrical signal
+DV_electric,dv_electric_signal,digital,,Compressor outlet-valve electrical control signal
+TOWERS,towers_signal,digital,,Signal identifying active air-dryer tower
+MPG,mpg_signal,digital,,Signal that starts compressor loading when APU pressure drops
+LPS,lps_signal,digital,,Low-pressure signal activated below approximately 7 bar
+Pressure_switch,pressure_switch_signal,digital,,Signal detecting discharge in air-drying towers
+Oil_level,oil_level_signal,digital,,Signal indicating low compressor oil level
+Caudal_impulses,caudal_impulses,digital,,Pulse output associated with air flow from APU to reservoirs

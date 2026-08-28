@@ -1,0 +1,28 @@
+{
+  "dataset_id": "uci_791_metropt3",
+  "dataset_name": "MetroPT-3",
+  "domain": "equipment_telemetry_and_fault_context",
+  "layer": "bronze",
+  "data_type": "real_measured_industrial_data",
+  "industrial_context": "Air Production Unit compressor on an operational metro train",
+  "official_source": "https://archive.ics.uci.edu/dataset/791/metropt%2B3%2Bdataset.",
+  "official_archive_url": "https://archive.ics.uci.edu/static/public/791/metropt%2B3%2Bdataset.zip",
+  "official_doi": "10.24432/C5VW3R",
+  "license": "CC BY 4.0",
+  "creators": ["Narjes Davari", "Bruno Veloso", "Rita Ribeiro", "Joao Gama"],
+  "expected_rows": 1516948,
+  "documented_sensor_features": 15,
+  "source_files": [
+    "MetroPT3(AirCompressor).csv",
+    "Data Description_Metro.pdf"
+  ],
+  "official_reported_missing_values": false,
+  "documented_period": "February-August 2020",
+  "sampling_note": "The UCI page contains inconsistent wording: its narrative says data were logged at 1 Hz, while its detailed attribute section describes 1,516,948 points at 0.1 Hz. The pipeline therefore measures the timestamp interval from the downloaded raw file instead of hard-coding a frequency.",
+  "raw_archive_sha256_reference": {
+    "value": "aab991a970e58210de853bb8078ce0e63abb4d9412fdc5c79792dae3d8e1721a",
+    "status": "third-party reproducibility reference, not published by UCI",
+    "reference": "https://github.com/machbase/neo-train-apu-demo"
+  },
+  "execution_note": "The retained local workspace contains the official UCI archive and extracted CSV. No synthetic substitute was created. The included acquisition script downloads the official archive directly and records checksums when run in an internet-enabled environment; the bulk materialized files are excluded from the public Git payload."
+}

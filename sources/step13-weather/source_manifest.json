@@ -1,0 +1,14 @@
+{
+  "package": "manufacturing-intelligence-weather-step13",
+  "created": "2026-08-24",
+  "contains_raw_data": true,
+  "raw_data_status": "The retained workspace contains six site-level ERA5-Land ZIPs and their derived NetCDF extractions for the finalized site coordinates and 2024-2025 period.",
+  "synthetic_records_added": 0,
+  "acquisition_mode": "automated_authenticated",
+  "credential_requirement": "CDS account credentials and any externally required terms acceptance",
+  "canonical_workflow": [
+    "python scripts/download_era5_land.py",
+    "python scripts/validate_bronze.py",
+    "python scripts/bronze_to_silver.py"
+  ]
+}

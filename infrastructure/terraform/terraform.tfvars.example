@@ -1,0 +1,2 @@
+deployment_mode = "documentation_only"
+aws_region       = "eu-central-1"

@@ -1,0 +1,21 @@
+{
+  "dataset_name": "Data for an IES from a real industrial park",
+  "authors": [
+    "Yuan, Chongshuo",
+    "Lin, Xiaojie",
+    "Wang, Jiale",
+    "Mao, Yihui",
+    "Zhang, Shuting"
+  ],
+  "publisher": "Zenodo",
+  "record_url": "https://zenodo.org/records/13927178",
+  "doi": "10.5281/zenodo.13927178",
+  "published_date": "2024-10-14",
+  "version": "v2",
+  "data_origin": "real industrial park integrated-energy-system operational data",
+  "synthetic": false,
+  "license": null,
+  "license_status": "not confirmed from accessible metadata; verify before redistribution",
+  "project_role": "real utility telemetry/reference domain",
+  "integration_rule": "do not relabel or row-level join to unrelated facilities"
+}

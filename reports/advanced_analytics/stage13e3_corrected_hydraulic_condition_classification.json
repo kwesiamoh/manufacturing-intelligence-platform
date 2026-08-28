@@ -1,0 +1,642 @@
+{
+  "source": {
+    "source_code": "HYDRAULIC_CM",
+    "is_real_data": true,
+    "note": "Real external hydraulic condition-monitoring benchmark; not beverage-plant operational data."
+  },
+  "design": {
+    "cycle_count": 2205,
+    "feature_count": 102,
+    "model": "ExtraTreesClassifier",
+    "split": "class-wise chronological 80/20 split: within each target class, earliest 80% of cycles train and latest 20% test",
+    "reason_for_split": "A single global chronological split produced holdouts missing entire classes because experimental condition classes occur in long contiguous blocks.",
+    "stable_cycle_filter": false,
+    "stable_flag_treatment": "stable_flag is evaluated as its own classification target and is not used to remove cycles from the physical-condition tasks.",
+    "primary_metrics": [
+      "macro_f1",
+      "balanced_accuracy"
+    ],
+    "baseline": "majority class"
+  },
+  "targets": {
+    "cooler_condition_pct": {
+      "target": "cooler_condition_pct",
+      "train_rows": 1762,
+      "holdout_rows": 443,
+      "train_class_counts": {
+        "3": 585,
+        "20": 585,
+        "100": 592
+      },
+      "holdout_class_counts": {
+        "3": 147,
+        "20": 147,
+        "100": 149
+      },
+      "majority_baseline": {
+        "majority_class": 100,
+        "accuracy": 0.3363431151241535,
+        "balanced_accuracy": 0.3333333333333333,
+        "macro_f1": 0.1677927927927928
+      },
+      "extra_trees": {
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "macro_f1": 1.0
+      },
+      "classification_report": {
+        "3": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 147.0
+        },
+        "20": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 147.0
+        },
+        "100": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 149.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 443.0
+        },
+        "weighted avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 443.0
+        }
+      },
+      "top_features": [
+        {
+          "feature": "CE__min",
+          "importance": 0.062128921790706934
+        },
+        {
+          "feature": "CE__mean",
+          "importance": 0.06187801505851094
+        },
+        {
+          "feature": "CE__rms",
+          "importance": 0.05556435324434017
+        },
+        {
+          "feature": "CE__max",
+          "importance": 0.04922443306411933
+        },
+        {
+          "feature": "TS4__min",
+          "importance": 0.034011380243069704
+        },
+        {
+          "feature": "TS4__mean",
+          "importance": 0.031146172739987682
+        },
+        {
+          "feature": "TS4__rms",
+          "importance": 0.028905881169113908
+        },
+        {
+          "feature": "TS4__max",
+          "importance": 0.0283792576279014
+        },
+        {
+          "feature": "PS5__mean",
+          "importance": 0.02726429854610634
+        },
+        {
+          "feature": "PS6__min",
+          "importance": 0.02704266485016331
+        },
+        {
+          "feature": "PS5__rms",
+          "importance": 0.02517196555360549
+        },
+        {
+          "feature": "TS1__mean",
+          "importance": 0.02405518322704278
+        },
+        {
+          "feature": "CP__min",
+          "importance": 0.02320877823628312
+        },
+        {
+          "feature": "PS5__min",
+          "importance": 0.023037489755131382
+        },
+        {
+          "feature": "PS5__max",
+          "importance": 0.02289735313734602
+        }
+      ]
+    },
+    "valve_condition_pct": {
+      "target": "valve_condition_pct",
+      "train_rows": 1764,
+      "holdout_rows": 441,
+      "train_class_counts": {
+        "73": 288,
+        "80": 288,
+        "90": 288,
+        "100": 900
+      },
+      "holdout_class_counts": {
+        "73": 72,
+        "80": 72,
+        "90": 72,
+        "100": 225
+      },
+      "majority_baseline": {
+        "majority_class": 100,
+        "accuracy": 0.5102040816326531,
+        "balanced_accuracy": 0.25,
+        "macro_f1": 0.16891891891891891
+      },
+      "extra_trees": {
+        "accuracy": 0.5215419501133787,
+        "balanced_accuracy": 0.6404166666666666,
+        "macro_f1": 0.604108415527144
+      },
+      "classification_report": {
+        "73": {
+          "precision": 0.96,
+          "recall": 1.0,
+          "f1-score": 0.9795918367346939,
+          "support": 72.0
+        },
+        "80": {
+          "precision": 0.7397260273972602,
+          "recall": 0.75,
+          "f1-score": 0.7448275862068966,
+          "support": 72.0
+        },
+        "90": {
+          "precision": 0.18974358974358974,
+          "recall": 0.5138888888888888,
+          "f1-score": 0.27715355805243447,
+          "support": 72.0
+        },
+        "100": {
+          "precision": 0.6836734693877551,
+          "recall": 0.29777777777777775,
+          "f1-score": 0.4148606811145511,
+          "support": 225.0
+        },
+        "accuracy": 0.5215419501133787,
+        "macro avg": {
+          "precision": 0.6432857716321512,
+          "recall": 0.6404166666666666,
+          "f1-score": 0.604108415527144,
+          "support": 441.0
+        },
+        "weighted avg": {
+          "precision": 0.6572978300371567,
+          "recall": 0.5215419501133787,
+          "f1-score": 0.5384510382819587,
+          "support": 441.0
+        }
+      },
+      "top_features": [
+        {
+          "feature": "PS2__std",
+          "importance": 0.08280885730821055
+        },
+        {
+          "feature": "PS2__mean",
+          "importance": 0.04248334801874069
+        },
+        {
+          "feature": "PS1__std",
+          "importance": 0.03887505583523559
+        },
+        {
+          "feature": "SE__mean",
+          "importance": 0.03517244615181447
+        },
+        {
+          "feature": "FS1__max",
+          "importance": 0.03125694365795309
+        },
+        {
+          "feature": "SE__rms",
+          "importance": 0.03085920421267941
+        },
+        {
+          "feature": "SE__std",
+          "importance": 0.030551312987462977
+        },
+        {
+          "feature": "FS1__range",
+          "importance": 0.02834133832323191
+        },
+        {
+          "feature": "FS1__mean",
+          "importance": 0.02416717784899929
+        },
+        {
+          "feature": "PS2__rms",
+          "importance": 0.021785897592112833
+        },
+        {
+          "feature": "PS1__mean",
+          "importance": 0.018856201678948616
+        },
+        {
+          "feature": "PS1__rms",
+          "importance": 0.018011626045822442
+        },
+        {
+          "feature": "EPS1__std",
+          "importance": 0.017831178483719214
+        },
+        {
+          "feature": "FS1__std",
+          "importance": 0.017809448283504024
+        },
+        {
+          "feature": "FS1__rms",
+          "importance": 0.017121906436442246
+        }
+      ]
+    },
+    "internal_pump_leakage_class": {
+      "target": "internal_pump_leakage_class",
+      "train_rows": 1762,
+      "holdout_rows": 443,
+      "train_class_counts": {
+        "0": 976,
+        "1": 393,
+        "2": 393
+      },
+      "holdout_class_counts": {
+        "0": 245,
+        "1": 99,
+        "2": 99
+      },
+      "majority_baseline": {
+        "majority_class": 0,
+        "accuracy": 0.5530474040632054,
+        "balanced_accuracy": 0.3333333333333333,
+        "macro_f1": 0.2374031007751938
+      },
+      "extra_trees": {
+        "accuracy": 0.9390519187358917,
+        "balanced_accuracy": 0.9371813371813372,
+        "macro_f1": 0.9244328229755786
+      },
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 0.9428571428571428,
+          "f1-score": 0.9705882352941176,
+          "support": 245.0
+        },
+        "1": {
+          "precision": 0.86,
+          "recall": 0.8686868686868687,
+          "f1-score": 0.864321608040201,
+          "support": 99.0
+        },
+        "2": {
+          "precision": 0.8839285714285714,
+          "recall": 1.0,
+          "f1-score": 0.9383886255924171,
+          "support": 99.0
+        },
+        "accuracy": 0.9390519187358917,
+        "macro avg": {
+          "precision": 0.9146428571428572,
+          "recall": 0.9371813371813372,
+          "f1-score": 0.9244328229755786,
+          "support": 443.0
+        },
+        "weighted avg": {
+          "precision": 0.9427741051273782,
+          "recall": 0.9390519187358917,
+          "f1-score": 0.9396443132656614,
+          "support": 443.0
+        }
+      },
+      "top_features": [
+        {
+          "feature": "SE__rms",
+          "importance": 0.08014014675257687
+        },
+        {
+          "feature": "FS1__rms",
+          "importance": 0.07779177147251416
+        },
+        {
+          "feature": "FS1__mean",
+          "importance": 0.07596598179753951
+        },
+        {
+          "feature": "SE__mean",
+          "importance": 0.06830723241486762
+        },
+        {
+          "feature": "SE__std",
+          "importance": 0.05209384682202363
+        },
+        {
+          "feature": "SE__range",
+          "importance": 0.046661460494724284
+        },
+        {
+          "feature": "SE__max",
+          "importance": 0.04094220944775418
+        },
+        {
+          "feature": "EPS1__max",
+          "importance": 0.029782432357385865
+        },
+        {
+          "feature": "PS1__max",
+          "importance": 0.028121500882213123
+        },
+        {
+          "feature": "FS1__std",
+          "importance": 0.02618801397353546
+        },
+        {
+          "feature": "PS3__rms",
+          "importance": 0.02568588408188639
+        },
+        {
+          "feature": "PS3__mean",
+          "importance": 0.022781366878961852
+        },
+        {
+          "feature": "EPS1__rms",
+          "importance": 0.022478749673552515
+        },
+        {
+          "feature": "EPS1__min",
+          "importance": 0.020896048421093084
+        },
+        {
+          "feature": "EPS1__mean",
+          "importance": 0.018962580481408923
+        }
+      ]
+    },
+    "hydraulic_accumulator_bar": {
+      "target": "hydraulic_accumulator_bar",
+      "train_rows": 1763,
+      "holdout_rows": 442,
+      "train_class_counts": {
+        "90": 646,
+        "100": 319,
+        "115": 319,
+        "130": 479
+      },
+      "holdout_class_counts": {
+        "90": 162,
+        "100": 80,
+        "115": 80,
+        "130": 120
+      },
+      "majority_baseline": {
+        "majority_class": 90,
+        "accuracy": 0.3665158371040724,
+        "balanced_accuracy": 0.25,
+        "macro_f1": 0.13410596026490065
+      },
+      "extra_trees": {
+        "accuracy": 0.5271493212669683,
+        "balanced_accuracy": 0.5980324074074075,
+        "macro_f1": 0.5319655589065303
+      },
+      "classification_report": {
+        "90": {
+          "precision": 0.7868852459016393,
+          "recall": 0.2962962962962963,
+          "f1-score": 0.4304932735426009,
+          "support": 162.0
+        },
+        "100": {
+          "precision": 0.5801526717557252,
+          "recall": 0.95,
+          "f1-score": 0.7203791469194313,
+          "support": 80.0
+        },
+        "115": {
+          "precision": 0.4418604651162791,
+          "recall": 0.7125,
+          "f1-score": 0.5454545454545454,
+          "support": 80.0
+        },
+        "130": {
+          "precision": 0.4297520661157025,
+          "recall": 0.43333333333333335,
+          "f1-score": 0.4315352697095436,
+          "support": 120.0
+        },
+        "accuracy": 0.5271493212669683,
+        "macro avg": {
+          "precision": 0.5596626122223365,
+          "recall": 0.5980324074074075,
+          "f1-score": 0.5319655589065303,
+          "support": 442.0
+        },
+        "weighted avg": {
+          "precision": 0.5900604269676702,
+          "recall": 0.5271493212669683,
+          "f1-score": 0.5040516698392867,
+          "support": 442.0
+        }
+      },
+      "top_features": [
+        {
+          "feature": "FS2__mean",
+          "importance": 0.025040889327057336
+        },
+        {
+          "feature": "FS2__rms",
+          "importance": 0.02401943968444214
+        },
+        {
+          "feature": "SE__max",
+          "importance": 0.02231834606999485
+        },
+        {
+          "feature": "TS1__min",
+          "importance": 0.022296476628780135
+        },
+        {
+          "feature": "SE__range",
+          "importance": 0.02108851703647986
+        },
+        {
+          "feature": "TS4__mean",
+          "importance": 0.02088252395695306
+        },
+        {
+          "feature": "TS1__mean",
+          "importance": 0.02038387497864363
+        },
+        {
+          "feature": "TS3__mean",
+          "importance": 0.020376371633092468
+        },
+        {
+          "feature": "TS3__rms",
+          "importance": 0.020280998898969862
+        },
+        {
+          "feature": "TS2__rms",
+          "importance": 0.020265779427192782
+        },
+        {
+          "feature": "FS2__max",
+          "importance": 0.020034842234075603
+        },
+        {
+          "feature": "TS4__max",
+          "importance": 0.01983887501394589
+        },
+        {
+          "feature": "TS1__rms",
+          "importance": 0.01978444181156324
+        },
+        {
+          "feature": "TS1__max",
+          "importance": 0.019779040605228556
+        },
+        {
+          "feature": "TS4__rms",
+          "importance": 0.019598145524936397
+        }
+      ]
+    },
+    "stable_flag": {
+      "target": "stable_flag",
+      "train_rows": 1763,
+      "holdout_rows": 442,
+      "train_class_counts": {
+        "0": 1159,
+        "1": 604
+      },
+      "holdout_class_counts": {
+        "0": 290,
+        "1": 152
+      },
+      "majority_baseline": {
+        "majority_class": 0,
+        "accuracy": 0.6561085972850679,
+        "balanced_accuracy": 0.5,
+        "macro_f1": 0.39617486338797814
+      },
+      "extra_trees": {
+        "accuracy": 0.8393665158371041,
+        "balanced_accuracy": 0.7852313974591651,
+        "macro_f1": 0.8052488845034411
+      },
+      "classification_report": {
+        "0": {
+          "precision": 0.8249258160237388,
+          "recall": 0.9586206896551724,
+          "f1-score": 0.886762360446571,
+          "support": 290.0
+        },
+        "1": {
+          "precision": 0.8857142857142857,
+          "recall": 0.6118421052631579,
+          "f1-score": 0.7237354085603113,
+          "support": 152.0
+        },
+        "accuracy": 0.8393665158371041,
+        "macro avg": {
+          "precision": 0.8553200508690122,
+          "recall": 0.7852313974591651,
+          "f1-score": 0.8052488845034411,
+          "support": 442.0
+        },
+        "weighted avg": {
+          "precision": 0.8458304481345151,
+          "recall": 0.8393665158371041,
+          "f1-score": 0.8306987932820653,
+          "support": 442.0
+        }
+      },
+      "top_features": [
+        {
+          "feature": "FS1__mean",
+          "importance": 0.042932741891384435
+        },
+        {
+          "feature": "SE__rms",
+          "importance": 0.04237261233770145
+        },
+        {
+          "feature": "FS1__rms",
+          "importance": 0.03578954919777935
+        },
+        {
+          "feature": "SE__mean",
+          "importance": 0.034963626373928365
+        },
+        {
+          "feature": "SE__std",
+          "importance": 0.02663970315065502
+        },
+        {
+          "feature": "FS1__std",
+          "importance": 0.0208182178030738
+        },
+        {
+          "feature": "PS4__min",
+          "importance": 0.019992229269909463
+        },
+        {
+          "feature": "PS2__std",
+          "importance": 0.01902773954217959
+        },
+        {
+          "feature": "PS5__rms",
+          "importance": 0.018241144346385185
+        },
+        {
+          "feature": "TS3__max",
+          "importance": 0.01710859166653467
+        },
+        {
+          "feature": "TS1__mean",
+          "importance": 0.01705623128758794
+        },
+        {
+          "feature": "PS6__max",
+          "importance": 0.0170194149027142
+        },
+        {
+          "feature": "PS1__max",
+          "importance": 0.016627317336969715
+        },
+        {
+          "feature": "PS4__rms",
+          "importance": 0.016359274335701956
+        },
+        {
+          "feature": "PS4__mean",
+          "importance": 0.015837510930563625
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "This is condition classification, not failure forecasting or RUL prediction.",
+    "Class-wise temporal splitting tests later cycles within each known class but is not a forward calendar forecast.",
+    "The hydraulic benchmark remains separate from the synthetic beverage-enterprise reliability layer.",
+    "Cycle-level summary statistics compress the original sensor waveforms."
+  ]
+}

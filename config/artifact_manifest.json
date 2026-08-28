@@ -1,0 +1,1489 @@
+{
+  "manifest_version": "1.1",
+  "stage": "16A.1-16A.10",
+  "title": "Canonical build and analytical artifact manifest",
+  "as_of_date": "2026-08-28",
+  "scope": "Canonical Velora operational PostgreSQL/Power BI build, separately identified optional external benchmark reproduction artifacts, and the Stage 16A.9 public-release boundary. This manifest does not change analytical implementation logic.",
+  "execution_required_definition": "True means the artifact is required by the canonical Velora operational build or its downstream synthetic regeneration from the governed Silver production boundary. Optional MetroPT and hydraulic benchmark reproduction artifacts are false even when their portfolio result is accepted.",
+  "status_definitions": {
+    "accepted": "Current canonical implementation or result for its stated purpose.",
+    "superseded": "Retained historical implementation or result that must not be used as the current conclusion.",
+    "diagnostic": "Inventory, feasibility, validation, or explanatory artifact; it may be mandatory to execute even though it is not an accepted analytical result.",
+    "supporting": "Dependency, compatibility layer, runner, or documentation artifact that supports an accepted chain.",
+    "manual_input": "Materialized input or assumption required by a chain but not created by the canonical clean-database sequence. Its stated provenance must be preserved.",
+    "generated": "Reproducible runtime output, cache, log, derived data, or model binary that is not part of the public Git payload unless explicitly excepted.",
+    "external": "Materialized third-party data governed by its source terms and acquisition route; code, provenance, and checksums are versioned while the data is excluded unless redistribution is explicitly approved."
+  },
+  "release_treatment_definitions": {
+    "include": "Include in the public Git repository.",
+    "exclude_generated": "Keep locally if useful but exclude from the public Git payload because it is generated or cache state.",
+    "external_acquisition": "Exclude materialized data and reproduce it through the documented source route.",
+    "defer_license_review": "Exclude until a later release decision documents redistribution rights.",
+    "local_only": "Exclude machine-specific, credential-bearing, deployment-state, or temporary material."
+  },
+  "provenance_domains": {
+    "velora_synthetic_enterprise": "Fictional six-site enterprise integration data. It is synthetic and is not measured plant evidence.",
+    "real_external_benchmark": "Public real-world source data used only for benchmark, reference, weather-context, telemetry, or condition-monitoring demonstrations. It is not Velora operational data.",
+    "mixed_benchmark": "Synthetic Velora consumption combined with a real external benchmark, with both components kept identifiable.",
+    "local_platform": "Local PostgreSQL and Power BI implementation. Terraform is documentation-only and does not evidence AWS deployment."
+  },
+  "artifacts": [
+    {
+      "id": "production-silver-governed-input",
+      "stage": "3D / 16A.5",
+      "artifact": "Governed materialized synthetic production Silver input",
+      "path": "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet",
+      "status": "manual_input",
+      "release_treatment": "include",
+      "size_bytes": 3352494,
+      "purpose": "Supplies the existing canonical 65,790-row production population required by downstream synthetic regeneration and PostgreSQL fact loading.",
+      "execution_required": true,
+      "inputs": [
+        "config/canonical_production_seed.json"
+      ],
+      "notes": "Stage 16A.5 governed canonical seed decision. It is immutable SYNTHETIC_OPERATIONAL / SYNTHETIC_INTEGRATION data, not real plant data. The original generator was not recovered, and exact first-principles reconstruction is not defensible from the repository evidence. The canonical bootstrap verifies its physical SHA-256 and metadata-independent logical content fingerprint before database mutation."
+    },
+    {
+      "id": "repository-release-policy",
+      "stage": "16A.9",
+      "artifact": "Repository release-boundary policy",
+      "path": "docs/governance/repository_release_policy.md",
+      "status": "accepted",
+      "purpose": "Defines version-control inclusion, generated/local exclusions, public-source acquisition boundaries, licensing deferrals, and release evidence retention.",
+      "execution_required": false,
+      "release_treatment": "include",
+      "notes": "The root .gitignore implements this boundary without authorizing deletion of the local data lake."
+    },
+    {
+      "id": "root-development-dependencies",
+      "stage": "16A.9",
+      "artifact": "Complete development and reproduction dependency entry point",
+      "path": "requirements.txt",
+      "status": "supporting",
+      "purpose": "Includes the canonical PostgreSQL, public-source, accepted Stage 12, and corrected Stage 13E.3 requirement sets through one pip requirements entry point.",
+      "execution_required": false,
+      "release_treatment": "include",
+      "notes": "Narrow requirement files remain supported; no new packaging framework is introduced. Superseded Stage 13E.1/E.2 environments are not part of the complete accepted-workflow install."
+    },
+    {
+      "id": "generated-synthetic-data-release-set",
+      "stage": "3 / 16A.9",
+      "artifact": "Regenerable synthetic Bronze and Silver facts",
+      "path": "data/",
+      "status": "generated",
+      "purpose": "Represents generated Velora fact serializations below the governed production boundary.",
+      "execution_required": false,
+      "release_treatment": "exclude_generated",
+      "paths": [
+        "data/bronze/synthetic_enterprise/**/*.csv",
+        "data/silver/synthetic_enterprise/**/*.parquet"
+      ],
+      "release_exceptions": [
+        "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet"
+      ],
+      "notes": "The 3.20 MiB canonical production Silver seed is explicitly included; other facts can be regenerated from that governed boundary and retained scripts."
+    },
+    {
+      "id": "external-public-source-materializations",
+      "stage": "1-14 / 16A.9",
+      "artifact": "Materialized real external Bronze and derived Silver datasets",
+      "path": "sources/",
+      "status": "external",
+      "purpose": "Separates third-party observations and their derived serializations from versioned acquisition code, provenance manifests, checksums, and instructions.",
+      "execution_required": false,
+      "release_treatment": "external_acquisition",
+      "paths": [
+        "sources/**/bronze/**",
+        "sources/**/silver/**/*.parquet"
+      ],
+      "release_exceptions": [
+        "sources/step02-telemetry/data/bronze/metropt3/acquisition_manifest.json",
+        "sources/step02-telemetry/data/bronze/metropt3/validation_report.json",
+        "sources/step02-telemetry/data/bronze/metropt3/reference/failure_windows.csv",
+        "sources/step05-production-downtime/bronze/production_downtime/BRONZE_SOURCE_NOT_BUNDLED.txt",
+        "sources/step14-eu-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__download_metadata.json"
+      ],
+      "notes": "Step 01 is reacquirable through its recorded checksum-verified mirror with UCI authoritative. Step 09 and Step 12 data remain excluded pending license/redistribution decisions. Step 13 requires user-owned CDS credentials and terms acceptance."
+    },
+    {
+      "id": "generated-model-binaries",
+      "stage": "12-13 / 16A.9",
+      "artifact": "Generated advanced-analytics model binaries",
+      "path": "models/advanced_analytics/",
+      "status": "generated",
+      "purpose": "Stores local serialized estimators produced by retained analytical scripts.",
+      "execution_required": false,
+      "release_treatment": "exclude_generated",
+      "notes": "The canonical PostgreSQL/Power BI build consumes accepted Gold outputs rather than joblib binaries. Accepted and historical scripts remain versioned."
+    },
+    {
+      "id": "generated-orchestration-logs",
+      "stage": "9 / 16A.9",
+      "artifact": "Timestamped local orchestration logs",
+      "path": "logs/orchestration/",
+      "status": "generated",
+      "purpose": "Captures machine-specific execution traces from repeated local runs.",
+      "execution_required": false,
+      "release_treatment": "exclude_generated",
+      "notes": "Retained locally but excluded from release. Versioned fail-fast runners, manifests, SQL validations, checksums, and compact accepted evidence provide the reproducibility record."
+    },
+    {
+      "id": "superseded-generated-analytics-outputs",
+      "stage": "12C / 13E.2 / 16A.9",
+      "artifact": "Superseded and supporting generated benchmark outputs",
+      "path": "data/gold/advanced_analytics/",
+      "status": "superseded",
+      "purpose": "Identifies earlier MetroPT and hydraulic result files that are not the accepted portfolio conclusions or are regenerable supporting caches.",
+      "execution_required": false,
+      "release_treatment": "exclude_generated",
+      "notes": "Historical analytical scripts and documentation remain versioned. Corrected hydraulic evidence and final selected MetroPT policy evidence remain included."
+    },
+    {
+      "id": "production-canonical-seed-verifier",
+      "stage": "16A.5",
+      "artifact": "Canonical production seed manifest verifier",
+      "path": "scripts/verify_canonical_production_seed.py",
+      "status": "diagnostic",
+      "purpose": "Enforces the governed production boundary by validating file hash, logical content fingerprint, exact schema, row count, keys, business grain, coverage, nulls, provenance constants, and reconciliations.",
+      "execution_required": true,
+      "inputs": [
+        "config/canonical_production_seed.json",
+        "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet"
+      ],
+      "notes": "Read-only preflight gate. A missing or mismatched artifact returns a nonzero exit code before the canonical bootstrap creates or changes the database."
+    },
+    {
+      "id": "production-bronze-to-silver",
+      "stage": "3D",
+      "artifact": "Production Bronze-to-Silver converter",
+      "path": "synthetic/generators/bronze_to_silver_production.py",
+      "status": "supporting",
+      "purpose": "Validates and converts the retained production Bronze CSV to Parquet; it does not generate the production population.",
+      "execution_required": false,
+      "inputs": [
+        "data/bronze/synthetic_enterprise/production/production_operations_2024_2025.csv"
+      ],
+      "outputs": [
+        "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet"
+      ],
+      "notes": "Optional reserialization path from the retained Bronze CSV. The Bronze and Silver files contain equivalent logical table values, but that is not evidence of the original row-generation process. This script remains a converter and is excluded from first-principles generation and the canonical clean-database path."
+    },
+    {
+      "id": "synthetic-downtime-generator",
+      "stage": "3E",
+      "artifact": "Synthetic downtime generator",
+      "path": "synthetic/generators/generate_downtime_events.py",
+      "status": "accepted",
+      "purpose": "Derives planned and unplanned downtime events from canonical synthetic production.",
+      "execution_required": true,
+      "inputs": [
+        "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet"
+      ],
+      "outputs": [
+        "data/bronze/synthetic_enterprise/downtime/downtime_events_2024_2025.csv",
+        "data/silver/synthetic_enterprise/downtime/downtime_events_2024_2025.parquet"
+      ],
+      "notes": "Synthetic Velora integration data."
+    },
+    {
+      "id": "synthetic-quality-generator",
+      "stage": "3F",
+      "artifact": "Synthetic quality-event generator",
+      "path": "synthetic/generators/generate_quality_events.py",
+      "status": "accepted",
+      "purpose": "Allocates quality rejects and rework events against canonical synthetic production.",
+      "execution_required": true,
+      "inputs": [
+        "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet"
+      ],
+      "outputs": [
+        "data/bronze/synthetic_enterprise/quality/quality_events_2024_2025.csv",
+        "data/silver/synthetic_enterprise/quality/quality_events_2024_2025.parquet"
+      ],
+      "notes": "Synthetic Velora integration data."
+    },
+    {
+      "id": "synthetic-maintenance-generator",
+      "stage": "3G",
+      "artifact": "Synthetic maintenance work-order generator",
+      "path": "synthetic/generators/generate_maintenance_work_orders.py",
+      "status": "accepted",
+      "purpose": "Derives corrective maintenance work orders from qualifying synthetic downtime events.",
+      "execution_required": true,
+      "inputs": [
+        "data/silver/synthetic_enterprise/downtime/downtime_events_2024_2025.parquet"
+      ],
+      "outputs": [
+        "data/bronze/synthetic_enterprise/maintenance/maintenance_work_orders_2024_2025.csv",
+        "data/silver/synthetic_enterprise/maintenance/maintenance_work_orders_2024_2025.parquet"
+      ],
+      "notes": "Synthetic Velora integration data."
+    },
+    {
+      "id": "weather-context-input",
+      "stage": "3H",
+      "artifact": "Enterprise weather-context Silver input",
+      "path": "sources/step13-weather/data/silver/weather/enterprise_weather_context_2024_2025.parquet",
+      "status": "manual_input",
+      "purpose": "Provides real external weather context to the synthetic energy generator.",
+      "execution_required": true,
+      "notes": "Real external context only; it does not turn synthetic energy records into measured plant data. Source acquisition is outside the clean-database sequence."
+    },
+    {
+      "id": "synthetic-energy-generator",
+      "stage": "3H",
+      "artifact": "Synthetic energy and utilities generator",
+      "path": "synthetic/generators/generate_energy_utilities.py",
+      "status": "accepted",
+      "version": "stage3h-energy-utilities-v2-can-air-5nm3-per-1000",
+      "sha256": "21fb23abdf15e770dacf3b40656864987b7ea655c40d77b485744b3dc607a181",
+      "purpose": "Derives line and site energy/utilities artifacts from synthetic production plus external weather context.",
+      "execution_required": true,
+      "release_treatment": "include",
+      "inputs": [
+        "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet",
+        "sources/step13-weather/data/silver/weather/enterprise_weather_context_2024_2025.parquet"
+      ],
+      "outputs": [
+        "data/bronze/synthetic_enterprise/energy/line_energy_utility_2024_2025.csv",
+        "data/bronze/synthetic_enterprise/energy/site_energy_2024_2025.csv",
+        "data/bronze/synthetic_enterprise/energy/energy_utility_summary.csv",
+        "data/silver/synthetic_enterprise/energy/line_energy_utility_2024_2025.parquet",
+        "data/silver/synthetic_enterprise/energy/site_energy_2024_2025.parquet"
+      ],
+      "notes": "Synthetic Velora integration data with real external weather context. Stage 16A.9A assigns CAN_ENERGY_250 a synthetic 5.0 Nm3/1,000-can compressed-air design assumption through the existing generic utility formula; PET and all electricity assumptions remain unchanged. Generated data files remain local/ignored under the Stage 16A.9 release policy.",
+      "evidence": "config/stage3h_energy_artifact_manifest.json"
+    },
+    {
+      "id": "stage3h-energy-artifact-manifest",
+      "stage": "16A.9A",
+      "artifact": "Stage 3H energy artifact hashes and can-line reconciliation",
+      "path": "config/stage3h_energy_artifact_manifest.json",
+      "status": "accepted",
+      "purpose": "Records the generator version, input/output hashes, synthetic assumption provenance, row/schema checks, old-versus-new totals, invariance assertions, and authenticated disposable-database propagation proof.",
+      "execution_required": false,
+      "release_treatment": "include",
+      "notes": "Compact versioned evidence. Stage 16A.10 propagated and validated it in the retained disposable proof database; the regenerated Bronze/Silver files remain generated and ignored, and this entry does not modify the governed production-seed manifest."
+    },
+    {
+      "id": "stage3h-energy-artifact-verifier",
+      "stage": "16A.10",
+      "artifact": "Governed Stage 3H energy artifact verifier",
+      "path": "scripts/verify_stage3h_energy_artifact.py",
+      "status": "diagnostic",
+      "purpose": "Fail-fast preflight for Stage 3H generator/input/output hashes, exact line/site schemas and populations, electricity reconciliation, and the accepted CAN/PET compressed-air snapshot.",
+      "execution_required": true,
+      "inputs": [
+        "config/stage3h_energy_artifact_manifest.json"
+      ],
+      "release_treatment": "include",
+      "notes": "Runs from the canonical bootstrap before database creation or mutation. It is read-only and does not regenerate Stage 3H data."
+    },
+    {
+      "id": "financial-assumption-inputs",
+      "stage": "3I",
+      "artifact": "Synthetic enterprise financial and cost assumptions",
+      "path": "synthetic/config/",
+      "status": "manual_input",
+      "purpose": "Documents fictional internal opportunity-value and maintenance-cost assumptions.",
+      "execution_required": false,
+      "inputs": [
+        "synthetic/config/enterprise_financial_parameters.csv",
+        "synthetic/config/maintenance_cost_rules.csv",
+        "synthetic/config/product_loss_values.csv"
+      ],
+      "notes": "Synthetic reference assumptions, not observed prices, accounting records, or realized value. SQL 005 currently seeds its own product-loss values rather than loading these files."
+    },
+    {
+      "id": "external-reference-silver-inputs",
+      "stage": "4F",
+      "artifact": "Materialized public reference and benchmark Silver inputs",
+      "path": "sources/",
+      "status": "manual_input",
+      "purpose": "Supplies ITAC, maintenance, water, fuels, emissions, and Eurostat reference tables loaded by the database reference loader.",
+      "execution_required": true,
+      "inputs": [
+        "sources/step08-energy-cost/silver/itac/",
+        "sources/step06-maintenance/",
+        "sources/step10-water/",
+        "sources/step11-fuels/",
+        "sources/step12-emissions/",
+        "sources/step14-eu-energy-prices/"
+      ],
+      "notes": "Real external benchmark/reference data. Downloads and source transformations are intentionally outside this clean-database sequence."
+    },
+    {
+      "id": "eurostat-structured-input",
+      "stage": "6C.1",
+      "artifact": "Structured six-country Eurostat electricity-price Silver input",
+      "path": "sources/step14-eu-energy-prices/silver/eurostat_energy_prices/nrg_pc_205__six_site_countries_2024_2025.parquet",
+      "status": "manual_input",
+      "purpose": "Supplies 24 selected country-semester non-household electricity-price observations.",
+      "execution_required": true,
+      "notes": "Real external benchmark data; remains separate from synthetic enterprise facts."
+    },
+    {
+      "id": "eurostat-source-download",
+      "stage": "6C.1",
+      "artifact": "Eurostat nrg_pc_205 source downloader",
+      "path": "pipelines/bronze/download_eurostat_nrg_pc_205.py",
+      "status": "supporting",
+      "purpose": "Acquires the real external Eurostat electricity-price source used by the corrected expansion path.",
+      "execution_required": false,
+      "notes": "Acquisition is outside the clean-database sequence and must not be run in an offline rebuild when the materialized source is already present. No download was executed for Stage 16A.1."
+    },
+    {
+      "id": "eurostat-structured-expansion",
+      "stage": "6C.1",
+      "artifact": "Eurostat structured observation expander",
+      "path": "pipelines/silver/expand_eurostat_nrg_pc_205.py",
+      "status": "accepted",
+      "purpose": "Expands the real external Eurostat source into metadata, observation, and six-country 2024-2025 Silver Parquet artifacts.",
+      "execution_required": true,
+      "outputs": [
+        "sources/step14-eu-energy-prices/silver/eurostat_energy_prices/nrg_pc_205__observations.parquet",
+        "sources/step14-eu-energy-prices/silver/eurostat_energy_prices/nrg_pc_205__six_site_countries_2024_2025.parquet"
+      ],
+      "notes": "Real external benchmark transformation. It is a conditional upstream regeneration step when the required structured Parquet is absent."
+    },
+    {
+      "id": "step01-steel-energy-acquisition",
+      "stage": "1 / 16A.8",
+      "artifact": "Governed UCI steel-energy Bronze acquisition",
+      "path": "sources/step01-energy/pipelines/download_steel_energy.py",
+      "status": "supporting",
+      "purpose": "Acquires UCI Steel Industry Energy Consumption dataset 851 through the recorded verified public-mirror route and admits only the governed Bronze identity and CSV contract.",
+      "execution_required": false,
+      "inputs": ["sources/step01-energy/docs/data_sources/steel_energy_source_manifest.json"],
+      "outputs": ["sources/step01-energy/data/bronze/steel_energy/Steel_industry_data.csv"],
+      "notes": "Acquisition classification is automated_from_recorded_verified_public_mirror. UCI remains the authoritative publisher; the GitHub mirror is only the recorded retrieval route. Existing identical Bronze is verified and reused without download, and differing existing Bronze is never overwritten. This external source route is outside the canonical Velora operational build."
+    },
+    {
+      "id": "step01-steel-energy-validation",
+      "stage": "1 / 16A.8",
+      "artifact": "Governed UCI steel-energy Bronze validator",
+      "path": "sources/step01-energy/pipelines/validate_steel_energy.py",
+      "status": "supporting",
+      "purpose": "Verifies the Step 01 Bronze SHA-256, exact columns, row count, missing-cell count, and duplicate-row count before the unchanged Silver transform.",
+      "execution_required": false,
+      "inputs": [
+        "sources/step01-energy/docs/data_sources/steel_energy_source_manifest.json",
+        "sources/step01-energy/data/bronze/steel_energy/Steel_industry_data.csv"
+      ],
+      "notes": "Mandatory within optional Step 01 source reproduction, but not required by the canonical Velora PostgreSQL/Power BI clean build."
+    },
+    {
+      "id": "source-pipeline-manifest",
+      "stage": "16A.8",
+      "artifact": "Explicit public-source orchestration manifest",
+      "path": "sources/source_pipeline_manifest.json",
+      "status": "accepted",
+      "purpose": "Declares acquisition, validation, transformation, prerequisites, canonical Silver contracts, retained legacy routes, and manual/credential limitations for source Steps 01-14.",
+      "execution_required": false,
+      "notes": "External real-source acquisition is separate from the canonical Velora operational database/BI build. Step 01 is an automated download -> validate/verify -> transform route through its governed recorded mirror."
+    },
+    {
+      "id": "source-orchestration-runner",
+      "stage": "16A.8",
+      "artifact": "Path-independent public-source runner",
+      "path": "sources/run_all_sources.ps1",
+      "status": "supporting",
+      "purpose": "Executes explicitly declared source actions from any caller working directory and reports automated, manual, skipped, unavailable, failed, and completed states truthfully.",
+      "execution_required": false,
+      "inputs": ["sources/source_pipeline_manifest.json"],
+      "notes": "Provides dry-run and phase/step selection. Existing complete Bronze sets are checksummed/reused; Step 01 opts into downloader-level governed hash/schema verification on reuse; partial sets fail before downloader execution."
+    },
+    {
+      "id": "source-bronze-immutability-guard",
+      "stage": "16A.8",
+      "artifact": "Shared immutable-Bronze acquisition and clean-extraction safeguards",
+      "path": "sources/_shared/bronze_guard.py",
+      "status": "supporting",
+      "purpose": "Installs downloads through checked temporary files, refuses checksum conflicts/partial sets, and replaces derived ZIP extraction directories as clean staged units.",
+      "execution_required": false,
+      "notes": "Does not rewrite retained source observations. Canonical source runner preflight applies the portfolio-wide no-overwrite boundary."
+    },
+    {
+      "id": "source-dependencies",
+      "stage": "16A.8",
+      "artifact": "Consolidated public-source Python dependencies",
+      "path": "sources/requirements.txt",
+      "status": "supporting",
+      "purpose": "Provides one discoverable installation declaration covering source acquisition, workbook/JSON/NetCDF validation, and Silver transforms.",
+      "execution_required": false,
+      "notes": "Existing narrower source-package requirement files remain valid; this does not introduce a packaging framework."
+    },
+    {
+      "id": "secom-canonical-silver-transform",
+      "stage": "3 / 16A.8",
+      "artifact": "SECOM integration-safe Silver transformation",
+      "path": "sources/step03-quality/scripts/build_silver.py",
+      "status": "accepted",
+      "purpose": "Creates parsed event timestamps, stable sample identifiers, source labels, quality results, and anonymous sensor fields for the real external SECOM benchmark.",
+      "supersedes": "secom-generic-silver-transform",
+      "execution_required": false,
+      "notes": "Optional real semiconductor benchmark; not Velora beverage operational data. Stage 16A.8 does not regenerate any Silver output."
+    },
+    {
+      "id": "secom-generic-silver-transform",
+      "stage": "3",
+      "artifact": "Earlier generic SECOM Silver transformation",
+      "path": "sources/step03-quality/scripts/bronze_to_silver.py",
+      "status": "superseded",
+      "purpose": "Retains the earlier competing secom_quality.parquet contract for history.",
+      "superseded_by": "secom-canonical-silver-transform",
+      "execution_required": false,
+      "notes": "Excluded from source orchestration because its identifier, timestamp, and sensor numbering differ from the documented integration-safe contract."
+    },
+    {
+      "id": "beverage-production-downtime-canonical-transform",
+      "stage": "5 / 16A.8",
+      "artifact": "Typed beverage production/downtime Silver transformation",
+      "path": "sources/step05-production-downtime/scripts/transform_silver.py",
+      "status": "accepted",
+      "purpose": "Creates the four provenance-bearing typed Silver tables defined by the package schema and README.",
+      "supersedes": "beverage-production-downtime-generic-transform",
+      "execution_required": false,
+      "notes": "Optional real external single-line benchmark; not the synthetic Velora production population. Stage 16A.8 does not regenerate any Silver output."
+    },
+    {
+      "id": "beverage-production-downtime-generic-transform",
+      "stage": "5",
+      "artifact": "Earlier generic beverage workbook sheet-copy transform",
+      "path": "sources/step05-production-downtime/scripts/bronze_to_silver.py",
+      "status": "superseded",
+      "purpose": "Retains the earlier sheet-named Parquet contract for history.",
+      "superseded_by": "beverage-production-downtime-canonical-transform",
+      "execution_required": false,
+      "notes": "Excluded from source orchestration because it lacks the typed, provenance-bearing contract in metadata/silver_schema.yaml."
+    },
+    {
+      "id": "eurostat-metadata-only-transform",
+      "stage": "14",
+      "artifact": "Earlier metadata-only Eurostat transformation",
+      "path": "sources/step14-eu-energy-prices/scripts/bronze_to_silver.py",
+      "status": "superseded",
+      "purpose": "Retains the original metadata-only normalization scaffold.",
+      "superseded_by": "eurostat-structured-expansion",
+      "execution_required": false,
+      "notes": "The paired package-local downloader/validator are also excluded. This legacy route omits observation rows required by the accepted structured electricity-price loader."
+    },
+    {
+      "id": "metropt-silver-input",
+      "stage": "7B / 12C",
+      "artifact": "MetroPT telemetry and failure-window inputs",
+      "path": "sources/step02-telemetry/",
+      "status": "manual_input",
+      "purpose": "Supplies real external compressor telemetry for DQ and the separate anomaly-detection benchmark.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Optional real external benchmark input; never Velora operational data and not required by the canonical Velora PostgreSQL/Power BI build."
+    },
+    {
+      "id": "metropt-silver-inventory",
+      "stage": "12C.1",
+      "artifact": "Telemetry Silver/source inventory",
+      "path": "scripts/inventory_telemetry_silver.py",
+      "status": "diagnostic",
+      "purpose": "Inventories telemetry-like Parquet and CSV inputs before optional MetroPT modeling.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Optional benchmark-discovery step only; it is not part of the Velora operational build."
+    },
+    {
+      "id": "db-create",
+      "stage": "4A",
+      "artifact": "Database creation SQL",
+      "path": "sql/admin/000_create_database.sql",
+      "status": "accepted",
+      "purpose": "Creates the configured local PostgreSQL database from an administrative connection when absent.",
+      "execution_required": true,
+      "notes": "The canonical bootstrap passes the database name through the db_name psql variable. Run against the configured administrative database. Local deployment only."
+    },
+    {
+      "id": "ddl-001-dimensions",
+      "stage": "2D / 4A",
+      "artifact": "Canonical dimension DDL",
+      "path": "sql/ddl/001_create_dimensions.sql",
+      "status": "accepted",
+      "purpose": "Creates public dimension tables.",
+      "execution_required": true,
+      "notes": "Must precede fact DDL and dimension loading."
+    },
+    {
+      "id": "ddl-002-facts",
+      "stage": "2D / 4A",
+      "artifact": "Canonical fact DDL",
+      "path": "sql/ddl/002_create_facts.sql",
+      "status": "accepted",
+      "purpose": "Creates public fact tables.",
+      "execution_required": true,
+      "notes": "Must follow SQL 001."
+    },
+    {
+      "id": "migration-004-fact-lineage",
+      "stage": "4D",
+      "artifact": "Fact-lineage migration",
+      "path": "sql/migrations/004_add_fact_lineage.sql",
+      "status": "accepted",
+      "purpose": "Adds source_dataset_id and source-record linkage needed by current fact loaders and downstream joins.",
+      "execution_required": true,
+      "notes": "Mandatory after SQL 002 and before migration 005 and synthetic fact loading; included by the canonical bootstrap."
+    },
+    {
+      "id": "migration-005-maintenance-downtime-lineage",
+      "stage": "16A.6",
+      "artifact": "Source-qualified maintenance-to-downtime lineage migration",
+      "path": "sql/migrations/005_add_maintenance_downtime_source_lineage.sql",
+      "status": "accepted",
+      "purpose": "Adds the referenced downtime source dataset to maintenance facts and enforces composite downtime lineage without requiring one maintenance row per downtime event.",
+      "execution_required": true,
+      "notes": "Mandatory after migration 004 and before synthetic fact loading. Existing Velora links backfill deterministically only where maintenance and downtime already share SYNTHETIC_ENTERPRISE provenance."
+    },
+    {
+      "id": "ddl-003-static-dimensions",
+      "stage": "2D / 4A",
+      "artifact": "Static dimension seeds",
+      "path": "sql/ddl/003_seed_static_dimensions.sql",
+      "status": "accepted",
+      "purpose": "Seeds static utility dimension values.",
+      "execution_required": true,
+      "notes": "Run after the dimension tables exist."
+    },
+    {
+      "id": "ddl-004-reference-tables",
+      "stage": "4F",
+      "artifact": "Reference and benchmark table DDL",
+      "path": "sql/ddl/004_create_reference_tables.sql",
+      "status": "accepted",
+      "purpose": "Creates tables that keep real external references separate from fictional enterprise facts.",
+      "execution_required": true,
+      "notes": "Required before the reference loader."
+    },
+    {
+      "id": "ddl-005-loss-config",
+      "stage": "5B",
+      "artifact": "Product loss-value configuration DDL and seed",
+      "path": "sql/ddl/005_create_loss_value_config.sql",
+      "status": "accepted",
+      "purpose": "Creates and seeds synthetic internal unit opportunity values used by loss analytics.",
+      "execution_required": true,
+      "notes": "Values are fictional internal assumptions, not retail price or realized margin."
+    },
+    {
+      "id": "ddl-006-energy-detail",
+      "stage": "6B",
+      "artifact": "Supplemental energy-detail table DDL",
+      "path": "sql/ddl/006_create_energy_detail_tables.sql",
+      "status": "accepted",
+      "purpose": "Creates line- and site-grain supplemental energy tables.",
+      "execution_required": true,
+      "notes": "Required before the energy-detail loader and utility analytics."
+    },
+    {
+      "id": "ddl-007-eurostat-observations",
+      "stage": "6C.2",
+      "artifact": "Structured Eurostat electricity-price observation DDL",
+      "path": "sql/ddl/007_create_eurostat_price_observations.sql",
+      "status": "accepted",
+      "purpose": "Creates the structured external electricity-price benchmark table.",
+      "execution_required": true,
+      "notes": "Required before the structured Eurostat loader."
+    },
+    {
+      "id": "ddl-008-dq-tables",
+      "stage": "7A",
+      "artifact": "Data-quality framework table DDL",
+      "path": "sql/ddl/008_create_data_quality_tables.sql",
+      "status": "accepted",
+      "purpose": "Creates DQ rule and result tables.",
+      "execution_required": true,
+      "notes": "Required before DQ rule seeds and DQ execution."
+    },
+    {
+      "id": "ddl-009-dq-rule-seed",
+      "stage": "7A",
+      "artifact": "Core DQ rule seed",
+      "path": "sql/ddl/009_seed_data_quality_rules.sql",
+      "status": "accepted",
+      "purpose": "Seeds structured DQ rules for enterprise and benchmark domains.",
+      "execution_required": true,
+      "notes": "Requires SQL 008."
+    },
+    {
+      "id": "ddl-010-telemetry-dq-rule-seed",
+      "stage": "7B",
+      "artifact": "MetroPT telemetry DQ rule seed",
+      "path": "sql/ddl/010_seed_telemetry_dq_rules.sql",
+      "status": "supporting",
+      "purpose": "Seeds telemetry-specific DQ rules.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Optional MetroPT benchmark DQ extension. Excluded from the canonical Velora operational build because the rules apply to real external telemetry."
+    },
+    {
+      "id": "master-dimension-loader",
+      "stage": "4B / 4C",
+      "artifact": "Master-dimension loader",
+      "path": "pipelines/postgres/load_master_dimensions.py",
+      "status": "accepted",
+      "purpose": "Loads source provenance, fictional sites, areas, products, shifts, lines, equipment, failure reasons, and time.",
+      "execution_required": true,
+      "notes": "Depends on SQL 001 and SQL 003."
+    },
+    {
+      "id": "synthetic-fact-loader",
+      "stage": "4D / 4E",
+      "artifact": "Synthetic operational fact loader",
+      "path": "pipelines/postgres/load_synthetic_facts.py",
+      "status": "accepted",
+      "purpose": "Loads production, downtime, quality, maintenance, and line-energy facts from synthetic Silver artifacts.",
+      "execution_required": true,
+      "notes": "Requires master dimensions and the fact-lineage migration. All loaded rows retain SYNTHETIC_ENTERPRISE provenance."
+    },
+    {
+      "id": "reference-dataset-loader",
+      "stage": "4F",
+      "artifact": "Real external reference and benchmark loader",
+      "path": "pipelines/postgres/load_reference_datasets.py",
+      "status": "accepted",
+      "purpose": "Loads public reference/benchmark datasets into dedicated ref_* tables.",
+      "execution_required": true,
+      "notes": "Does not convert these sources into fictional enterprise operational facts."
+    },
+    {
+      "id": "energy-detail-loader",
+      "stage": "6B",
+      "artifact": "Supplemental energy-detail loader",
+      "path": "pipelines/postgres/load_energy_details.py",
+      "status": "accepted",
+      "purpose": "Loads line and site energy-detail Parquet into fact_line_energy_detail and fact_site_energy_detail.",
+      "execution_required": true,
+      "notes": "Required before SQL 210 and SQL 400; omitted by the current Stage 4 and Stage 9 runners."
+    },
+    {
+      "id": "eurostat-structured-loader",
+      "stage": "6C.2",
+      "artifact": "Structured Eurostat electricity-price loader",
+      "path": "pipelines/postgres/load_eurostat_electricity_prices.py",
+      "status": "accepted",
+      "purpose": "Loads the selected 24 country-semester observations into the structured benchmark table.",
+      "execution_required": true,
+      "notes": "Required before SQL 220 and Stage 7A; omitted by the current Stage 4 and Stage 9 runners."
+    },
+    {
+      "id": "analytics-100-oee",
+      "stage": "5A",
+      "artifact": "Production and OEE views",
+      "path": "sql/analytics/100_create_oee_views.sql",
+      "status": "accepted",
+      "purpose": "Creates shift, line-day, and site-day production/OEE views.",
+      "execution_required": true,
+      "notes": "Synthetic Velora operational analytics."
+    },
+    {
+      "id": "analytics-110-loss",
+      "stage": "5B",
+      "artifact": "Production loss-accounting views",
+      "path": "sql/analytics/110_create_production_loss_views.sql",
+      "status": "accepted",
+      "purpose": "Creates corrected technical-capacity loss and synthetic opportunity-value views.",
+      "execution_required": true,
+      "notes": "Requires SQL 005 and SQL 100. Values are modeled opportunity, not realized savings."
+    },
+    {
+      "id": "business-case-opportunity-evidence-generator",
+      "stage": "16A.7",
+      "artifact": "Business-case opportunity evidence generator and validator",
+      "path": "scripts/generate_business_case_opportunity_evidence.py",
+      "status": "supporting",
+      "purpose": "Reproduces the accepted site technical-opportunity calculation from governed inputs, emits versioned machine-readable evidence, and fails if retained evidence does not reconcile.",
+      "execution_required": false,
+      "inputs": [
+        "config/canonical_production_seed.json",
+        "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet",
+        "data_model/dimensions/fictional_site_registry.csv",
+        "sql/ddl/005_create_loss_value_config.sql",
+        "sql/analytics/100_create_oee_views.sql",
+        "sql/analytics/110_create_production_loss_views.sql"
+      ],
+      "outputs": [
+        "data/gold/business_case/technical_opportunity_2024_2025.csv",
+        "data/gold/business_case/annual_realization_sensitivity_2024_2025.csv",
+        "data/gold/business_case/business_case_evidence_manifest.json"
+      ],
+      "notes": "Optional supporting evidence generation outside the operational database/BI clean build. It does not modify the canonical SQL model or claim realized savings. Use --validate-only for a read-only retained-evidence check."
+    },
+    {
+      "id": "business-case-opportunity-evidence",
+      "stage": "16A.7",
+      "artifact": "Versioned 2024-2025 modeled technical-opportunity evidence",
+      "path": "data/gold/business_case/technical_opportunity_2024_2025.csv",
+      "status": "accepted",
+      "purpose": "Records six site-level values that reconcile to the accepted two-year enterprise technical opportunity and provides the governed base for illustrative annual sensitivity scenarios.",
+      "execution_required": false,
+      "inputs": [
+        "scripts/generate_business_case_opportunity_evidence.py",
+        "sql/analytics/110_create_production_loss_views.sql"
+      ],
+      "related_artifacts": [
+        "data/gold/business_case/annual_realization_sensitivity_2024_2025.csv",
+        "data/gold/business_case/business_case_evidence_manifest.json"
+      ],
+      "notes": "Synthetic/model-derived opportunity for prioritization. The EUR 573,908,429.76 total covers 2024-2025; EUR 286,954,214.88/year is only its simple annualized base. Neither amount is realized savings, ROI, payback, revenue, or margin."
+    },
+    {
+      "id": "analytics-120-production-benchmark",
+      "stage": "5C",
+      "artifact": "Production benchmark and Pareto views",
+      "path": "sql/analytics/120_create_production_benchmark_views.sql",
+      "status": "accepted",
+      "purpose": "Creates production ranking, downtime Pareto, changeover, and utilization views.",
+      "execution_required": true,
+      "notes": "Synthetic Velora operational analytics."
+    },
+    {
+      "id": "analytics-200-energy",
+      "stage": "6A",
+      "artifact": "Energy KPI views",
+      "path": "sql/analytics/200_create_energy_views.sql",
+      "status": "accepted",
+      "purpose": "Creates shift, line, and site electricity KPI views.",
+      "execution_required": true,
+      "notes": "Synthetic Velora operational analytics."
+    },
+    {
+      "id": "analytics-210-utilities",
+      "stage": "6B",
+      "artifact": "Utilities and supplemental energy views",
+      "path": "sql/analytics/210_create_utility_views.sql",
+      "status": "accepted",
+      "purpose": "Creates idle-energy, auxiliary/weather-energy, and compressed-air views.",
+      "execution_required": true,
+      "notes": "Requires the supplemental energy-detail load."
+    },
+    {
+      "id": "analytics-220-energy-cost",
+      "stage": "6C.2",
+      "artifact": "Electricity-cost benchmark views",
+      "path": "sql/analytics/220_create_energy_cost_views.sql",
+      "status": "accepted",
+      "purpose": "Combines synthetic enterprise consumption with real Eurostat electricity-price benchmarks.",
+      "execution_required": true,
+      "notes": "Mixed provenance benchmark; it is not a measured Velora tariff or invoice."
+    },
+    {
+      "id": "dq-stage7a-runner",
+      "stage": "7A",
+      "artifact": "Core data-quality rule execution",
+      "path": "pipelines/postgres/run_stage7a_data_quality.py",
+      "status": "accepted",
+      "purpose": "Evaluates the seeded structured DQ rules and stores results.",
+      "execution_required": true,
+      "notes": "Current behavior records reported status but is not yet a reliable process exit gate; fail-fast repair belongs to Stage 16A.2."
+    },
+    {
+      "id": "dq-stage7b-runner",
+      "stage": "7B",
+      "artifact": "MetroPT telemetry DQ execution",
+      "path": "pipelines/postgres/run_stage7b_metropt_dq.py",
+      "status": "supporting",
+      "purpose": "Evaluates telemetry-specific DQ rules against the real external MetroPT data.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Optional benchmark DQ execution; not required by the Velora operational database/BI build. Current process-exit behavior is deferred to later hardening."
+    },
+    {
+      "id": "analytics-300-dq-views",
+      "stage": "7A",
+      "artifact": "Core data-quality reporting views",
+      "path": "sql/analytics/300_create_data_quality_views.sql",
+      "status": "accepted",
+      "purpose": "Creates latest-rule and enterprise DQ summary views.",
+      "execution_required": true,
+      "notes": "Must precede SQL DDL 011 because that file references vw_data_quality_latest."
+    },
+    {
+      "id": "ddl-011-telemetry-dq-views",
+      "stage": "7B",
+      "artifact": "Telemetry DQ reporting views",
+      "path": "sql/ddl/011_create_telemetry_dq_views.sql",
+      "status": "supporting",
+      "purpose": "Creates telemetry DQ detail and combined status-summary views.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Optional MetroPT benchmark DQ extension. When used, execute after SQL analytics 300, not directly after SQL DDL 010."
+    },
+    {
+      "id": "analytics-400-gold",
+      "stage": "10B",
+      "artifact": "Integrated Gold views",
+      "path": "sql/analytics/400_create_gold_models.sql",
+      "status": "accepted",
+      "purpose": "Creates shift, line-day, site-day, executive, and DQ Gold views.",
+      "execution_required": true,
+      "notes": "Requires production, loss, energy, utility, cost, and DQ views."
+    },
+    {
+      "id": "analytics-410-powerbi-compat",
+      "stage": "11B",
+      "artifact": "Power BI numeric-compatibility views",
+      "path": "sql/analytics/410_create_powerbi_compat_views.sql",
+      "status": "accepted",
+      "purpose": "Creates thin gold_bi wrappers while preserving Gold business logic.",
+      "execution_required": true,
+      "notes": "Required before Stage 12D and 12E, which read gold_bi views."
+    },
+    {
+      "id": "quality-pchart-ordinary",
+      "stage": "12B",
+      "artifact": "Ordinary reject-proportion p-chart",
+      "path": "sql/analytics/620_create_quality_reject_pchart.sql",
+      "status": "superseded",
+      "purpose": "Retained diagnostic showing why an ordinary binomial p-chart is unsuitable under strong overdispersion.",
+      "superseded_by": "quality-laney-pprime",
+      "execution_required": false,
+      "canonical_build_role": "optional_diagnostic",
+      "notes": "Optional historical diagnostic. SQL 622 does not reference or otherwise depend on the view created by SQL 620, so SQL 620 is excluded from the mandatory clean-build path."
+    },
+    {
+      "id": "quality-laney-pprime",
+      "stage": "12B.2",
+      "artifact": "Laney p-prime reject-proportion SPC",
+      "path": "sql/analytics/622_create_quality_reject_laney_pprime.sql",
+      "status": "accepted",
+      "purpose": "Creates the overdispersion-adjusted SPC view used as the primary quality result.",
+      "supersedes": "quality-pchart-ordinary",
+      "execution_required": true,
+      "notes": "Synthetic Velora workflow evidence; control limits are not customer specification limits."
+    },
+    {
+      "id": "metropt-base-anomaly",
+      "stage": "12C",
+      "artifact": "Base MetroPT Isolation Forest workflow",
+      "path": "scripts/run_stage12c_metropt_anomaly.py",
+      "status": "superseded",
+      "purpose": "Builds the fixed anomaly score/model and exploratory base alert outputs.",
+      "superseded_by": "metropt-selected-alert-policy",
+      "execution_required": false,
+      "canonical_build_role": "optional_support_dependency",
+      "outputs": [
+        "data/gold/advanced_analytics/metropt_anomaly/metropt_anomaly_windows.parquet",
+        "models/advanced_analytics/metropt/isolation_forest.joblib",
+        "models/advanced_analytics/metropt/robust_scaler.joblib"
+      ],
+      "notes": "Its alert conclusion is superseded, but its anomaly-window output is a dependency inside the optional Stage 12C.3 benchmark reproduction path. It is not required by the Velora operational build."
+    },
+    {
+      "id": "metropt-adaptive-exploration",
+      "stage": "12C.2",
+      "artifact": "Exploratory adaptive MetroPT alerting",
+      "path": "scripts/run_stage12c2_adaptive_alerting.py",
+      "status": "superseded",
+      "purpose": "Explores adaptive thresholds and persistence before policy selection.",
+      "superseded_by": "metropt-selected-alert-policy",
+      "execution_required": false,
+      "canonical_build_role": "optional_exploratory",
+      "notes": "Retained for history; Stage 12C.3 performs the final predeclared policy selection. Real external benchmark only."
+    },
+    {
+      "id": "metropt-selected-alert-policy",
+      "stage": "12C.3",
+      "artifact": "Selected adaptive MetroPT alert policy",
+      "path": "scripts/run_stage12c3_alert_policy_selection.py",
+      "status": "accepted",
+      "purpose": "Selects the final adaptive alert policy using the documented event-level validation/test protocol.",
+      "supersedes": [
+        "metropt-base-anomaly",
+        "metropt-adaptive-exploration"
+      ],
+      "execution_required": false,
+      "canonical_build_role": "optional_accepted_benchmark",
+      "inputs": [
+        "data/gold/advanced_analytics/metropt_anomaly/metropt_anomaly_windows.parquet",
+        "sources/step02-telemetry/data/bronze/metropt3/reference/failure_windows.csv"
+      ],
+      "outputs": [
+        "data/gold/advanced_analytics/metropt_anomaly/metropt_selected_alert_policy_windows.parquet",
+        "data/gold/advanced_analytics/metropt_anomaly/metropt_alert_policy_validation_grid.csv",
+        "reports/advanced_analytics/stage12c3_alert_policy_selection.json"
+      ],
+      "notes": "Accepted optional external benchmark demonstration. It is deliberately excluded from Velora operational Power BI pages and the canonical Velora PostgreSQL/BI build."
+    },
+    {
+      "id": "metropt-db-landing",
+      "stage": "12C",
+      "artifact": "Optional MetroPT alert landing-table DDL",
+      "path": "sql/analytics/630_create_metropt_alert_landing_table.sql",
+      "status": "supporting",
+      "purpose": "Provides an optional database landing table for the external MetroPT benchmark.",
+      "execution_required": false,
+      "notes": "Not part of the current Velora Power BI integration and not populated by the canonical build."
+    },
+    {
+      "id": "energy-contextual-anomaly",
+      "stage": "12D",
+      "artifact": "Contextual energy anomaly workflow",
+      "path": "scripts/run_stage12d_energy_anomaly.py",
+      "status": "accepted",
+      "purpose": "Fits expected line energy from operating context and produces 2025 anomaly-monitoring outputs.",
+      "execution_required": true,
+      "inputs": [
+        "gold_bi.vw_shift_manufacturing_performance"
+      ],
+      "outputs": [
+        "data/gold/advanced_analytics/energy_anomaly/energy_anomaly_shift_monitoring_2025.parquet",
+        "data/gold/advanced_analytics/energy_anomaly/energy_anomaly_site_summary_2025.csv",
+        "data/gold/advanced_analytics/energy_anomaly/energy_anomaly_calibration_thresholds.csv",
+        "reports/advanced_analytics/stage12d_energy_anomaly_metrics.json",
+        "models/advanced_analytics/energy/expected_line_energy_model.joblib"
+      ],
+      "notes": "Accepted synthetic Velora contextual-anomaly workflow. It is workflow evidence, not measured plant anomaly validation."
+    },
+    {
+      "id": "forecast-production-energy",
+      "stage": "12E",
+      "artifact": "Production and energy forecasting workflow",
+      "path": "scripts/run_stage12e_forecasting.py",
+      "status": "accepted",
+      "purpose": "Produces selected one-day-ahead production and energy forecasts at site-day grain.",
+      "execution_required": true,
+      "inputs": [
+        "gold_bi.vw_site_daily_performance"
+      ],
+      "outputs": [
+        "data/gold/advanced_analytics/forecasting/daily_site_forecast_holdout_2025.parquet",
+        "data/gold/advanced_analytics/forecasting/daily_site_forecast_holdout_2025.csv",
+        "reports/advanced_analytics/stage12e_forecasting_metrics.json",
+        "models/advanced_analytics/forecasting/daily_production_forecast_model.joblib",
+        "models/advanced_analytics/forecasting/daily_energy_forecast_model.joblib"
+      ],
+      "notes": "Accepted synthetic Velora workflow. Model selection and reporting use the documented 60-day holdout; retain that methodological caveat."
+    },
+    {
+      "id": "reliability-kpis",
+      "stage": "13B",
+      "artifact": "Equipment reliability KPI views",
+      "path": "sql/analytics/720_create_stage13b_reliability_kpis.sql",
+      "status": "accepted",
+      "purpose": "Creates source-qualified work-order and failure-event lineage views plus equipment and equipment-type reliability KPIs.",
+      "execution_required": true,
+      "notes": "Stage 16A.6 hardened synthetic Velora operational analytics. Failure counts and downtime use one row per source-qualified downtime event; repair measures retain and aggregate maintenance/work-order grain."
+    },
+    {
+      "id": "failure-downtime-analysis",
+      "stage": "13C",
+      "artifact": "Failure-mode and downtime analysis views",
+      "path": "sql/analytics/730_create_stage13c_failure_downtime_analysis.sql",
+      "status": "accepted",
+      "purpose": "Creates failure-reason and equipment failure-burden views.",
+      "execution_required": true,
+      "notes": "Synthetic Velora operational analytics. Stage 16A.6 consumes the canonical failure-event view so one-to-many maintenance history cannot multiply downtime."
+    },
+    {
+      "id": "reliability-trend-original",
+      "stage": "13D",
+      "artifact": "Original monthly reliability attribution",
+      "path": "sql/analytics/740_create_stage13d_reliability_trends.sql",
+      "status": "superseded",
+      "purpose": "Historical implementation that grouped failures by raw downtime event timestamp.",
+      "superseded_by": "reliability-trend-corrected",
+      "execution_required": false,
+      "notes": "Do not execute in the canonical build. It creates the same view names as SQL 742 and can restore the superseded attribution if run afterward."
+    },
+    {
+      "id": "reliability-trend-corrected",
+      "stage": "13D.2",
+      "artifact": "Corrected monthly reliability attribution",
+      "path": "sql/analytics/742_create_stage13d2_corrected_reliability_trends.sql",
+      "status": "accepted",
+      "purpose": "Attributes corrective failures to the linked production shift date so numerator and exposure use the same operating calendar.",
+      "supersedes": "reliability-trend-original",
+      "execution_required": true,
+      "notes": "SQL 742 is the only canonical creator for the monthly reliability view names. Stage 16A.6 preserves corrected production-date attribution while source-qualifying lineage and using failure-event grain. Synthetic Velora operational analytics."
+    },
+    {
+      "id": "hydraulic-feasibility",
+      "stage": "13E.1",
+      "artifact": "Hydraulic condition-monitoring feasibility profile",
+      "path": "scripts/profile_stage13e1_condition_monitoring.py",
+      "status": "diagnostic",
+      "purpose": "Inventories and profiles the external hydraulic benchmark before modeling.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Real external benchmark only; not Velora operational data."
+    },
+    {
+      "id": "hydraulic-silver-input",
+      "stage": "13E",
+      "artifact": "Hydraulic condition-monitoring Silver inputs",
+      "path": "sources/step04-reliability/silver/reliability/",
+      "status": "manual_input",
+      "purpose": "Supplies real external cycle telemetry and condition labels for optional hydraulic benchmark reproduction.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Real external benchmark data; not required by or loaded into the Velora operational PostgreSQL/Power BI build."
+    },
+    {
+      "id": "hydraulic-classifier-original",
+      "stage": "13E.2",
+      "artifact": "Original hydraulic condition classifier",
+      "path": "scripts/run_stage13e2_hydraulic_condition_classification.py",
+      "status": "superseded",
+      "purpose": "Historical global chronological split/classification implementation; also creates the reusable cycle-feature Parquet when absent.",
+      "superseded_by": "hydraulic-classifier-corrected",
+      "execution_required": false,
+      "canonical_build_role": "optional_support_dependency_when_cache_absent",
+      "outputs": [
+        "data/gold/advanced_analytics/hydraulic_condition/hydraulic_cycle_features.parquet"
+      ],
+      "notes": "Its model binaries, uncorrected CSV outputs, and report are superseded. Run only as a conditional support step if the feature Parquet is absent, then disregard its analytical conclusions. Real external benchmark only."
+    },
+    {
+      "id": "hydraulic-feature-cache",
+      "stage": "13E.2 / 13E.3",
+      "artifact": "Hydraulic cycle-feature cache",
+      "path": "data/gold/advanced_analytics/hydraulic_condition/hydraulic_cycle_features.parquet",
+      "status": "supporting",
+      "purpose": "Provides the cycle-grain feature input consumed by the corrected classifier.",
+      "execution_required": false,
+      "canonical_build_role": "optional_support_dependency",
+      "notes": "External benchmark support artifact. It is not loaded into Velora PostgreSQL or Power BI."
+    },
+    {
+      "id": "hydraulic-classifier-corrected",
+      "stage": "13E.3",
+      "artifact": "Corrected hydraulic condition classifier",
+      "path": "scripts/run_stage13e3_corrected_condition_classification.py",
+      "status": "accepted",
+      "purpose": "Uses class-wise temporal splitting and reports macro F1 and balanced accuracy for hydraulic condition targets.",
+      "supersedes": "hydraulic-classifier-original",
+      "execution_required": false,
+      "canonical_build_role": "optional_accepted_benchmark",
+      "inputs": [
+        "data/gold/advanced_analytics/hydraulic_condition/hydraulic_cycle_features.parquet"
+      ],
+      "outputs": [
+        "data/gold/advanced_analytics/hydraulic_condition/condition_model_summary_corrected.csv",
+        "reports/advanced_analytics/stage13e3_corrected_hydraulic_condition_classification.json",
+        "models/advanced_analytics/hydraulic_condition/*_extra_trees_corrected.joblib",
+        "data/gold/advanced_analytics/hydraulic_condition/*_corrected.csv"
+      ],
+      "notes": "Accepted separate benchmark demonstration. The class-wise temporal split is not a global forward holdout. It is excluded from Velora operational PostgreSQL/Power BI."
+    },
+    {
+      "id": "powerbi-advanced-inventory",
+      "stage": "16 pre-hardening",
+      "artifact": "Power BI advanced-analytics output inventory",
+      "path": "scripts/inventory_powerbi_advanced_analytics_outputs.py",
+      "status": "diagnostic",
+      "purpose": "Inventories candidate accepted analytical outputs for BI integration.",
+      "execution_required": false,
+      "outputs": [
+        "reports/powerbi/advanced_analytics_integration_inventory.json"
+      ],
+      "notes": "Static inventory only; it does not validate database integration."
+    },
+    {
+      "id": "powerbi-advanced-loader",
+      "stage": "16A.4",
+      "artifact": "Advanced-analytics PostgreSQL landing-table loader",
+      "path": "scripts/load_powerbi_advanced_analytics.py",
+      "status": "accepted",
+      "purpose": "Loads accepted Stage 12D and 12E Parquet outputs into analytics.bi_site_daily_forecast and analytics.bi_shift_energy_anomaly.",
+      "execution_required": true,
+      "inputs": [
+        "data/gold/advanced_analytics/forecasting/daily_site_forecast_holdout_2025.parquet",
+        "data/gold/advanced_analytics/energy_anomaly/energy_anomaly_shift_monitoring_2025.parquet",
+        "analytics.vw_monthly_reliability_trend",
+        "analytics.vw_monthly_equipment_type_reliability_trend"
+      ],
+      "outputs": [
+        "analytics.bi_site_daily_forecast",
+        "analytics.bi_shift_energy_anomaly",
+        "analytics.bi_advanced_analytics_load_audit"
+      ],
+      "notes": "Canonical and dependency-safe on fresh or existing databases. Validates and hashes accepted Parquet inputs before mutation, then uses transactional TRUNCATE + COPY into stable constrained tables. Failures roll back prior landing rows. Supports host, port, database, user, explicit input paths, and input-only validation.",
+      "accepted_input_sha256": {
+        "forecast_stage12e": "270b091a9f60e207652d7d0fe3e727ad019ea45ef3ba86c4d9f8381b50887da5",
+        "energy_anomaly_stage12d": "8a7c6407b565edea05da4757e8d401ec343f5f0ffe3d67da67da5ff44c193999"
+      }
+    },
+    {
+      "id": "powerbi-advanced-views",
+      "stage": "16A.4",
+      "artifact": "Power BI advanced-analytics views",
+      "path": "sql/analytics/750_create_powerbi_advanced_analytics_views.sql",
+      "status": "accepted",
+      "purpose": "Exposes accepted forecasts, energy anomalies, and corrected reliability trends through gold_bi.",
+      "execution_required": true,
+      "notes": "Requires the advanced landing tables and SQL 742. MetroPT and hydraulic benchmark results are intentionally absent."
+    },
+    {
+      "id": "powerbi-model",
+      "stage": "11 / 16 pre-hardening",
+      "artifact": "Velora Power BI report",
+      "path": "powerbi/Velora_Manufacturing_Intelligence.pbix",
+      "status": "accepted",
+      "release_treatment": "include",
+      "purpose": "Consumes the Gold/Gold BI semantic layer for the portfolio report.",
+      "execution_required": false,
+      "notes": "Binary manual artifact. Refresh and visual verification require Power BI Desktop and are a manual post-build action; this manifest does not modify or inspect the PBIX."
+    },
+    {
+      "id": "powerbi-dax-source",
+      "stage": "11B",
+      "artifact": "Core Power BI DAX measure source",
+      "path": "powerbi/dax/stage11b_core_measures.dax",
+      "status": "supporting",
+      "purpose": "Versioned source text for core report measures.",
+      "execution_required": false,
+      "notes": "Applied manually in Power BI; no DAX or PBIX changes are part of Stage 16A.1."
+    },
+    {
+      "id": "bootstrap-runner-current",
+      "stage": "16A.2",
+      "artifact": "Canonical Velora operational build runner",
+      "path": "pipelines/postgres/bootstrap_database.ps1",
+      "status": "accepted",
+      "purpose": "Preflights governed inputs and executes the complete dependency-ordered Velora PostgreSQL and BI build.",
+      "execution_required": true,
+      "notes": "Canonical Stage 16A.2 entry point, hardened through Stage 16A.10 to verify the governed production seed, Stage 3H energy snapshot, and accepted Stage 12D/12E materialized inputs before any database mutation. Uses configurable host, port, database, admin database, and user with local port 5433 as the default. Mandatory Python steps support interactive authentication or external libpq credentials such as pgpass without storing secrets. Excludes optional MetroPT/hydraulic benchmark reproduction and does not retrain Stage 12 models."
+    },
+    {
+      "id": "postgres-credential-resolution",
+      "stage": "16A.10",
+      "artifact": "Shared PostgreSQL credential resolution",
+      "path": "pipelines/postgres/connection_auth.py",
+      "status": "supporting",
+      "purpose": "Lets mandatory Python database steps use standard external libpq credentials while retaining an interactive password fallback.",
+      "execution_required": true,
+      "release_treatment": "include",
+      "notes": "Recognizes PGPASSWORD, PGPASSFILE, the standard Windows pgpass.conf location, or ~/.pgpass. It never prints or persists credential values."
+    },
+    {
+      "id": "stage4-runner-current",
+      "stage": "4H",
+      "artifact": "Current Stage 4 local pipeline runner",
+      "path": "pipelines/orchestration/run_stage4_local_pipeline.ps1",
+      "status": "supporting",
+      "purpose": "Convenience runner for dimensions, synthetic facts, references, and Stage 4 validation.",
+      "execution_required": false,
+      "notes": "Not the canonical clean-build entry point because it assumes schema objects already exist and omits both supplemental loaders. Repair is outside Stage 16A.1."
+    },
+    {
+      "id": "stage9-runner-current",
+      "stage": "9",
+      "artifact": "Current Stage 9 local orchestration runner",
+      "path": "pipelines/orchestration/run_stage9_local_pipeline.ps1",
+      "status": "supporting",
+      "purpose": "Current logged local orchestration wrapper.",
+      "execution_required": false,
+      "notes": "Not the canonical clean-build entry point: it omits required loaders and later accepted layers, and its psql calls lack ON_ERROR_STOP. Stage 16A.2 leaves it as a legacy convenience runner; fail-fast orchestration hardening is Stage 16A.3."
+    },
+    {
+      "id": "validation-stage4-python",
+      "stage": "4G",
+      "artifact": "Stage 4 Python validation gate",
+      "path": "pipelines/postgres/validate_stage4_database.py",
+      "status": "diagnostic",
+      "purpose": "Checks mandatory database row counts and integrity conditions with a nonzero failure path.",
+      "execution_required": true,
+      "notes": "Exact governed counts remain enforced for stable tables. The variable generic Eurostat reference table is required to be non-empty because the recursive loader intentionally includes all materialized Step 14 Silver Parquets."
+    },
+    {
+      "id": "validation-admin-schema",
+      "stage": "4A",
+      "artifact": "Canonical schema inventory query",
+      "path": "sql/admin/010_verify_schema.sql",
+      "status": "diagnostic",
+      "purpose": "Reports database, dimension-table, and fact-table inventory.",
+      "execution_required": true,
+      "notes": "Mandatory fail-fast base-schema gate; Stage 16A.10 proved all required schemas, dimensions, and facts were present."
+    },
+    {
+      "id": "validation-stage4-sql",
+      "stage": "4G",
+      "artifact": "Stage 4 SQL validation set",
+      "path": "sql/validation/",
+      "status": "diagnostic",
+      "purpose": "Validates dimensions, synthetic facts, references, lineage, duplicates, required fields, and sanity checks.",
+      "execution_required": true,
+      "inputs": [
+        "sql/validation/020_dimension_counts.sql",
+        "sql/validation/030_synthetic_fact_counts.sql",
+        "sql/validation/040_reference_counts.sql",
+        "sql/validation/050_stage4g_database_validation.sql"
+      ],
+      "notes": "Mandatory fail-fast gates; Stage 16A.10 proved their accepted counts, lineage, uniqueness, null, and reconciliation expectations."
+    },
+    {
+      "id": "validation-stage5-sql",
+      "stage": "5",
+      "artifact": "Production/OEE/loss validation set",
+      "path": "sql/validation/",
+      "status": "diagnostic",
+      "purpose": "Validates Stage 5 analytical views.",
+      "execution_required": true,
+      "inputs": [
+        "sql/validation/100_validate_oee_views.sql",
+        "sql/validation/110_validate_production_loss.sql",
+        "sql/validation/120_validate_production_benchmark.sql"
+      ],
+      "notes": "Mandatory fail-fast gates; Stage 16A.10 proved the accepted production, OEE, loss, and benchmark expectations."
+    },
+    {
+      "id": "validation-stage6-sql",
+      "stage": "6",
+      "artifact": "Energy/utilities/cost validation set",
+      "path": "sql/validation/",
+      "status": "diagnostic",
+      "purpose": "Validates Stage 6 analytical views and benchmark coverage.",
+      "execution_required": true,
+      "inputs": [
+        "sql/validation/200_validate_energy_views.sql",
+        "sql/validation/210_validate_utility_views.sql",
+        "sql/validation/220_validate_energy_cost.sql"
+      ],
+      "notes": "Mandatory fail-fast gates; Stage 16A.10 proved accepted electricity, utility, cost, and coverage expectations."
+    },
+    {
+      "id": "validation-stage16a9a-can-air-powerbi",
+      "stage": "16A.9A",
+      "artifact": "Can-line compressed-air propagation validation",
+      "path": "sql/validation/415_validate_stage16a9a_can_air_powerbi.sql",
+      "status": "diagnostic",
+      "purpose": "Fail-fast validation of the accepted can-line compressed-air amendment across the loaded fact, Gold, and Power BI compatibility layers.",
+      "execution_required": true,
+      "inputs": [
+        "public.fact_line_energy_detail",
+        "public.dim_line",
+        "gold.vw_shift_manufacturing_performance",
+        "gold_bi.vw_shift_manufacturing_performance"
+      ],
+      "release_treatment": "include",
+      "notes": "Run after the Stage 3H energy-detail reload. Stage 16A.10 passed this gate in the disposable proof database with 6,579 CAN_ENERGY_250 rows, no positive-production can-line compressed-air nulls, 5.0 Nm3/1,000 cans, the accepted total, and exact adherence to the existing quantity-based formula."
+    },
+    {
+      "id": "validation-stage7-sql",
+      "stage": "7A",
+      "artifact": "Core Velora data-quality validation",
+      "path": "sql/validation/300_validate_data_quality.sql",
+      "status": "diagnostic",
+      "purpose": "Reports structured core DQ results after Stage 7A execution.",
+      "execution_required": true,
+      "inputs": [
+        "sql/validation/300_validate_data_quality.sql"
+      ],
+      "notes": "Mandatory fail-fast Velora operational gate. Stage 16A.10 observed 24 PASS, 0 WARN, and 0 FAIL; legitimate WARN status remains nonfatal."
+    },
+    {
+      "id": "validation-metropt-dq-sql",
+      "stage": "7B",
+      "artifact": "MetroPT telemetry DQ validation",
+      "path": "sql/ddl/012_validate_telemetry_dq.sql",
+      "status": "diagnostic",
+      "purpose": "Reports telemetry DQ results for the optional real external MetroPT benchmark extension.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Excluded from the Velora operational validation path. When the optional MetroPT DQ extension is reproduced, execute after SQL 300 and SQL 011 despite this file's DDL directory and numeric name."
+    },
+    {
+      "id": "inventory-stage10-source-views",
+      "stage": "10A",
+      "artifact": "Stage 10 source-view inventory",
+      "path": "sql/validation/400_inventory_stage10_sources.sql",
+      "status": "diagnostic",
+      "purpose": "Inventories availability, columns, and row counts for candidate Stage 10 source views.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Excluded because it is a read-only development inventory, creates no objects, and does not validate a final accepted invariant."
+    },
+    {
+      "id": "validation-gold-powerbi-sql",
+      "stage": "10 / 11",
+      "artifact": "Gold model validation",
+      "path": "sql/validation/410_validate_gold_models.sql",
+      "status": "diagnostic",
+      "purpose": "Validates integrated Gold model row counts, uniqueness, nulls, KPI bounds, and DQ summaries.",
+      "execution_required": true,
+      "inputs": [
+        "sql/validation/410_validate_gold_models.sql"
+      ],
+      "notes": "Mandatory for the canonical Velora Gold layer. Its fixed 7-domain/30-rule DQ expectations describe the combined repository state with the optional MetroPT DQ extension; review those two expectations conditionally in a Velora-only build. SQL analytics 410 contains its own inline compatibility-view checks."
+    },
+    {
+      "id": "inventory-powerbi-dimensions",
+      "stage": "11A",
+      "artifact": "Power BI dimension inventory",
+      "path": "sql/validation/500_inventory_powerbi_dimensions.sql",
+      "status": "diagnostic",
+      "purpose": "Inventories Power BI dimension columns, row counts, and candidate-key uniqueness.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Excluded because it is a read-only semantic-model design inventory, not a final build-state validation."
+    },
+    {
+      "id": "inventory-stage12-analytics-sources",
+      "stage": "12A",
+      "artifact": "Advanced-analytics source inventory",
+      "path": "sql/validation/600_inventory_stage12_analytics_sources.sql",
+      "status": "diagnostic",
+      "purpose": "Inventories candidate database objects and coverage before Stage 12 method development.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Excluded because it is a read-only discovery inventory and does not validate an accepted Stage 12 output."
+    },
+    {
+      "id": "profile-stage12-analytics-feasibility",
+      "stage": "12A.2",
+      "artifact": "Advanced-analytics feasibility profile",
+      "path": "sql/validation/610_profile_stage12_analytics_feasibility.sql",
+      "status": "diagnostic",
+      "purpose": "Profiles fact coverage and suitability used during Stage 12 method selection.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Excluded because it is historical feasibility evidence, not a final accepted-output validation."
+    },
+    {
+      "id": "validation-quality-pchart-diagnostic",
+      "stage": "12B",
+      "artifact": "Ordinary p-chart diagnostic validation",
+      "path": "sql/validation/621_validate_quality_reject_pchart.sql",
+      "status": "diagnostic",
+      "purpose": "Reports behavior of the optional superseded ordinary p-chart.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Excluded because SQL 620 is not a dependency of accepted SQL 622 and is not in the mandatory clean-build path."
+    },
+    {
+      "id": "validation-quality-sql",
+      "stage": "12B.2",
+      "artifact": "Accepted Laney p-prime SPC validation",
+      "path": "sql/validation/623_validate_quality_reject_laney_pprime.sql",
+      "status": "diagnostic",
+      "purpose": "Validates the accepted Laney p-prime SPC result.",
+      "execution_required": true,
+      "inputs": [
+        "sql/validation/623_validate_quality_reject_laney_pprime.sql"
+      ],
+      "notes": "Mandatory accepted-SPC validation. It snapshots the unchanged accepted Laney p-prime view once in a session-local temporary table to avoid repeated expensive expansion; the optional ordinary p-chart comparison is skipped when noncanonical SQL 620 is absent. No SPC formula or accepted view definition is changed. SQL 621 remains a separate optional diagnostic."
+    },
+    {
+      "id": "inventory-stage13-reliability-sources",
+      "stage": "13A",
+      "artifact": "Maintenance and reliability source inventory",
+      "path": "sql/validation/700_inventory_stage13_reliability_sources.sql",
+      "status": "diagnostic",
+      "purpose": "Inventories candidate database objects and source records before Stage 13 development.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Excluded because it is a read-only discovery inventory and does not validate final reliability views."
+    },
+    {
+      "id": "profile-stage13-reliability-feasibility",
+      "stage": "13A.2",
+      "artifact": "Reliability feasibility and provenance profile",
+      "path": "sql/validation/710_profile_stage13_reliability_feasibility.sql",
+      "status": "diagnostic",
+      "purpose": "Profiles maintenance, downtime, equipment, linkage, duration, and provenance feasibility.",
+      "execution_required": false,
+      "canonical_build_role": "optional",
+      "notes": "Excluded because it is historical feasibility evidence, not final KPI or trend validation."
+    },
+    {
+      "id": "validation-reliability-original",
+      "stage": "13D",
+      "artifact": "Original reliability-trend validation",
+      "path": "sql/validation/741_validate_stage13d_reliability_trends.sql",
+      "status": "superseded",
+      "purpose": "Historical validation paired with the original SQL 740 attribution logic.",
+      "superseded_by": "validation-reliability-sql",
+      "execution_required": false,
+      "canonical_build_role": "excluded",
+      "notes": "Excluded with superseded SQL 740. SQL 743 is the canonical corrected trend validation."
+    },
+    {
+      "id": "validation-reliability-sql",
+      "stage": "13B / 13C / 13D.2",
+      "artifact": "Accepted reliability validation set",
+      "path": "sql/validation/",
+      "status": "diagnostic",
+      "purpose": "Validates reliability KPIs, failure/downtime analysis, and corrected monthly trends.",
+      "execution_required": true,
+      "inputs": [
+        "sql/validation/721_validate_stage13b_reliability_kpis.sql",
+        "sql/validation/731_validate_stage13c_failure_downtime_analysis.sql",
+        "sql/validation/743_validate_stage13d2_corrected_reliability_trends.sql"
+      ],
+      "notes": "SQL 741 belongs to superseded SQL 740 and is not canonical. The accepted validators are fail-fast and protect source-qualified link integrity, explicit work-order/failure grains, downtime deduplication, corrected monthly attribution, and dimensional reconciliation."
+    },
+    {
+      "id": "validation-powerbi-advanced-sql",
+      "stage": "16A.4",
+      "artifact": "Power BI advanced-analytics validation",
+      "path": "sql/validation/751_validate_powerbi_advanced_analytics_views.sql",
+      "status": "diagnostic",
+      "purpose": "Enforces accepted landing-table and Gold BI advanced-view counts, grains, provenance, and dimension-key coverage.",
+      "execution_required": true,
+      "notes": "Mandatory fail-fast validation. Includes accepted forecast, anomaly, corrected-reliability, key/grain, downtime-tolerance, and successful-load-audit checks."
+    },
+    {
+      "id": "stage16a10-build-evidence-capture",
+      "stage": "16A.10",
+      "artifact": "Disposable clean-build evidence capture and assertion utility",
+      "path": "scripts/capture_stage16a10_build_evidence.py",
+      "status": "supporting",
+      "purpose": "Captures compact versionable proof from an unmistakably disposable Stage 16A.10 database and refuses the existing manufacturing_intelligence database.",
+      "execution_required": false,
+      "inputs": [
+        "config/canonical_production_seed.json",
+        "config/stage3h_energy_artifact_manifest.json",
+        "data/gold/business_case/business_case_evidence_manifest.json",
+        "logs/orchestration/stage16a10_clean_build_20260828_proof1.log"
+      ],
+      "outputs": [
+        "reports/reproducibility/stage16a10_build_evidence.json",
+        "docs/reproducibility/stage16a10_clean_build_proof.md"
+      ],
+      "release_treatment": "include",
+      "notes": "Read-only with respect to PostgreSQL. It enforces accepted counts, DQ status, electricity and compressed-air reconciliation, corrected reliability, advanced bridges, accepted hashes, canonical SQL 742 use, and the SQL 740 exclusion before writing evidence."
+    },
+    {
+      "id": "stage16a10-disposable-clean-build-proof",
+      "stage": "16A.10",
+      "artifact": "Accepted disposable canonical clean-build evidence",
+      "path": "reports/reproducibility/stage16a10_build_evidence.json",
+      "status": "accepted",
+      "purpose": "Records the completed canonical Velora operational build and all 19 mandatory fail-fast validations against the retained disposable PostgreSQL database.",
+      "execution_required": false,
+      "related_artifacts": [
+        "docs/reproducibility/stage16a10_clean_build_proof.md"
+      ],
+      "release_treatment": "include",
+      "notes": "PASS_AFTER_FAIL_FAST_RESUME. SQL 410 was the last successful mandatory validation before interruption; SQL 623 and all later mandatory gates subsequently passed. The existing manufacturing_intelligence database and PBIX were not modified. Manual PBIX refresh remains pending."
+    },
+    {
+      "id": "terraform-documentation-only",
+      "stage": "8",
+      "artifact": "AWS-ready target architecture Terraform source",
+      "path": "infrastructure/terraform/main.tf",
+      "status": "supporting",
+      "purpose": "Documents Terraform/provider constraints for a future AWS target.",
+      "execution_required": false,
+      "release_treatment": "include",
+      "notes": "Retain main.tf, .terraform.lock.hcl, and terraform.tfvars.example. The active configuration contains no resources and is not evidence of AWS deployment."
+    },
+    {
+      "id": "terraform-local-provider-cache",
+      "stage": "8 / 16A.9",
+      "artifact": "Local Terraform provider cache and state boundary",
+      "path": "infrastructure/terraform/.terraform/",
+      "status": "generated",
+      "purpose": "Contains locally downloaded provider executables; Terraform state and non-example tfvars are likewise local deployment material.",
+      "execution_required": false,
+      "release_treatment": "local_only",
+      "notes": "Excluded by the root .gitignore. The provider cache is safely reproducible from retained Terraform source and lock file via terraform init. No state file was present in the Stage 16A.9 inventory."
+    }
+  ]
+}

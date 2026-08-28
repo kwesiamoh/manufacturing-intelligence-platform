@@ -1,0 +1,3 @@
+dataset_code,commodity,consumer_type,frequency,main_project_use
+nrg_pc_205,electricity,non-household,bi-annual,electricity cost benchmark
+nrg_pc_203,natural gas,non-household,bi-annual,gas cost benchmark

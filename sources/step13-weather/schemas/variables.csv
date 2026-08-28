@@ -1,0 +1,8 @@
+variable,unit,project_use
+2m_temperature,K,ambient temperature context
+2m_dewpoint_temperature,K,humidity/dewpoint context
+10m_u_component_of_wind,m s-1,wind context
+10m_v_component_of_wind,m s-1,wind context
+surface_pressure,Pa,ambient pressure context
+surface_solar_radiation_downwards,J m-2,solar-load context
+total_precipitation,m,weather context

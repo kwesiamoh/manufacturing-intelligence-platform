@@ -1,0 +1,64 @@
+{
+  "source": {
+    "source_code": "SYNTHETIC_ENTERPRISE",
+    "is_real_data": false,
+    "reference_period": "2024-2025"
+  },
+  "forecast_design": {
+    "forecast_horizon": "one day ahead",
+    "evaluation_holdout_days": 60,
+    "holdout_start": "2025-11-02",
+    "holdout_end": "2025-12-31",
+    "forecast_grain": "site-day",
+    "lags_days": [
+      1,
+      7,
+      14,
+      28
+    ],
+    "rolling_windows_days": [
+      7,
+      28
+    ],
+    "baseline": "seasonal naive, 7-day lag",
+    "selection_metric": "MAE",
+    "causality_note": "All lag and rolling features use prior observations only. This is an operational one-day-ahead forecast evaluation, not a 60-day recursive forecast made at the start of the holdout."
+  },
+  "production_forecast": {
+    "target": "actual_quantity",
+    "train_rows": 3858,
+    "holdout_rows": 360,
+    "hist_gradient_boosting": {
+      "mae": 28869.269891705808,
+      "rmse": 35870.87786355966,
+      "r2": 0.9865227499791165,
+      "mape_pct": 0.7217363513045121
+    },
+    "seasonal_naive_7d": {
+      "mae": 51541.14444444444,
+      "rmse": 62629.789796913385,
+      "r2": 0.9589153886626564,
+      "mape_pct": 1.2853857276211784
+    },
+    "selected_model_by_mae": "hist_gradient_boosting"
+  },
+  "energy_forecast": {
+    "target": "site_total_electricity_kwh",
+    "train_rows": 3858,
+    "holdout_rows": 360,
+    "hist_gradient_boosting": {
+      "mae": 154.17774168086558,
+      "rmse": 189.10693430328294,
+      "r2": 0.7570232518715485,
+      "mape_pct": 0.5086101901799738
+    },
+    "seasonal_naive_7d": {
+      "mae": 310.4712242111111,
+      "rmse": 372.24031335993516,
+      "r2": 0.058551392618427234,
+      "mape_pct": 1.0233922067361518
+    },
+    "selected_model_by_mae": "hist_gradient_boosting"
+  },
+  "interpretation_note": "The source is synthetic enterprise integration data. Forecast performance demonstrates the workflow and must not be presented as measured-plant forecast accuracy."
+}

@@ -1,0 +1,8 @@
+# Complete local development/reproduction environment.
+# Narrower installation paths remain available in the referenced files.
+-r pipelines/postgres/requirements-stage4.txt
+-r sources/requirements.txt
+-r scripts/requirements_stage12c.txt
+-r scripts/requirements_stage12d.txt
+-r scripts/requirements_stage12e.txt
+-r scripts/requirements_stage13e3.txt

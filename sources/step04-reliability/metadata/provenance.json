@@ -1,0 +1,15 @@
+{
+  "dataset_name": "Condition monitoring of hydraulic systems",
+  "uci_dataset_id": 447,
+  "authoritative_page": "https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems",
+  "download_url": "https://archive.ics.uci.edu/static/public/447/condition%2Bmonitoring%2Bof%2Bhydraulic%2Bsystems.zip",
+  "doi": "10.24432/C5CW21",
+  "creators": ["Nikolai Helwig", "Eliseo Pignanelli", "Andreas Schütze"],
+  "license": "CC BY 4.0",
+  "data_origin": "Experimental hydraulic test rig measurements",
+  "instance_definition": "One 60-second load cycle",
+  "expected_cycles": 2205,
+  "missing_values_reported_by_uci": false,
+  "synthetic_records_added": false,
+  "portfolio_domain": "maintenance_reliability_condition_monitoring"
+}

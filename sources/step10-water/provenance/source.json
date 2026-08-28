@@ -1,0 +1,17 @@
+{
+  "dataset_name": "Water intake in manufacturing industries, by purpose of initial use and by industry",
+  "table_id": "38-10-0056-01",
+  "publisher": "Statistics Canada",
+  "source_program": "Industrial Water Survey",
+  "official_table": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3810005601",
+  "official_catalogue": "https://www150.statcan.gc.ca/n1/en/catalogue/3810005601",
+  "full_csv_zip": "https://www150.statcan.gc.ca/n1/tbl/csv/38100056-eng.zip",
+  "doi": "10.25318/3810005601-eng",
+  "latest_table_release_checked": "2024-03-18",
+  "geography": "Canada",
+  "industrial_detail": "3-digit NAICS",
+  "unit_description": "millions of cubic metres",
+  "data_origin": "official manufacturing industrial-water survey estimates",
+  "synthetic": false,
+  "project_role": "water-use benchmark/reference domain"
+}

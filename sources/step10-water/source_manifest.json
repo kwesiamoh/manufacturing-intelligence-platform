@@ -1,0 +1,15 @@
+{
+  "package": "manufacturing-intelligence-water-step10",
+  "created": "2026-08-24",
+  "contains_raw_data": true,
+  "workspace_raw_data_status": "The retained local workspace contains the expected Bronze archive.",
+  "public_release_contains_raw_data": false,
+  "raw_data_status": "The public Git payload excludes the reacquirable archive and derived Silver data.",
+  "expected_bronze_file": "bronze/statcan_industrial_water/38100056-eng.zip",
+  "workflow": [
+    "python scripts/download_statcan.py",
+    "python scripts/validate_bronze.py",
+    "python scripts/bronze_to_silver.py"
+  ],
+  "synthetic_records_added": 0
+}

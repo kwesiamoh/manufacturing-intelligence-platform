@@ -1,0 +1,260 @@
+table_name,grain,column_name,data_type,key_type,nullable,definition
+dim_source_dataset,one record per external/public dataset,source_dataset_id,INTEGER,PK,NO,Surrogate key
+dim_source_dataset,one record per external/public dataset,source_code,VARCHAR,,NO,Short source identifier
+dim_source_dataset,one record per external/public dataset,source_name,VARCHAR,,NO,Official dataset name
+dim_source_dataset,one record per external/public dataset,publisher,VARCHAR,,YES,Publishing organization
+dim_source_dataset,one record per external/public dataset,source_domain,VARCHAR,,NO,Primary source domain
+dim_source_dataset,one record per external/public dataset,integration_role,VARCHAR,,NO,Operational/benchmark/context/reference/synthetic integration
+dim_source_dataset,one record per external/public dataset,is_real_data,BOOLEAN,,NO,Real versus synthetic indicator
+dim_source_dataset,one record per external/public dataset,source_url,VARCHAR,,YES,Authoritative source URL
+dim_source_dataset,one record per external/public dataset,license,VARCHAR,,YES,Source license
+dim_source_dataset,one record per external/public dataset,reference_period,VARCHAR,,YES,Coverage period
+dim_source_dataset,one record per external/public dataset,notes,TEXT,,YES,Source limitations
+dim_site,one manufacturing or source facility/site,site_id,INTEGER,PK,NO,Surrogate key
+dim_site,one manufacturing or source facility/site,site_code,VARCHAR,,NO,Site code
+dim_site,one manufacturing or source facility/site,site_name,VARCHAR,,NO,Site name
+dim_site,one manufacturing or source facility/site,country_code,VARCHAR,,YES,Country code
+dim_site,one manufacturing or source facility/site,region,VARCHAR,,YES,Region
+dim_site,one manufacturing or source facility/site,site_type,VARCHAR,,YES,Site type
+dim_site,one manufacturing or source facility/site,source_dataset_id,INTEGER,FK,YES,Source dataset
+dim_site,one manufacturing or source facility/site,site_origin,VARCHAR,,NO,REAL_SOURCE or FICTIONAL_ENTERPRISE
+dim_site,one manufacturing or source facility/site,active_flag,BOOLEAN,,NO,Active record flag
+dim_area,one production/support area within a site,area_id,INTEGER,PK,NO,Surrogate key
+dim_area,one production/support area within a site,site_id,INTEGER,FK,NO,Parent site
+dim_area,one production/support area within a site,area_code,VARCHAR,,NO,Area code
+dim_area,one production/support area within a site,area_name,VARCHAR,,NO,Area name
+dim_area,one production/support area within a site,area_type,VARCHAR,,YES,Area type
+dim_line,one production line,line_id,INTEGER,PK,NO,Surrogate key
+dim_line,one production line,site_id,INTEGER,FK,NO,Parent site
+dim_line,one production line,area_id,INTEGER,FK,NO,Parent area
+dim_line,one production line,line_code,VARCHAR,,NO,Line code
+dim_line,one production line,line_name,VARCHAR,,NO,Line name
+dim_line,one production line,line_type,VARCHAR,,YES,Line type
+dim_line,one production line,nominal_capacity,NUMERIC,,YES,Nominal capacity
+dim_line,one production line,capacity_unit,VARCHAR,,YES,Capacity unit
+dim_line,one production line,commissioning_year,INTEGER,,YES,Commissioning year
+dim_line,one production line,source_dataset_id,INTEGER,FK,YES,Source dataset
+dim_line,one production line,active_flag,BOOLEAN,,NO,Active record flag
+dim_equipment,one physical asset,equipment_id,INTEGER,PK,NO,Surrogate key
+dim_equipment,one physical asset,line_id,INTEGER,FK,YES,Parent line
+dim_equipment,one physical asset,area_id,INTEGER,FK,YES,Parent area
+dim_equipment,one physical asset,equipment_code,VARCHAR,,NO,Equipment code
+dim_equipment,one physical asset,equipment_name,VARCHAR,,NO,Equipment name
+dim_equipment,one physical asset,equipment_type,VARCHAR,,NO,Equipment type
+dim_equipment,one physical asset,criticality_class,VARCHAR,,YES,Criticality class
+dim_equipment,one physical asset,commissioning_date,DATE,,YES,Commissioning date
+dim_equipment,one physical asset,rated_power_kw,NUMERIC,,YES,Rated power
+dim_equipment,one physical asset,source_dataset_id,INTEGER,FK,NO,Source dataset
+dim_equipment,one physical asset,active_flag,BOOLEAN,,NO,Active record flag
+dim_sensor,one telemetry tag/sensor,sensor_id,INTEGER,PK,NO,Surrogate key
+dim_sensor,one telemetry tag/sensor,equipment_id,INTEGER,FK,NO,Parent equipment
+dim_sensor,one telemetry tag/sensor,sensor_code,VARCHAR,,NO,Sensor code
+dim_sensor,one telemetry tag/sensor,sensor_name,VARCHAR,,NO,Sensor name
+dim_sensor,one telemetry tag/sensor,measurement_type,VARCHAR,,NO,Measurement type
+dim_sensor,one telemetry tag/sensor,engineering_unit,VARCHAR,,YES,Engineering unit
+dim_sensor,one telemetry tag/sensor,sampling_interval_seconds,NUMERIC,,YES,Sampling interval
+dim_sensor,one telemetry tag/sensor,source_dataset_id,INTEGER,FK,NO,Source dataset
+dim_sensor,one telemetry tag/sensor,active_flag,BOOLEAN,,NO,Active flag
+dim_product,one product/SKU/product class,product_id,INTEGER,PK,NO,Surrogate key
+dim_product,one product/SKU/product class,product_code,VARCHAR,,NO,Product code
+dim_product,one product/SKU/product class,product_name,VARCHAR,,NO,Product name
+dim_product,one product/SKU/product class,product_family,VARCHAR,,YES,Product family
+dim_product,one product/SKU/product class,package_type,VARCHAR,,YES,Package type
+dim_product,one product/SKU/product class,package_size,NUMERIC,,YES,Package size
+dim_product,one product/SKU/product class,package_unit,VARCHAR,,YES,Package unit
+dim_product,one product/SKU/product class,source_dataset_id,INTEGER,FK,YES,Source dataset
+dim_shift,one defined shift pattern,shift_id,INTEGER,PK,NO,Surrogate key
+dim_shift,one defined shift pattern,shift_code,VARCHAR,,NO,Shift code
+dim_shift,one defined shift pattern,shift_name,VARCHAR,,NO,Shift name
+dim_shift,one defined shift pattern,start_time,TIME,,NO,Shift start
+dim_shift,one defined shift pattern,end_time,TIME,,NO,Shift end
+dim_shift,one defined shift pattern,crosses_midnight,BOOLEAN,,NO,Crosses midnight
+dim_failure_reason,one standardized downtime/failure classification,failure_reason_id,INTEGER,PK,NO,Surrogate key
+dim_failure_reason,one standardized downtime/failure classification,failure_category,VARCHAR,,NO,Failure category
+dim_failure_reason,one standardized downtime/failure classification,failure_reason,VARCHAR,,NO,Failure reason
+dim_failure_reason,one standardized downtime/failure classification,planned_flag,BOOLEAN,,NO,Planned indicator
+dim_failure_reason,one standardized downtime/failure classification,source_reason_code,VARCHAR,,YES,Original reason code
+dim_failure_reason,one standardized downtime/failure classification,source_dataset_id,INTEGER,FK,YES,Source dataset
+dim_utility,one utility type,utility_id,INTEGER,PK,NO,Surrogate key
+dim_utility,one utility type,utility_code,VARCHAR,,NO,Utility code
+dim_utility,one utility type,utility_name,VARCHAR,,NO,Utility name
+dim_utility,one utility type,default_unit,VARCHAR,,YES,Default unit
+dim_utility,one utility type,utility_category,VARCHAR,,NO,Utility category
+dim_time,one calendar date,date_id,INTEGER,PK,NO,Date key
+dim_time,one calendar date,calendar_date,DATE,,NO,Calendar date
+dim_time,one calendar date,year,INTEGER,,NO,Year
+dim_time,one calendar date,quarter,INTEGER,,NO,Quarter
+dim_time,one calendar date,month,INTEGER,,NO,Month
+dim_time,one calendar date,month_name,VARCHAR,,NO,Month name
+dim_time,one calendar date,week_of_year,INTEGER,,NO,ISO week
+dim_time,one calendar date,day_of_month,INTEGER,,NO,Day of month
+dim_time,one calendar date,day_of_week,INTEGER,,NO,Day of week
+dim_time,one calendar date,day_name,VARCHAR,,NO,Day name
+dim_time,one calendar date,is_weekend,BOOLEAN,,NO,Weekend flag
+fact_telemetry,one sensor measurement at one timestamp,telemetry_id,BIGINT,PK,NO,
+fact_telemetry,one sensor measurement at one timestamp,timestamp,TIMESTAMP,,NO,
+fact_telemetry,one sensor measurement at one timestamp,sensor_id,INTEGER,FK,NO,
+fact_telemetry,one sensor measurement at one timestamp,equipment_id,INTEGER,FK,NO,
+fact_telemetry,one sensor measurement at one timestamp,source_dataset_id,INTEGER,FK,NO,
+fact_telemetry,one sensor measurement at one timestamp,measurement_value,DOUBLE PRECISION,,YES,
+fact_telemetry,one sensor measurement at one timestamp,engineering_unit,VARCHAR,,YES,
+fact_telemetry,one sensor measurement at one timestamp,quality_flag,VARCHAR,,YES,
+fact_production,production performance for one line/product/time interval,production_id,BIGINT,PK,NO,
+fact_production,production performance for one line/product/time interval,timestamp_start,TIMESTAMP,,NO,
+fact_production,production performance for one line/product/time interval,timestamp_end,TIMESTAMP,,YES,
+fact_production,production performance for one line/product/time interval,date_id,INTEGER,FK,NO,
+fact_production,production performance for one line/product/time interval,site_id,INTEGER,FK,YES,
+fact_production,production performance for one line/product/time interval,line_id,INTEGER,FK,YES,
+fact_production,production performance for one line/product/time interval,product_id,INTEGER,FK,YES,
+fact_production,production performance for one line/product/time interval,shift_id,INTEGER,FK,YES,
+fact_production,production performance for one line/product/time interval,source_dataset_id,INTEGER,FK,NO,
+fact_production,production performance for one line/product/time interval,planned_quantity,NUMERIC,,YES,
+fact_production,production performance for one line/product/time interval,actual_quantity,NUMERIC,,YES,
+fact_production,production performance for one line/product/time interval,good_quantity,NUMERIC,,YES,
+fact_production,production performance for one line/product/time interval,reject_quantity,NUMERIC,,YES,
+fact_production,production performance for one line/product/time interval,nominal_rate,NUMERIC,,YES,
+fact_production,production performance for one line/product/time interval,actual_rate,NUMERIC,,YES,
+fact_production,production performance for one line/product/time interval,operating_time_min,NUMERIC,,YES,
+fact_production,production performance for one line/product/time interval,planned_production_time_min,NUMERIC,,YES,
+fact_downtime,one downtime event,downtime_id,BIGINT,PK,NO,
+fact_downtime,one downtime event,event_start,TIMESTAMP,,NO,
+fact_downtime,one downtime event,event_end,TIMESTAMP,,YES,
+fact_downtime,one downtime event,date_id,INTEGER,FK,NO,
+fact_downtime,one downtime event,site_id,INTEGER,FK,YES,
+fact_downtime,one downtime event,line_id,INTEGER,FK,YES,
+fact_downtime,one downtime event,equipment_id,INTEGER,FK,YES,
+fact_downtime,one downtime event,shift_id,INTEGER,FK,YES,
+fact_downtime,one downtime event,failure_reason_id,INTEGER,FK,YES,
+fact_downtime,one downtime event,source_dataset_id,INTEGER,FK,NO,
+fact_downtime,one downtime event,duration_min,NUMERIC,,YES,
+fact_downtime,one downtime event,planned_flag,BOOLEAN,,YES,
+fact_downtime,one downtime event,production_loss_quantity,NUMERIC,,YES,
+fact_downtime,one downtime event,source_event_code,VARCHAR,,YES,
+fact_downtime,one downtime event,source_record_id,VARCHAR,,YES,Unique with source_dataset_id; source-qualified downtime event identifier
+fact_downtime,one downtime event,production_record_id,VARCHAR,,YES,Linked production source record in the same integration source
+fact_quality,"one quality observation, inspection result, or production-quality summary",quality_id,BIGINT,PK,NO,
+fact_quality,"one quality observation, inspection result, or production-quality summary",timestamp,TIMESTAMP,,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",date_id,INTEGER,FK,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",site_id,INTEGER,FK,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",line_id,INTEGER,FK,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",equipment_id,INTEGER,FK,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",product_id,INTEGER,FK,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",source_dataset_id,INTEGER,FK,NO,
+fact_quality,"one quality observation, inspection result, or production-quality summary",total_quantity,NUMERIC,,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",good_quantity,NUMERIC,,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",reject_quantity,NUMERIC,,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",rework_quantity,NUMERIC,,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",quality_result,VARCHAR,,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",defect_code,VARCHAR,,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",measurement_value,DOUBLE PRECISION,,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",lower_spec_limit,DOUBLE PRECISION,,YES,
+fact_quality,"one quality observation, inspection result, or production-quality summary",upper_spec_limit,DOUBLE PRECISION,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,maintenance_id,BIGINT,PK,NO,
+fact_maintenance,one maintenance work order or maintenance intervention,site_id,INTEGER,FK,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,equipment_id,INTEGER,FK,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,source_dataset_id,INTEGER,FK,NO,
+fact_maintenance,one maintenance work order or maintenance intervention,work_order_id,VARCHAR,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,maintenance_type,VARCHAR,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,failure_reason_id,INTEGER,FK,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,start_timestamp,TIMESTAMP,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,end_timestamp,TIMESTAMP,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,duration_hours,NUMERIC,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,labor_hours,NUMERIC,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,labor_cost,NUMERIC,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,material_cost,NUMERIC,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,other_cost,NUMERIC,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,total_cost,NUMERIC,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,planned_flag,BOOLEAN,,YES,
+fact_maintenance,one maintenance work order or maintenance intervention,source_record_id,VARCHAR,,YES,Unique with source_dataset_id; source-qualified maintenance record identifier
+fact_maintenance,one maintenance work order or maintenance intervention,downtime_source_dataset_id,INTEGER,FK,YES,Source dataset of the referenced downtime event
+fact_maintenance,one maintenance work order or maintenance intervention,downtime_event_id,VARCHAR,FK,YES,Referenced downtime source record; qualified by downtime_source_dataset_id
+fact_maintenance,one maintenance work order or maintenance intervention,production_record_id,VARCHAR,,YES,Linked production source record
+fact_energy,one energy observation for a defined period/entity,energy_id,BIGINT,PK,NO,
+fact_energy,one energy observation for a defined period/entity,timestamp,TIMESTAMP,,YES,
+fact_energy,one energy observation for a defined period/entity,date_id,INTEGER,FK,YES,
+fact_energy,one energy observation for a defined period/entity,site_id,INTEGER,FK,YES,
+fact_energy,one energy observation for a defined period/entity,area_id,INTEGER,FK,YES,
+fact_energy,one energy observation for a defined period/entity,line_id,INTEGER,FK,YES,
+fact_energy,one energy observation for a defined period/entity,equipment_id,INTEGER,FK,YES,
+fact_energy,one energy observation for a defined period/entity,utility_id,INTEGER,FK,NO,
+fact_energy,one energy observation for a defined period/entity,source_dataset_id,INTEGER,FK,NO,
+fact_energy,one energy observation for a defined period/entity,consumption,NUMERIC,,YES,
+fact_energy,one energy observation for a defined period/entity,demand,NUMERIC,,YES,
+fact_energy,one energy observation for a defined period/entity,energy_cost,NUMERIC,,YES,
+fact_energy,one energy observation for a defined period/entity,measurement_unit,VARCHAR,,YES,
+fact_utility,one utility measurement,utility_measurement_id,BIGINT,PK,NO,
+fact_utility,one utility measurement,timestamp,TIMESTAMP,,YES,
+fact_utility,one utility measurement,site_id,INTEGER,FK,YES,
+fact_utility,one utility measurement,area_id,INTEGER,FK,YES,
+fact_utility,one utility measurement,line_id,INTEGER,FK,YES,
+fact_utility,one utility measurement,equipment_id,INTEGER,FK,YES,
+fact_utility,one utility measurement,utility_id,INTEGER,FK,NO,
+fact_utility,one utility measurement,source_dataset_id,INTEGER,FK,NO,
+fact_utility,one utility measurement,measurement_type,VARCHAR,,NO,
+fact_utility,one utility measurement,measurement_value,DOUBLE PRECISION,,YES,
+fact_utility,one utility measurement,engineering_unit,VARCHAR,,YES,
+fact_water,one water-use observation or benchmark record,water_id,BIGINT,PK,NO,
+fact_water,one water-use observation or benchmark record,date_id,INTEGER,FK,YES,
+fact_water,one water-use observation or benchmark record,site_id,INTEGER,FK,YES,
+fact_water,one water-use observation or benchmark record,source_dataset_id,INTEGER,FK,NO,
+fact_water,one water-use observation or benchmark record,water_use_category,VARCHAR,,YES,
+fact_water,one water-use observation or benchmark record,industry_code,VARCHAR,,YES,
+fact_water,one water-use observation or benchmark record,volume,NUMERIC,,YES,
+fact_water,one water-use observation or benchmark record,volume_unit,VARCHAR,,YES,
+fact_water,one water-use observation or benchmark record,data_quality_status,VARCHAR,,YES,
+fact_emissions,one installation/activity/year emissions record,emissions_id,BIGINT,PK,NO,
+fact_emissions,one installation/activity/year emissions record,date_id,INTEGER,FK,YES,
+fact_emissions,one installation/activity/year emissions record,site_id,INTEGER,FK,YES,
+fact_emissions,one installation/activity/year emissions record,source_dataset_id,INTEGER,FK,NO,
+fact_emissions,one installation/activity/year emissions record,installation_id,VARCHAR,,YES,
+fact_emissions,one installation/activity/year emissions record,activity_code,VARCHAR,,YES,
+fact_emissions,one installation/activity/year emissions record,verified_emissions,NUMERIC,,YES,
+fact_emissions,one installation/activity/year emissions record,emissions_unit,VARCHAR,,YES,
+fact_emissions,one installation/activity/year emissions record,country_code,VARCHAR,,YES,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",energy_price_id,BIGINT,PK,NO,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",date_id,INTEGER,FK,YES,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",source_dataset_id,INTEGER,FK,NO,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",country_code,VARCHAR,,NO,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",utility_id,INTEGER,FK,NO,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",consumption_band,VARCHAR,,YES,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",price,NUMERIC,,YES,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",currency,VARCHAR,,YES,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",price_unit,VARCHAR,,YES,
+fact_energy_price,"one energy price by country, period, commodity, and consumption band",tax_treatment,VARCHAR,,YES,
+fact_production_order,one production order/campaign/session,production_order_id,BIGINT,PK,NO,
+fact_production_order,one production order/campaign/session,site_id,INTEGER,FK,YES,
+fact_production_order,one production order/campaign/session,line_id,INTEGER,FK,YES,
+fact_production_order,one production order/campaign/session,product_id,INTEGER,FK,YES,
+fact_production_order,one production order/campaign/session,source_dataset_id,INTEGER,FK,NO,
+fact_production_order,one production order/campaign/session,order_code,VARCHAR,,YES,
+fact_production_order,one production order/campaign/session,planned_start,TIMESTAMP,,YES,
+fact_production_order,one production order/campaign/session,planned_end,TIMESTAMP,,YES,
+fact_production_order,one production order/campaign/session,actual_start,TIMESTAMP,,YES,
+fact_production_order,one production order/campaign/session,actual_end,TIMESTAMP,,YES,
+fact_production_order,one production order/campaign/session,planned_quantity,NUMERIC,,YES,
+fact_production_order,one production order/campaign/session,actual_quantity,NUMERIC,,YES,
+fact_production_order,one production order/campaign/session,changeover_duration_min,NUMERIC,,YES,
+fact_production_order,one production order/campaign/session,production_status,VARCHAR,,YES,
+fact_weather_context,one weather observation for one site/grid point/time,weather_id,BIGINT,PK,NO,
+fact_weather_context,one weather observation for one site/grid point/time,timestamp,TIMESTAMP,,NO,
+fact_weather_context,one weather observation for one site/grid point/time,site_id,INTEGER,FK,NO,
+fact_weather_context,one weather observation for one site/grid point/time,source_dataset_id,INTEGER,FK,NO,
+fact_weather_context,one weather observation for one site/grid point/time,air_temperature,DOUBLE PRECISION,,YES,
+fact_weather_context,one weather observation for one site/grid point/time,dewpoint_temperature,DOUBLE PRECISION,,YES,
+fact_weather_context,one weather observation for one site/grid point/time,surface_pressure,DOUBLE PRECISION,,YES,
+fact_weather_context,one weather observation for one site/grid point/time,wind_speed,DOUBLE PRECISION,,YES,
+fact_weather_context,one weather observation for one site/grid point/time,solar_radiation,DOUBLE PRECISION,,YES,
+fact_weather_context,one weather observation for one site/grid point/time,precipitation,DOUBLE PRECISION,,YES,
+fact_data_quality,one detected data-quality issue,data_quality_id,BIGINT,PK,NO,
+fact_data_quality,one detected data-quality issue,detected_timestamp,TIMESTAMP,,NO,
+fact_data_quality,one detected data-quality issue,source_dataset_id,INTEGER,FK,NO,
+fact_data_quality,one detected data-quality issue,site_id,INTEGER,FK,YES,
+fact_data_quality,one detected data-quality issue,line_id,INTEGER,FK,YES,
+fact_data_quality,one detected data-quality issue,equipment_id,INTEGER,FK,YES,
+fact_data_quality,one detected data-quality issue,sensor_id,INTEGER,FK,YES,
+fact_data_quality,one detected data-quality issue,issue_type,VARCHAR,,NO,
+fact_data_quality,one detected data-quality issue,severity,VARCHAR,,YES,
+fact_data_quality,one detected data-quality issue,affected_records,BIGINT,,YES,
+fact_data_quality,one detected data-quality issue,issue_start,TIMESTAMP,,YES,
+fact_data_quality,one detected data-quality issue,issue_end,TIMESTAMP,,YES,
+fact_data_quality,one detected data-quality issue,status,VARCHAR,,YES,

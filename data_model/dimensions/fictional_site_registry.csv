@@ -1,0 +1,7 @@
+site_code,site_name,country_code,reference_city,site_origin,integration_role,latitude,longitude,notes
+SITE-DE-01,Germany Manufacturing Site,DE,Dortmund,FICTIONAL_ENTERPRISE,SYNTHETIC_INTEGRATION,51.5136,7.4653,Representative city-level coordinate for weather context; not a claimed real factory address.
+SITE-NL-01,Netherlands Manufacturing Site,NL,Rotterdam,FICTIONAL_ENTERPRISE,SYNTHETIC_INTEGRATION,51.9244,4.4777,Representative city-level coordinate for weather context; not a claimed real factory address.
+SITE-PL-01,Poland Manufacturing Site,PL,Wroclaw,FICTIONAL_ENTERPRISE,SYNTHETIC_INTEGRATION,51.1079,17.0385,Representative city-level coordinate for weather context; not a claimed real factory address.
+SITE-CZ-01,Czechia Manufacturing Site,CZ,Brno,FICTIONAL_ENTERPRISE,SYNTHETIC_INTEGRATION,49.1951,16.6068,Representative city-level coordinate for weather context; not a claimed real factory address.
+SITE-FR-01,France Manufacturing Site,FR,Lyon,FICTIONAL_ENTERPRISE,SYNTHETIC_INTEGRATION,45.764,4.8357,Representative city-level coordinate for weather context; not a claimed real factory address.
+SITE-ES-01,Spain Manufacturing Site,ES,Zaragoza,FICTIONAL_ENTERPRISE,SYNTHETIC_INTEGRATION,41.6488,-0.8891,Representative city-level coordinate for weather context; not a claimed real factory address.

@@ -1,0 +1,7 @@
+site_code,country_code,reference_city,latitude,longitude
+SITE-DE-01,DE,Dortmund,51.5136,7.4653
+SITE-NL-01,NL,Rotterdam,51.9244,4.4777
+SITE-PL-01,PL,Wroclaw,51.1079,17.0385
+SITE-CZ-01,CZ,Brno,49.1951,16.6068
+SITE-FR-01,FR,Lyon,45.764,4.8357
+SITE-ES-01,ES,Zaragoza,41.6488,-0.8891

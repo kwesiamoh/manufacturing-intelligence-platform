@@ -1,0 +1,30 @@
+[
+  {
+    "logical_name": "compressed_air_flow",
+    "filename": "preair_G.xlsx",
+    "size_kb_reported": 194.8,
+    "md5": "a70d5d322672df8be938a850c6d79ffb",
+    "url": "https://zenodo.org/records/13927178/files/preair_G.xlsx?download=1"
+  },
+  {
+    "logical_name": "compressed_air_pressure",
+    "filename": "preair_P.xlsx",
+    "size_kb_reported": 336.0,
+    "md5": "2f5aff2892f4d64ea0d1a163aa5c76b4",
+    "url": "https://zenodo.org/records/13927178/files/preair_P.xlsx?download=1"
+  },
+  {
+    "logical_name": "steam_flow",
+    "filename": "steam_G.xlsx",
+    "size_kb_reported": 491.8,
+    "md5": "8a6ac97f3907f1bc6391bd4c98a73794",
+    "url": "https://zenodo.org/records/13927178/files/steam_G.xlsx?download=1"
+  },
+  {
+    "logical_name": "steam_pressure",
+    "filename": "steam_P.xlsx",
+    "size_kb_reported": 887.6,
+    "md5": "0b73ec7035a2149543dff6f48bc85b06",
+    "url": "https://zenodo.org/records/13927178/files/steam_P.xlsx?download=1"
+  }
+]

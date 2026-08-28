@@ -1,0 +1,11 @@
+{
+  "feature_rows": 1567,
+  "sensor_columns_observed": 590,
+  "label_rows": 1567,
+  "missing_sensor_values": 41951,
+  "pass_count": 1463,
+  "fail_count": 104,
+  "unexpected_labels": [],
+  "row_counts_match": true,
+  "expected_1567_rows": true
+}

@@ -1,0 +1,33 @@
+{
+  "rows": 1516948,
+  "expected_rows": 1516948,
+  "row_count_matches_uci": true,
+  "columns": [
+    "Unnamed: 0",
+    "timestamp",
+    "TP2",
+    "TP3",
+    "H1",
+    "DV_pressure",
+    "Reservoirs",
+    "Oil_temperature",
+    "Motor_current",
+    "COMP",
+    "DV_eletric",
+    "Towers",
+    "MPG",
+    "LPS",
+    "Pressure_switch",
+    "Oil_level",
+    "Caudal_impulses"
+  ],
+  "column_count": 17,
+  "missing_cells": 0,
+  "duplicate_rows": 0,
+  "invalid_timestamps": 0,
+  "timestamp_min": "2020-02-01T00:00:00",
+  "timestamp_max": "2020-09-01T03:59:50",
+  "median_sampling_interval_seconds": 10.0,
+  "minimum_sampling_interval_seconds": 8.0,
+  "maximum_sampling_interval_seconds": 172918.0
+}

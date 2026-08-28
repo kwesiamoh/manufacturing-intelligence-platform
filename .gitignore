@@ -1,0 +1,119 @@
+# Python bytecode, test caches, and local environments
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# Editor, operating-system, and temporary files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+~$*
+*.download
+*.part
+
+# Local credentials and credential-bearing configuration
+.env
+.env.*
+!.env.example
+.cdsapirc
+.netrc
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+credentials.*.json
+
+# Generated execution logs. Reproducibility comes from scripts, manifests,
+# validation gates, and versioned evidence rather than machine-specific logs.
+logs/**/*.log
+logs/**/*.json
+logs/**/*.txt
+
+# Terraform: retain *.tf, the dependency lock file, and *.tfvars.example.
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Power BI working/autorecovery files. The final PBIX is intentionally retained.
+~$*.pbix
+*.pbix.tmp
+*.pbix.autosave
+*.pbit.autosave
+
+# Materialized public-source Bronze data. Source code, provenance manifests,
+# checksums, README files, and acquisition instructions remain versioned.
+sources/**/bronze/**/*.csv
+sources/**/bronze/**/*.data
+sources/**/bronze/**/*.names
+sources/**/bronze/**/*.txt
+sources/**/bronze/**/*.xlsx
+sources/**/bronze/**/*.xls
+sources/**/bronze/**/*.zip
+sources/**/bronze/**/*.nc
+sources/**/bronze/**/*.xml
+sources/**/bronze/**/*.pdf
+sources/**/bronze/**/*.png
+sources/**/bronze/**/*.json
+
+# Retain small provenance/validation artifacts that materially define source
+# identity or accepted benchmark labels.
+!sources/step02-telemetry/data/bronze/metropt3/acquisition_manifest.json
+!sources/step02-telemetry/data/bronze/metropt3/validation_report.json
+!sources/step02-telemetry/data/bronze/metropt3/reference/failure_windows.csv
+!sources/step05-production-downtime/bronze/production_downtime/BRONZE_SOURCE_NOT_BUNDLED.txt
+!sources/step14-eu-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__download_metadata.json
+
+# Derived public-source Silver artifacts are reproducible from their governed
+# acquisition/validation/transform routes and are not part of the Git payload.
+sources/**/silver/**/*.parquet
+
+# Generated Velora Bronze/Silver facts. The governed production Silver seed is
+# the explicit exception and remains versioned as the reproducible build boundary.
+data/bronze/synthetic_enterprise/**/*.csv
+data/silver/synthetic_enterprise/**/*.parquet
+!data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet
+
+# Generated model binaries are reproducible and are not required by the clean
+# PostgreSQL/Power BI build, which consumes accepted Gold outputs.
+models/**/*.joblib
+
+# Superseded/derived benchmark outputs; retain their historical scripts and
+# small accepted corrected evidence.
+data/gold/advanced_analytics/hydraulic_condition/hydraulic_cycle_features.parquet
+data/gold/advanced_analytics/hydraulic_condition/condition_model_summary.csv
+data/gold/advanced_analytics/hydraulic_condition/*_confusion_matrix.csv
+data/gold/advanced_analytics/hydraulic_condition/*_feature_importance.csv
+data/gold/advanced_analytics/hydraulic_condition/*_holdout_predictions.csv
+!data/gold/advanced_analytics/hydraulic_condition/*_corrected.csv
+data/gold/advanced_analytics/metropt_anomaly/metropt_anomaly_windows.parquet
+data/gold/advanced_analytics/metropt_anomaly/metropt_alert_episodes.csv
+data/gold/advanced_analytics/metropt_anomaly/metropt_failure_event_evaluation.csv
+data/gold/advanced_analytics/metropt_anomaly/metropt_adaptive_*.csv
+data/gold/advanced_analytics/metropt_anomaly/metropt_adaptive_*.parquet

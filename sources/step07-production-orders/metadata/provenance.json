@@ -1,0 +1,25 @@
+{
+  "dataset_title": "Series production data set for 5-axis CNC milling",
+  "authors": ["Anna-Maria Schmitt", "Bastian Engelmann"],
+  "repository": "Zenodo",
+  "record_url": "https://zenodo.org/records/10853254",
+  "dataset_doi": "10.5281/zenodo.10853254",
+  "data_paper_doi": "10.3390/data9050066",
+  "license": "CC BY 4.0",
+  "source_type": "real industrial series production",
+  "facility": "Pabst Komponentenfertigung GmbH, Schweinfurt, Germany",
+  "machine": "HERMLE C600 U five-axis milling machine",
+  "control": "HEIDENHAIN iTNC 530",
+  "collection_period": "2021-11 to 2022-04",
+  "sessions": 13,
+  "published_total_rows": 190046,
+  "integration_status": "standalone real source; not yet joined to other project datasets",
+  "synthetic_records_added": false,
+  "limitations": [
+    "Products are anonymized identifiers.",
+    "ERP production-order IDs are not public.",
+    "Planned order quantity, due date, customer, BOM, routing and unit cost are not public.",
+    "Some sessions have 19 NC features because PocketTable was not recorded.",
+    "Only sessions 1, 2 and 13 have all detailed phase labels; sessions 3-12 primarily provide the two-phase production/changeover label."
+  ]
+}

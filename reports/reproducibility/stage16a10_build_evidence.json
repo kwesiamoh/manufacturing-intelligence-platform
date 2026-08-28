@@ -1,0 +1,356 @@
+{
+  "evidence_version": "stage16a10-build-proof-v1",
+  "stage": "16A.10",
+  "execution_result": "PASS_AFTER_FAIL_FAST_RESUME",
+  "server": {
+    "database_name": "manufacturing_intelligence_stage16a10_20260828_proof1",
+    "database_user": "postgres",
+    "postgresql_version": "18.6",
+    "captured_at": "2026-08-28T12:50:33.186525+02:00"
+  },
+  "canonical_runner": {
+    "path": "pipelines/postgres/bootstrap_database.ps1",
+    "sha256": "fd155678f71f00c5635a38950d7225471d993b564a3fba82d5f3c6fe5b980c12",
+    "build_log_created_at": "2026-08-28T06:25:06.725329+02:00",
+    "last_validation_output_at": "2026-08-28T12:38:57.183119+02:00",
+    "initial_invocation": "pipelines/postgres/bootstrap_database.ps1 -PgHost localhost -PgPort 5433 -PgUser postgres -PgDatabase manufacturing_intelligence_stage16a10_20260828_proof1 -PgAdminDatabase postgres -PythonCommand python",
+    "resume_boundary": "SQL 623 was canceled during diagnostic section 4; SQL 410 was the last completed mandatory step.",
+    "resume_sequence": [
+      "sql/validation/623_validate_quality_reject_laney_pprime.sql",
+      "sql/validation/721_validate_stage13b_reliability_kpis.sql",
+      "sql/validation/731_validate_stage13c_failure_downtime_analysis.sql",
+      "sql/validation/743_validate_stage13d2_corrected_reliability_trends.sql",
+      "sql/validation/415_validate_stage16a9a_can_air_powerbi.sql",
+      "sql/validation/751_validate_powerbi_advanced_analytics_views.sql"
+    ],
+    "all_psql_on_error_stop": true,
+    "mandatory_python_nonzero_propagation": true,
+    "completion_after_failed_step_prevented": true,
+    "resume_completion_evidence": "final_validator_output_plus_fresh_database_assertions"
+  },
+  "input_preflight": {
+    "production_seed_manifest": {
+      "path": "config/canonical_production_seed.json",
+      "sha256": "3cbac6433e63b19210bdf8cf3c8cec4f3cff32f7b29f2dd7082fdd983bdfb122",
+      "status": "PASS"
+    },
+    "stage3h_energy_manifest": {
+      "path": "config/stage3h_energy_artifact_manifest.json",
+      "sha256": "d0d8e90b63a1f525be281043187792481fc7d0243c8088f833d8dc65ef78d70d",
+      "status": "PASS"
+    },
+    "stage12e_forecast_sha256": "270b091a9f60e207652d7d0fe3e727ad019ea45ef3ba86c4d9f8381b50887da5",
+    "stage12d_energy_anomaly_sha256": "8a7c6407b565edea05da4757e8d401ec343f5f0ffe3d67da67da5ff44c193999",
+    "status": "PASS"
+  },
+  "canonical_counts": {
+    "facts": {
+      "fact_production": 65790,
+      "fact_downtime": 170408,
+      "fact_quality": 257794,
+      "fact_maintenance": 46670,
+      "fact_energy": 65790,
+      "fact_line_energy_detail": 65790,
+      "fact_site_energy_detail": 13158
+    },
+    "dimensions": {
+      "dim_source_dataset": 15,
+      "dim_site": 6,
+      "dim_area": 12,
+      "dim_line": 30,
+      "dim_equipment": 255,
+      "dim_sensor": 0,
+      "dim_product": 6,
+      "dim_shift": 3,
+      "dim_failure_reason": 23,
+      "dim_utility": 7,
+      "dim_time": 8035
+    },
+    "gold": {
+      "gold.vw_shift_manufacturing_performance": 65790,
+      "gold.vw_line_daily_performance": 21930,
+      "gold.vw_site_daily_performance": 4386,
+      "gold.vw_site_executive_summary": 6
+    }
+  },
+  "mandatory_validations": {
+    "status": "PASS",
+    "count": 19,
+    "files": [
+      {
+        "path": "sql/admin/010_verify_schema.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/020_dimension_counts.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/030_synthetic_fact_counts.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/040_reference_counts.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/050_stage4g_database_validation.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/100_validate_oee_views.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/110_validate_production_loss.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/120_validate_production_benchmark.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/200_validate_energy_views.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/210_validate_utility_views.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/220_validate_energy_cost.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/300_validate_data_quality.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/410_validate_gold_models.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/623_validate_quality_reject_laney_pprime.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/721_validate_stage13b_reliability_kpis.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/731_validate_stage13c_failure_downtime_analysis.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/743_validate_stage13d2_corrected_reliability_trends.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/415_validate_stage16a9a_can_air_powerbi.sql",
+        "status": "PASS"
+      },
+      {
+        "path": "sql/validation/751_validate_powerbi_advanced_analytics_views.sql",
+        "status": "PASS"
+      }
+    ]
+  },
+  "data_quality": {
+    "pass": 24,
+    "warn": 0,
+    "fail": 0,
+    "total": 24
+  },
+  "electricity_reconciliation": {
+    "status": "PASS",
+    "line": {
+      "production_kwh": "112706853.147619",
+      "idle_kwh": "913097.120636",
+      "total_kwh": "113619950.268370",
+      "actual_units": "17526134312",
+      "weighted_kwh_per_1000_units": "6.482887112794482850000"
+    },
+    "site": {
+      "auxiliary_kwh": "19219082.514712",
+      "total_kwh": "132839032.783082",
+      "production_units": "17526134312",
+      "weighted_kwh_per_1000_units": "7.579482755197659700000"
+    },
+    "site_energy_intensity_order": [
+      {
+        "site_code": "SITE-DE-01",
+        "total_site_energy_intensity_rank": 1,
+        "site_total_electricity_kwh": "22337943.076870",
+        "total_site_kwh_per_1000_units": "6.891110711459468520000"
+      },
+      {
+        "site_code": "SITE-ES-01",
+        "total_site_energy_intensity_rank": 2,
+        "site_total_electricity_kwh": "21919458.606578",
+        "total_site_kwh_per_1000_units": "7.053058399692215210000"
+      },
+      {
+        "site_code": "SITE-PL-01",
+        "total_site_energy_intensity_rank": 3,
+        "site_total_electricity_kwh": "21786555.682250",
+        "total_site_kwh_per_1000_units": "7.092064964459603690000"
+      },
+      {
+        "site_code": "SITE-NL-01",
+        "total_site_energy_intensity_rank": 4,
+        "site_total_electricity_kwh": "22355842.912251",
+        "total_site_kwh_per_1000_units": "8.200450352945043300000"
+      },
+      {
+        "site_code": "SITE-FR-01",
+        "total_site_energy_intensity_rank": 5,
+        "site_total_electricity_kwh": "22278186.070212",
+        "total_site_kwh_per_1000_units": "8.217849205756100470000"
+      },
+      {
+        "site_code": "SITE-CZ-01",
+        "total_site_energy_intensity_rank": 6,
+        "site_total_electricity_kwh": "22161046.434921",
+        "total_site_kwh_per_1000_units": "8.307190388907191150000"
+      }
+    ],
+    "site_cost_intensity_order": [
+      {
+        "site_code": "SITE-ES-01",
+        "cost_intensity_rank": 1,
+        "benchmark_electricity_cost_eur": "2680943.7430473239",
+        "benchmark_electricity_cost_eur_per_1000_units": "0.862651451634288740000"
+      },
+      {
+        "site_code": "SITE-FR-01",
+        "cost_intensity_rank": 2,
+        "benchmark_electricity_cost_eur": "2986913.4374470334",
+        "benchmark_electricity_cost_eur_per_1000_units": "1.101795457773225550000"
+      },
+      {
+        "site_code": "SITE-PL-01",
+        "cost_intensity_rank": 3,
+        "benchmark_electricity_cost_eur": "3891487.8967188867",
+        "benchmark_electricity_cost_eur_per_1000_units": "1.266775959195049930000"
+      },
+      {
+        "site_code": "SITE-DE-01",
+        "cost_intensity_rank": 4,
+        "benchmark_electricity_cost_eur": "4438277.1790912242",
+        "benchmark_electricity_cost_eur_per_1000_units": "1.369179754107744000000"
+      },
+      {
+        "site_code": "SITE-CZ-01",
+        "cost_intensity_rank": 5,
+        "benchmark_electricity_cost_eur": "3753654.4280042482",
+        "benchmark_electricity_cost_eur_per_1000_units": "1.407078049277458220000"
+      },
+      {
+        "site_code": "SITE-NL-01",
+        "cost_intensity_rank": 6,
+        "benchmark_electricity_cost_eur": "4250853.3008490105",
+        "benchmark_electricity_cost_eur_per_1000_units": "1.559275201033112910000"
+      }
+    ],
+    "accepted_stage3h_summary_matched": true
+  },
+  "compressed_air_reconciliation": {
+    "status": "PASS",
+    "can_rows": 6579,
+    "positive_can_null_rows": 0,
+    "can_intensity_min": "5",
+    "can_intensity_max": "5",
+    "can_nm3": "12805152.250",
+    "pet_nm3": "331230504.302",
+    "enterprise_nm3": "344035656.552"
+  },
+  "reliability_reconciliation": {
+    "status": "PASS",
+    "corrective_failures": "46670",
+    "corrective_downtime_hours": "14856.65201666666666666673",
+    "repair_hours": "13207.527188",
+    "mttr_hours": "0.28299822558388686522",
+    "monthly_trend": {
+      "rows": 720,
+      "months": 24,
+      "sites": 6,
+      "lines": 30,
+      "failures": "46670",
+      "downtime_hours": "14856.65201666666666666673"
+    },
+    "ambiguous_source_qualified_links": 0,
+    "downtime_multiplication": 0,
+    "sql_740_executed": false,
+    "sql_742_executed": true
+  },
+  "advanced_analytics_bridge": {
+    "status": "PASS",
+    "forecast": {
+      "rows": 720,
+      "production_rows": 360,
+      "energy_rows": 360,
+      "dates": 60,
+      "sites": 6,
+      "min_date": "2025-11-02",
+      "max_date": "2025-12-31"
+    },
+    "energy_anomaly": {
+      "rows": 32850,
+      "high": 254,
+      "low": 282,
+      "min_date": "2025-01-01",
+      "max_date": "2025-12-31"
+    },
+    "monthly_reliability": {
+      "rows": 720,
+      "months": 24,
+      "sites": 6,
+      "lines": 30,
+      "failures": "46670"
+    },
+    "monthly_equipment_type_reliability_rows": 1217,
+    "load_audit": {
+      "load_id": 1,
+      "loaded_at": "2026-08-28T06:34:30.841211+02:00",
+      "loader_version": "16A.4",
+      "forecast_sha256": "270b091a9f60e207652d7d0fe3e727ad019ea45ef3ba86c4d9f8381b50887da5",
+      "anomaly_sha256": "8a7c6407b565edea05da4757e8d401ec343f5f0ffe3d67da67da5ff44c193999",
+      "forecast_row_count": 720,
+      "anomaly_row_count": 32850,
+      "reliability_row_count": 720
+    }
+  },
+  "quality_spc": {
+    "accepted_method": "Laney p-prime",
+    "accepted_view_rows": 65790,
+    "sql_623_status": "PASS",
+    "sql_623_sha256": "cd4a5c5abb551728acf8877f70f0e099d45325a994826c0c1118cdff85c2b47a",
+    "ordinary_pchart_present": false,
+    "ordinary_pchart_comparison": "optional_skipped_when_absent",
+    "performance_observation": "The original SQL 623 repeatedly expanded the nested accepted Laney view; section 4 remained active for more than 40 minutes. The validation now materializes the unchanged accepted view once in a session-local temporary table. No SPC calculation or accepted view definition changed."
+  },
+  "business_case_evidence": {
+    "status": "PASS_READ_ONLY",
+    "sites": 6,
+    "analysis_period": "2024-2025",
+    "two_year_technical_opportunity_eur": "573908429.76",
+    "annualized_base_eur_per_year": "286954214.88",
+    "annual_sensitivity_reconciles": true
+  },
+  "power_bi": {
+    "compatibility_views_status": "PASS",
+    "pbix_modified": false,
+    "pbix_refresh_status": "MANUAL_PENDING",
+    "manual_refresh_database": "manufacturing_intelligence_stage16a10_20260828_proof1"
+  },
+  "safety": {
+    "existing_manufacturing_intelligence_database_targeted": false,
+    "disposable_database_retained": true,
+    "credentials_recorded": false
+  },
+  "local_generated_log": {
+    "path": "logs/orchestration/stage16a10_clean_build_20260828_proof1.log",
+    "sha256": "3c64e6c9ad6246633d2b8b571ff05b4b4b9132ca0a2693d9bdef0b38fdf49df7",
+    "release_treatment": "exclude_generated"
+  }
+}

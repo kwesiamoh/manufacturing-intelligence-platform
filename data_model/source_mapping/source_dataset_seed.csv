@@ -1,0 +1,16 @@
+source_code,source_name,publisher,source_domain,integration_role,is_real_data,source_url,reference_period,notes
+STEEL_ENERGY,Steel Industry Energy Consumption,UCI Machine Learning Repository,energy,OPERATIONAL,True,,,Real industrial energy dataset.
+METROPT3,MetroPT-3,UCI Machine Learning Repository,telemetry,OPERATIONAL,True,,,Real compressor telemetry.
+SECOM,SECOM Manufacturing Data,UCI Machine Learning Repository,quality_process,OPERATIONAL,True,,,Real semiconductor process/quality data.
+HYDRAULIC_CM,Condition Monitoring of Hydraulic Systems,UCI Machine Learning Repository,reliability,OPERATIONAL,True,,,Real hydraulic condition-monitoring data.
+BEVERAGE_BOTTLING,Industrial Production Time-Series Dataset from a Beverage Bottling Line,Zenodo,production_downtime,OPERATIONAL,True,,,Real beverage production/downtime anchor source.
+FMUCD,Facility Management Unified Classification Database,Mendeley Data,maintenance,BENCHMARK,True,,,Real facilities maintenance benchmark; not beverage-plant operational data.
+CNC_SERIES,Industrial Series Production CNC Dataset,Zenodo,production_orders,OPERATIONAL,True,,,Real CNC series-production/changeover reference.
+ITAC,Industrial Training and Assessment Centers Database,U.S. Department of Energy,energy_opportunity,BENCHMARK,True,,,Real industrial assessment/recommendation benchmark.
+INDUSTRIAL_PARK_UTILITIES,Industrial Park Steam and Compressed Air Dataset,Zenodo,utilities,OPERATIONAL,True,,,Real industrial utility measurements.
+STATCAN_WATER,Industrial Water Survey,Statistics Canada,water,BENCHMARK,True,,,Aggregate industrial water benchmark.
+EIA_MECS,Manufacturing Energy Consumption Survey 2022,U.S. Energy Information Administration,fuels_energy,BENCHMARK,True,,,Manufacturing energy/fuel benchmark.
+EU_ETS,EU Emissions Trading System Data,European Environment Agency,emissions,BENCHMARK,True,,,EU ETS installation emissions benchmark.
+ERA5_LAND_TS,ERA5-Land Hourly Time-Series,Copernicus Climate Change Service / ECMWF,weather,EXTERNAL_CONTEXT,True,,2024-2025,Real external weather context for fictional site locations.
+EUROSTAT_ENERGY_PRICES,Non-household Electricity and Gas Prices,Eurostat,energy_prices,BENCHMARK,True,,,European energy-price benchmark.
+SYNTHETIC_ENTERPRISE,Fictional Beverage Enterprise Integration Layer,Portfolio Project,enterprise_integration,SYNTHETIC_INTEGRATION,False,,2024-2025,Synthetic master and operational integration data for the six-site beverage enterprise.

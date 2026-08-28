@@ -1,0 +1,7 @@
+analytics_domain,equipment_scope,rule
+PRODUCTION_RATE,FILLER_CAPPER;FILLER_SEAMER,Production performance is anchored primarily to the filling machine.
+DOWNTIME,ALL_LINE_EQUIPMENT,Downtime events may be assigned to any line asset when generated later.
+QUALITY,INSPECTION_SYSTEM;FILLER_CAPPER;FILLER_SEAMER,Quality events will focus on fill/closure/inspection relationships.
+MAINTENANCE,ALL_EQUIPMENT,Maintenance events will reference equipment IDs from this hierarchy.
+TELEMETRY,PROCESS;QUALITY;UTILITIES,Synthetic telemetry mappings will be added only where needed.
+ENERGY,SITE_UTILITY;PROCESS;PACKAGING,Energy allocation may reference these asset groups later.

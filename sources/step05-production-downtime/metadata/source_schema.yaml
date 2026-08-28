@@ -1,0 +1,46 @@
+dataset_id: zenodo_18146866
+source_file: production_raw.xlsx
+worksheets:
+  processed_hourly:
+    description: Hourly aggregated production volume.
+    columns:
+      - date
+      - hour_start
+      - hour_end
+      - production_gallons
+  daily_operation_summary:
+    description: Daily production and operating summary.
+    columns:
+      - date
+      - product_type_l
+      - production_units
+      - liters_produced
+      - production_start_time
+      - production_end_time
+      - efficiency
+      - gallons_per_hour
+      - monitored_time_dec
+      - operation_time_dec
+      - pause_time_dec
+  hourly_operation_breakdown:
+    description: Hourly monitored, operating and downtime durations.
+    columns:
+      - date
+      - hour_start
+      - hour_end
+      - monitored_time_h
+      - operation_time_h
+      - downtime_h
+      - efficiency
+  downtime_event_log:
+    description: Event-level downtime log.
+    columns:
+      - downtime_id
+      - date
+      - downtime_start_time
+      - downtime_end_time
+      - downtime_time
+notes:
+  - The source reports real operating data and may contain zero-production or extended-downtime periods.
+  - Missing or zero values are not automatically imputed because the repository states they can reflect real operating conditions.
+  - Detailed downtime cause/reason fields are not present and must not be invented during Silver transformation.

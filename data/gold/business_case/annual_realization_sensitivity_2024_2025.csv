@@ -1,0 +1,5 @@
+realization_rate_pct,annualized_technical_opportunity_base_eur,illustrative_annual_value_eur,currency,scenario_type,realization_status,analysis_period_basis,evidence_version
+0.5,286954214.88,1434771.07,EUR,ILLUSTRATIVE_REALIZATION_SENSITIVITY,NOT_REALIZED,Simple annualization of 2024-2025 modeled technical opportunity,stage16a7-v1
+1.0,286954214.88,2869542.15,EUR,ILLUSTRATIVE_REALIZATION_SENSITIVITY,NOT_REALIZED,Simple annualization of 2024-2025 modeled technical opportunity,stage16a7-v1
+2.0,286954214.88,5739084.30,EUR,ILLUSTRATIVE_REALIZATION_SENSITIVITY,NOT_REALIZED,Simple annualization of 2024-2025 modeled technical opportunity,stage16a7-v1
+5.0,286954214.88,14347710.74,EUR,ILLUSTRATIVE_REALIZATION_SENSITIVITY,NOT_REALIZED,Simple annualization of 2024-2025 modeled technical opportunity,stage16a7-v1

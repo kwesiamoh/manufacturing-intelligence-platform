@@ -1,0 +1,5 @@
+source_file,logical_domain,measurement_family,source_evidence,unit_policy
+preair_G.xlsx,compressed_air,flow_rate,Zenodo description/file naming,preserve source unit until verified
+preair_P.xlsx,compressed_air,pressure,Zenodo description/file naming,preserve source unit until verified
+steam_G.xlsx,steam,flow_rate,Zenodo description/file naming,preserve source unit until verified
+steam_P.xlsx,steam,pressure,Zenodo description/file naming,preserve source unit until verified

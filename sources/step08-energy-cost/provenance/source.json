@@ -1,0 +1,20 @@
+{
+  "dataset_name": "Industrial Training and Assessment Centers (ITAC) Database",
+  "publisher": "U.S. Department of Energy, Industrial Training and Assessment Centers",
+  "authoritative_page": "https://itac.university/download",
+  "direct_archive_url": "https://itac.university/storage/ITAC_Database.zip",
+  "oedi_catalog": "https://data.openei.org/submissions/281",
+  "snapshot_checked_date": "2026-08-24",
+  "reported_generated_date": "2026-08-24",
+  "reported_size_mb": 15.58,
+  "reported_assessments": 23121,
+  "reported_recommendations": 169956,
+  "data_origin": "real industrial/manufacturing facility assessments",
+  "synthetic": false,
+  "integration_status": "benchmark/reference domain only",
+  "notes": [
+    "Do not relabel assessed facilities as fictional European beverage sites.",
+    "Use original workbook as immutable Bronze source.",
+    "Normalize to Parquet only after validation."
+  ]
+}

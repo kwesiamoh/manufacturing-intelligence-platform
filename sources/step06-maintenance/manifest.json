@@ -1,0 +1,12 @@
+{
+  "step": 6,
+  "domain": "maintenance_work_orders_cost_labor",
+  "raw_data_bundled": true,
+  "workspace_raw_data_status": "The retained local workspace contains the approximately 1.34 GiB official source CSV.",
+  "public_release_raw_data_bundled": false,
+  "raw_data_reason": "The public Git payload uses the reproducible public-API downloader instead of redistributing the 1.34 GiB materialized source.",
+  "synthetic_records_included": false,
+  "silver_format": "Parquet",
+  "preferred_engine": "Polars",
+  "source_license": "CC BY 4.0"
+}

@@ -1,0 +1,5 @@
+event_id,start_time,end_time,failure,severity,report_note,provenance
+1,2020-04-18 00:00:00,2020-04-18 23:59:00,Air leak,High stress,,UCI MetroPT-3 dataset page
+2,2020-05-29 23:30:00,2020-05-30 06:00:00,Air leak,High stress,Maintenance note on UCI page: 30Apr at 12:00,UCI MetroPT-3 dataset page
+3,2020-06-05 10:00:00,2020-06-07 14:30:00,Air leak,High stress,Maintenance on 8Jun at 16:00,UCI MetroPT-3 dataset page
+4,2020-07-15 14:30:00,2020-07-15 19:00:00,Air leak,High stress,Maintenance on 16Jul at 00:00,UCI MetroPT-3 dataset page

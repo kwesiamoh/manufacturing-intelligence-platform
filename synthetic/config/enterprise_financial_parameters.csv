@@ -1,0 +1,4 @@
+parameter_name,parameter_value,unit,data_class,notes
+enterprise_currency,EUR,text,SYNTHETIC_REFERENCE,Common reporting currency for the fictional European enterprise.
+maintenance_labor_rate,42.0,EUR_per_labor_hour,SYNTHETIC_REFERENCE,Single internal burdened labor rate used consistently across sites; not a country wage claim.
+planned_changeover_labor_factor,0.5,fraction_of_two_person_crew,SYNTHETIC_REFERENCE,Reserved for later loss-costing logic if changeover labor cost is reported.

@@ -1,0 +1,5 @@
+filename,logical_domain,description,source_url
+Table3_1.xlsx,fuel_consumption,"Energy consumption as fuel by manufacturing industry and region, physical units",https://www.eia.gov/consumption/manufacturing/data/2022/xls/Table3_1.xlsx
+Table7_3.xlsx,purchased_energy_prices,"Average prices of purchased electricity, natural gas and steam by supplier/industry/region",https://www.eia.gov/consumption/manufacturing/data/2022/xls/Table7_3.xlsx
+Table7_7.xlsx,purchased_energy_quantities,"Purchased electricity, natural gas and steam quantities by supplier/industry/region",https://www.eia.gov/consumption/manufacturing/data/2022/xls/Table7_7.xlsx
+Table7_10.xlsx,purchased_energy_expenditures,"Purchased electricity, natural gas and steam expenditures by supplier/industry/region",https://www.eia.gov/consumption/manufacturing/data/2022/xls/Table7_10.xlsx

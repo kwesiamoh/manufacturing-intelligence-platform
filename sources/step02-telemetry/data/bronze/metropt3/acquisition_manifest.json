@@ -1,0 +1,9 @@
+{
+  "downloaded_at_utc": "2026-08-25T06:05:16.324030+00:00",
+  "source_url": "https://archive.ics.uci.edu/static/public/791/metropt%2B3%2Bdataset.zip",
+  "archive_file": "data\\bronze\\metropt3\\metropt3_dataset.zip",
+  "archive_sha256": "aab991a970e58210de853bb8078ce0e63abb4d9412fdc5c79792dae3d8e1721a",
+  "csv_file": "data\\bronze\\metropt3\\MetroPT3(AirCompressor).csv",
+  "csv_sha256": "db30ccb4ea402e3c8bf2c99db06e288d4f2a772f6928f9dbe26a920d69793e24",
+  "csv_bytes": 218300507
+}

@@ -1,0 +1,17 @@
+target_column,target_name,value,meaning
+1,cooler_condition,3,close_to_total_failure
+1,cooler_condition,20,reduced_efficiency
+1,cooler_condition,100,full_efficiency
+2,valve_condition,73,close_to_total_failure
+2,valve_condition,80,severe_lag
+2,valve_condition,90,small_lag
+2,valve_condition,100,optimal_switching
+3,internal_pump_leakage,0,no_leakage
+3,internal_pump_leakage,1,weak_leakage
+3,internal_pump_leakage,2,severe_leakage
+4,hydraulic_accumulator_pressure,90,close_to_total_failure
+4,hydraulic_accumulator_pressure,100,severely_reduced_pressure
+4,hydraulic_accumulator_pressure,115,slightly_reduced_pressure
+4,hydraulic_accumulator_pressure,130,optimal_pressure
+5,stable_flag,0,conditions_stable
+5,stable_flag,1,static_conditions_may_not_have_been_reached

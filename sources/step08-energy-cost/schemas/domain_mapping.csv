@@ -1,0 +1,9 @@
+logical_domain,grain,description,project_role
+facility_profile,assessment-level,industry / size / products / operating context,benchmark
+energy_context,assessment-level,plant energy usage and/or energy cost fields where present,benchmark
+recommendation,recommendation-level,energy-efficiency improvement recommendation,benchmark
+estimated_energy_savings,recommendation-level,estimated energy reduction,benchmark
+estimated_cost_savings,recommendation-level,estimated annual monetary savings,benchmark
+implementation_cost,recommendation-level,estimated project implementation cost,benchmark
+implementation_status,recommendation-level,whether recommendation was implemented,benchmark
+payback,recommendation-level,simple payback / related economics where present,benchmark

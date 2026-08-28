@@ -1,0 +1,37 @@
+{
+  "directly_supported_by_real_operational_data": [
+    "equipment telemetry",
+    "production output / operating time",
+    "downtime events",
+    "process measurements",
+    "quality/pass-fail context",
+    "condition monitoring",
+    "steam pressure/flow",
+    "compressed-air pressure/flow"
+  ],
+  "supported_by_real_benchmark_or_survey_data": [
+    "electricity consumption",
+    "water use",
+    "natural gas consumption",
+    "purchased steam quantities/prices",
+    "maintenance labour/cost distributions",
+    "energy-efficiency project economics",
+    "industrial CO2/GHG emissions",
+    "European energy prices",
+    "ambient weather"
+  ],
+  "remaining_integration_gaps": [
+    "one common real company/site identifier across all domains",
+    "one real six-site multinational manufacturing network",
+    "shared asset hierarchy across datasets",
+    "shared product/SKU master across datasets",
+    "shared ERP production-order IDs and planned quantities",
+    "shared MES/SCADA/CMMS identifiers",
+    "line-level utility allocation across all utilities",
+    "product-level energy intensity tied to production orders",
+    "site-level financial contribution margin / cost of lost production",
+    "complete maintenance work orders tied to the same physical assets as telemetry",
+    "consistent shift roster across all datasets",
+    "site-level utility tariffs tied to the same operational timestamps"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "dataset_name": "European Union Emissions Trading System (EU ETS) data from the Union Registry",
+  "publisher": "European Environment Agency",
+  "underlying_source": "European Commission Union Registry",
+  "official_datahub": "https://www.eea.europa.eu/en/datahub/datahubitem-view/98f04097-26de-4fca-86c4-63834818c0c0/folder_contents",
+  "viewer": "https://www.eea.europa.eu/en/analysis/maps-and-charts/emissions-trading-viewer-1-dashboards",
+  "release": "July 2026",
+  "published_date": "2026-07-08",
+  "registry_extract_date": "2026-07-01",
+  "temporal_coverage": "2005-2025",
+  "reported_stationary_installations": ">16000",
+  "data_origin": "real verified EU ETS emissions/compliance records",
+  "synthetic": false,
+  "project_role": "industrial GHG emissions benchmark/reference domain",
+  "integration_rule": "do not relabel real installations as fictional sites"
+}

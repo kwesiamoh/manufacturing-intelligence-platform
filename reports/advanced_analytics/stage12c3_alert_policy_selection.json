@@ -1,0 +1,50 @@
+{
+  "selection_protocol": {
+    "policy_grid_declared_in_advance": true,
+    "validation_events": [
+      "1",
+      "2"
+    ],
+    "test_events": [
+      "3",
+      "4"
+    ],
+    "alert_budget": {
+      "max_false_alert_episodes_per_day": 0.5,
+      "max_time_in_alert_pct": 3.0
+    }
+  },
+  "selected_policy": {
+    "name": "q0.9850_3of4",
+    "quantile": 0.985,
+    "persistence": "3-of-4",
+    "lookback_days": 7,
+    "lag_hours": 24
+  },
+  "validation": {
+    "events": 2,
+    "detected": 2,
+    "early_2h": 0,
+    "false_alerts_per_day": 0.21001968934587617,
+    "time_in_alert_pct": 1.8537212076718361
+  },
+  "final_time_ordered_test": {
+    "events": 2,
+    "detected": 2,
+    "early_2h": 0,
+    "median_lead_h": 0.3333333333333333,
+    "false_alerts": 5,
+    "false_alerts_per_day": 0.056340232403458666,
+    "time_in_alert_pct": 0.12970791698693312
+  },
+  "full_period_descriptive": {
+    "events": 4,
+    "detected": 4,
+    "early_2h": 0,
+    "median_lead_h": -0.25,
+    "false_alerts": 25,
+    "false_alerts_per_day": 0.13588495074170537,
+    "time_in_alert_pct": 1.01149964796996
+  },
+  "limitation": "Only four independent failure events are available. Events 1-2 are used for policy validation and events 3-4 for the final time-ordered test; all event-level results should therefore be interpreted as small-sample evidence."
+}

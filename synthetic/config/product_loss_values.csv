@@ -1,0 +1,7 @@
+product_code,standard_loss_value,unit,data_class,notes
+BEV-WAT-STILL,0.12,EUR_per_unit,SYNTHETIC_REFERENCE,Internal loss-accounting value for portfolio modelling; not a retail price or market claim.
+BEV-WAT-SPARK,0.15,EUR_per_unit,SYNTHETIC_REFERENCE,Internal loss-accounting value for portfolio modelling; not a retail price or market claim.
+BEV-CSD-COLA,0.18,EUR_per_unit,SYNTHETIC_REFERENCE,Internal loss-accounting value for portfolio modelling; not a retail price or market claim.
+BEV-CSD-CITRUS,0.18,EUR_per_unit,SYNTHETIC_REFERENCE,Internal loss-accounting value for portfolio modelling; not a retail price or market claim.
+BEV-JUI-ORANGE,0.28,EUR_per_unit,SYNTHETIC_REFERENCE,Internal loss-accounting value for portfolio modelling; not a retail price or market claim.
+BEV-ENE-CLASSIC,0.35,EUR_per_unit,SYNTHETIC_REFERENCE,Internal loss-accounting value for portfolio modelling; not a retail price or market claim.

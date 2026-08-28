@@ -1,0 +1,4 @@
+shift_code,shift_name,start_time,end_time,crosses_midnight,data_class
+SHIFT-A,Morning,06:00:00,14:00:00,False,SYNTHETIC_MASTER_DATA
+SHIFT-B,Afternoon,14:00:00,22:00:00,False,SYNTHETIC_MASTER_DATA
+SHIFT-C,Night,22:00:00,06:00:00,True,SYNTHETIC_MASTER_DATA

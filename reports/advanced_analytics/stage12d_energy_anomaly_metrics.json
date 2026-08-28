@@ -1,0 +1,42 @@
+{
+  "source": {
+    "source_code": "SYNTHETIC_ENTERPRISE",
+    "is_real_data": false,
+    "role": "SYNTHETIC_INTEGRATION",
+    "reference_period": "2024-2025"
+  },
+  "design": {
+    "train": "first 80% of 2024",
+    "calibration": "last 20% of 2024",
+    "holdout": "2025",
+    "model": "HistGradientBoostingRegressor",
+    "high_quantile": 0.995,
+    "low_quantile": 0.005,
+    "features": [
+      "site_code",
+      "line_code",
+      "product_code",
+      "shift_code",
+      "actual_quantity",
+      "operating_time_min",
+      "planned_production_time_min",
+      "nominal_rate",
+      "actual_rate",
+      "shift_mean_air_temperature_c"
+    ]
+  },
+  "model_quality_2025": {
+    "mae_kwh": 0.7217034562413571,
+    "rmse_kwh": 1.2645945867830606,
+    "r2": 0.9995792918824813,
+    "mape_pct": 0.0422148457121889
+  },
+  "anomaly_summary_2025": {
+    "rows": 32850,
+    "high_count": 254,
+    "low_count": 282,
+    "high_pct": 0.7732115677321157,
+    "low_pct": 0.8584474885844748,
+    "excess_kwh_high": 1220.8896621805666
+  }
+}

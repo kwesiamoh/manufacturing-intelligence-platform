@@ -1,0 +1,24 @@
+failure_category,failure_reason,planned_flag,source_reason_code
+MECHANICAL,Mould handling / stretch-blow fault,False,UNPLANNED_STOP
+PROCESS,Bottle formation instability,False,UNPLANNED_STOP
+ELECTRICAL,Drive / sensor fault,False,UNPLANNED_STOP
+MECHANICAL,Filler / capper mechanical fault,False,UNPLANNED_STOP
+PROCESS,Filling process interruption,False,UNPLANNED_STOP
+ELECTRICAL,Control / sensor fault,False,UNPLANNED_STOP
+MECHANICAL,Filler / seamer mechanical fault,False,UNPLANNED_STOP
+PROCESS,Filling / seaming process interruption,False,UNPLANNED_STOP
+MECHANICAL,Conveyor jam,False,UNPLANNED_STOP
+ELECTRICAL,Conveyor drive / sensor fault,False,UNPLANNED_STOP
+QUALITY,Inspection system stop,False,UNPLANNED_STOP
+ELECTRICAL,Inspection sensor / control fault,False,UNPLANNED_STOP
+MECHANICAL,Label feed / applicator fault,False,UNPLANNED_STOP
+MATERIAL,Label material interruption,False,UNPLANNED_STOP
+MECHANICAL,Packing machine jam,False,UNPLANNED_STOP
+MATERIAL,Packaging material interruption,False,UNPLANNED_STOP
+MECHANICAL,Palletiser handling fault,False,UNPLANNED_STOP
+ELECTRICAL,Palletiser control fault,False,UNPLANNED_STOP
+MECHANICAL,Can depalletiser handling fault,False,UNPLANNED_STOP
+ELECTRICAL,Depalletiser control fault,False,UNPLANNED_STOP
+PROCESS,Can rinser interruption,False,UNPLANNED_STOP
+MECHANICAL,Can rinser mechanical fault,False,UNPLANNED_STOP
+CHANGEOVER,Planned product changeover,True,PLANNED_CHANGEOVER

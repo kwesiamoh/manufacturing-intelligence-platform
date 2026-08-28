@@ -1,0 +1,24 @@
+ordinal,column_name,description
+1,CoolantFlow,Coolant flow on/off
+2,ProgramStatus,NC program status code
+3,ProgramDetail,Program status plus program name/detail
+4,ToolNumber,Tool number and name
+5,PocketTable,Tool changer pocket table number/tool name; absent in some sessions
+6,DriveStatus,Drive on/off
+7,DoorStatusMain,Main door open/closed
+8,DoorStatusTooling,Tooling door open/closed
+9,CabinDoorLockFront,Front cabin door locked/unlocked
+10,CabinDoorLockSide,Side cabin door locked/unlocked
+11,DNCMode,DNC mode on/off
+12,SpindleCleaning,Spindle cleaning on/off
+13,ChipCleaningGunStatus,Chip cleaning gun on/off
+14,OverrideSpindle,Spindle override percentage
+15,OverrideFeed,Feed override percentage
+16,FeedRate,Feed rate
+17,SpindleSpeed,Spindle speed rpm
+18,SpindleApproval,PLC spindle lock/approval on/off
+19,RapidTraverseKey,Rapid traverse on/off
+20,Warmup,Machine warmup-program indicator
+21,Production,Two-phase label: 1 changeover/idle; 2 production
+22,Phase_compressed,Six-phase production label where available
+23,Phase,Twenty-three-phase detailed production label where available

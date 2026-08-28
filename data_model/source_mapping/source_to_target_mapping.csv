@@ -1,0 +1,15 @@
+step,source_name,source_domain,canonical_target,integration_role
+1,Steel Industry Energy Consumption,energy,fact_energy,OPERATIONAL
+2,MetroPT-3,telemetry,fact_telemetry;dim_equipment;dim_sensor,OPERATIONAL
+3,SECOM,quality/process,fact_quality;fact_telemetry;dim_sensor,OPERATIONAL
+4,Hydraulic Condition Monitoring,reliability,fact_telemetry;fact_maintenance;dim_equipment;dim_sensor,OPERATIONAL
+5,Beverage Bottling Production & Downtime,production/downtime,fact_production;fact_downtime;dim_line;dim_time,OPERATIONAL
+6,FMUCD,maintenance,fact_maintenance,BENCHMARK
+7,Series Production CNC,production orders/changeover,fact_production_order;fact_telemetry;dim_product,OPERATIONAL
+8,ITAC Database,energy cost/opportunity,gold_energy_opportunity_benchmark,BENCHMARK
+9,Industrial Park IES Utilities,steam/compressed air,fact_utility;dim_utility,OPERATIONAL
+10,Statistics Canada Industrial Water Survey,water,fact_water,BENCHMARK
+11,EIA MECS 2022,fuels/gas/steam,fact_energy;benchmark_marts,BENCHMARK
+12,EU ETS July 2026,emissions,fact_emissions,BENCHMARK
+13,ERA5-Land,weather,fact_weather_context,EXTERNAL_CONTEXT
+14,Eurostat Non-Household Energy Prices,energy prices,fact_energy_price;dim_utility,BENCHMARK

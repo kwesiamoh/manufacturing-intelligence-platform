@@ -1,0 +1,58 @@
+{
+  "manifest_version": "1.0",
+  "evidence_version": "stage16a7-v1",
+  "generated_at_utc": "2026-08-27T21:10:09.506697+00:00",
+  "analysis_period": {
+    "start": "2024-01-01",
+    "end": "2025-12-31",
+    "label": "2024-2025",
+    "years": 2
+  },
+  "provenance": {
+    "data_class": "SYNTHETIC_OPERATIONAL",
+    "opportunity_type": "MODELED_TECHNICAL_OPPORTUNITY",
+    "realization_status": "NOT_REALIZED",
+    "statement": "Technical/model-derived opportunity for prioritization; not realized savings, revenue, margin, forecast, ROI, or payback."
+  },
+  "canonical_calculation": {
+    "database_view": "public.vw_site_loss_summary",
+    "field": "total_technical_opportunity_eur",
+    "upstream_view": "public.vw_shift_production_loss",
+    "sql_path": "sql/analytics/110_create_production_loss_views.sql",
+    "sql_sha256": "69f03b7d5fb44d13df61f694725fd028afd47aa87abec64c604e6fcab3821b26",
+    "upstream_sql_path": "sql/analytics/100_create_oee_views.sql",
+    "upstream_sql_sha256": "cfb1dceae4acd814d9154de132b91ee2f11ed8f47f4fa50d38d717039e832dbc",
+    "loss_value_sql_path": "sql/ddl/005_create_loss_value_config.sql",
+    "loss_value_sql_sha256": "c469ded154421d4be2926b62763e22a5b4cd0587b36b3bd5bfbc5e0532b76909",
+    "formula": "(availability_loss_units_exact + performance_loss_units_exact + quality_loss_units_exact) * standard_loss_value_eur_per_unit"
+  },
+  "source_artifacts": {
+    "production_path": "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet",
+    "production_sha256": "57772350e5a75c7245958af6ec54d2b19e1d863e58adf7280f7f1114db7dd1b7",
+    "production_content_fingerprint": "bb7a789c9231224f1d72b013081d806fb721bab43a8ebd8fdb7e5898889c66f3",
+    "site_registry_path": "data_model/dimensions/fictional_site_registry.csv",
+    "site_registry_sha256": "d43dacaad6dc21fc1461cb14702230ba318808c91a79a845f7b69e967f85b346"
+  },
+  "results": {
+    "site_rows": 6,
+    "enterprise_two_year_technical_opportunity_eur": "573908429.76",
+    "simple_annualized_technical_opportunity_base_eur": "286954214.88",
+    "currency": "EUR"
+  },
+  "annualization": {
+    "method": "SIMPLE_TWO_YEAR_AVERAGE",
+    "base_formula": "enterprise_two_year_technical_opportunity_eur / 2",
+    "scenario_formula": "simple_annualized_technical_opportunity_base_eur * realization_rate",
+    "interpretation": "Illustrative arithmetic sensitivity; not a forecast or realized savings."
+  },
+  "outputs": {
+    "site_export": {
+      "path": "data/gold/business_case/technical_opportunity_2024_2025.csv",
+      "sha256": "b08388e8fab28d335fb2c59c3e2ad7834b55c13d80871c477d7e57b5cb8d13ee"
+    },
+    "annual_sensitivity_export": {
+      "path": "data/gold/business_case/annual_realization_sensitivity_2024_2025.csv",
+      "sha256": "533c3fc6dec9eee5e97dd548d8507c6c3de05fe0e4c7f5e026667da6f6f44155"
+    }
+  }
+}

@@ -1,0 +1,3 @@
+This historically named pointer is retained as acquisition documentation. The local Stage 16A.9 workspace contains production_raw.xlsx, but the materialized workbook is excluded from the public Git payload under the repository release policy.
+
+Run ../../scripts/download_source.py from the package root (or `python scripts/download_source.py`) on an internet-connected machine. The script verifies the official Zenodo MD5 before accepting the file as Bronze data.

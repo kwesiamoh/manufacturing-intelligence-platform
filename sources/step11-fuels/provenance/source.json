@@ -1,0 +1,13 @@
+{
+  "dataset_name": "2022 Manufacturing Energy Consumption Survey (MECS)",
+  "publisher": "U.S. Energy Information Administration",
+  "official_page": "https://www.eia.gov/consumption/manufacturing/data/2022/",
+  "methodology_page": "https://www.eia.gov/consumption/manufacturing/data/2022/index.php?view=methodology",
+  "final_release_date": "2026-03-18",
+  "survey_reference_year": 2022,
+  "approximate_sample_establishments": 15000,
+  "data_origin": "official U.S. manufacturing establishment survey estimates",
+  "synthetic": false,
+  "project_role": "fuel / natural gas / steam / energy-price benchmark domain",
+  "integration_rule": "benchmark/reference only; do not relabel as fictional-site telemetry"
+}

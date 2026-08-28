@@ -1,0 +1,15 @@
+{
+  "dataset_name": "ERA5-Land hourly time-series data from 1950 to present",
+  "publisher": "Copernicus Climate Change Service / ECMWF",
+  "official_url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-timeseries",
+  "doi": "10.24381/cds.e2161bac",
+  "coverage": "global",
+  "temporal_resolution": "hourly",
+  "horizontal_resolution": "0.1 degrees",
+  "temporal_coverage": "1950-present",
+  "license": "CC-BY",
+  "data_type": "reanalysis / external environmental context",
+  "synthetic": false,
+  "project_role": "weather-context benchmark",
+  "checked_date": "2026-08-24"
+}

@@ -1,0 +1,142 @@
+[
+  {
+    "step": 1,
+    "domain": "Industrial electricity / energy consumption",
+    "source": "UCI Steel Industry Energy Consumption",
+    "origin": "real industrial facility",
+    "role": "operational/reference",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 2,
+    "domain": "Equipment telemetry and faults",
+    "source": "UCI MetroPT-3",
+    "origin": "real industrial compressor",
+    "role": "operational telemetry",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 3,
+    "domain": "Process / quality",
+    "source": "UCI SECOM",
+    "origin": "real semiconductor manufacturing",
+    "role": "process-quality reference",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 4,
+    "domain": "Condition monitoring / reliability",
+    "source": "UCI Condition Monitoring of Hydraulic Systems",
+    "origin": "real experimental hydraulic test system",
+    "role": "reliability reference",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 5,
+    "domain": "Production and downtime",
+    "source": "Industrial Production Time-Series Dataset from a Beverage Bottling Line",
+    "origin": "real industrial beverage filling operation",
+    "role": "primary production/downtime source",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 6,
+    "domain": "Maintenance work orders / labour / cost",
+    "source": "Facility Management Unified Classification Database (FMUCD)",
+    "origin": "real CMMS records from universities",
+    "role": "maintenance-cost benchmark only",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 7,
+    "domain": "Production orders / changeovers",
+    "source": "Series production data set for 5-axis CNC milling",
+    "origin": "real German contract-manufacturing sessions",
+    "role": "changeover/order-context reference",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 8,
+    "domain": "Energy opportunity / project economics",
+    "source": "U.S. DOE ITAC Database",
+    "origin": "real industrial assessments",
+    "role": "energy-financial benchmark",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 9,
+    "domain": "Steam and compressed air",
+    "source": "Data for an IES from a real industrial park",
+    "origin": "real industrial park utility system",
+    "role": "utility telemetry/reference",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 10,
+    "domain": "Industrial water",
+    "source": "Statistics Canada Industrial Water Survey",
+    "origin": "official manufacturing survey estimates",
+    "role": "water-use benchmark",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 11,
+    "domain": "Natural gas / purchased steam / fuel cost",
+    "source": "EIA 2022 MECS",
+    "origin": "official U.S. manufacturing survey estimates",
+    "role": "fuel and energy-price benchmark",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 12,
+    "domain": "Industrial GHG / CO2 emissions",
+    "source": "EEA / EU ETS Union Registry dataset",
+    "origin": "real regulated European installations",
+    "role": "emissions benchmark",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 13,
+    "domain": "Ambient weather context",
+    "source": "Copernicus ERA5-Land",
+    "origin": "reanalysis",
+    "role": "external contextual data",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  },
+  {
+    "step": 14,
+    "domain": "European electricity and gas prices",
+    "source": "Eurostat non-household energy prices",
+    "origin": "official European statistics",
+    "role": "European price benchmark",
+    "real_data": true,
+    "raw_bundled": false,
+    "status": "source package prepared"
+  }
+]

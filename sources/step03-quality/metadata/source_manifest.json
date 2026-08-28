@@ -1,0 +1,18 @@
+{
+  "dataset_name": "SECOM",
+  "domain": "manufacturing_process_quality",
+  "publisher": "UCI Machine Learning Repository",
+  "creators": ["Michael McCann", "Adrian Johnston"],
+  "donated": "2008-11-18",
+  "doi": "10.24432/C54305",
+  "license": "CC BY 4.0",
+  "authoritative_page": "https://archive.ics.uci.edu/dataset/179/secom",
+  "current_archive_url": "https://archive.ics.uci.edu/static/public/179/secom.zip",
+  "legacy_base_url": "https://archive.ics.uci.edu/ml/machine-learning-databases/secom/",
+  "expected_instances": 1567,
+  "official_metadata_feature_count": 591,
+  "raw_files": ["secom.data", "secom_labels.data", "secom.names"],
+  "label_semantics": {"-1": "pass", "1": "fail"},
+  "missing_values_reported": true,
+  "notes": "UCI metadata states 591 features. The raw sensor matrix is commonly observed as 590 anonymous sensor columns, with label and timestamp stored separately. Validate observed structure at ingestion."
+}

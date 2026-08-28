@@ -1,0 +1,5 @@
+line_class_code,line_class_name,capacity_unit,nominal_capacity,basis,source_url,data_class
+PET_WATER_STILL_500,PET still-water bottling line,bottles_per_hour,43200,"Krones reference plant used four PET lines rated at 43,200 containers/hour.",https://www.krones.com/en/company/press/magazine/reference/multifunctional-PET-line.php,SYNTHETIC_MASTER_DATA
+PET_CARBONATED_500,PET carbonated-beverage flexible line,bottles_per_hour,40000,"Sidel PET CSD equipment reference supports up to 40,000 bottles/hour.",https://www.sidel.com/en/complete-lines-repository/csd-lines/,SYNTHETIC_MASTER_DATA
+PET_JUICE_1000,PET 1 L juice/aseptic beverage line,bottles_per_hour,27000,"Sidel CR Beverage reference reports 27,000 bottles/hour for 1 L formats.",https://www.sidel.com/en/about/media/global-references/cr-beverage/,SYNTHETIC_MASTER_DATA
+CAN_ENERGY_250,250 mL can beverage line,cans_per_hour,60000,"Synthetic midpoint-type design value inside Krones VFS-C published 18,000-135,000 cans/hour operating range.",https://www.krones.com/en/products/machines/modulfill-vfs-c-softdrinks.php,SYNTHETIC_MASTER_DATA

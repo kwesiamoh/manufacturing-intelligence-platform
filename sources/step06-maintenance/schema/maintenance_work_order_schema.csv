@@ -1,0 +1,30 @@
+source_field,silver_field,domain,notes
+UniversityID,source_organization_id,master_data,Anonymized organization identifier from source
+Country,country,master_data,Source geography
+State/Province,state_province,master_data,Source geography
+BuildingID,source_asset_group_id,asset,Building identifier in source
+BuildingName,source_asset_group_name,asset,Building name if present
+Size,asset_group_size_sqft,asset,Gross square footage
+Type,asset_group_type,asset,Building classification
+BuiltYear,asset_group_built_year,asset,Year constructed
+FCI (facility condition index),facility_condition_index,condition,Source facility condition metric
+CRV (current replacement value),current_replacement_value_usd,cost,Source replacement value
+DMC (deferred maintenance cost),deferred_maintenance_cost_usd,cost,Source deferred maintenance cost
+SystemCode,system_code,asset,Source maintenance system code
+SystemDescription,system_description,asset,Source system description
+SubsystemCode,subsystem_code,asset,Source subsystem code
+SubsystemDescription,subsystem_description,asset,Source subsystem description
+ComponentCode,component_code,asset,Source component code
+ComponentDescription,component_description,asset,Source component description
+WOID,work_order_id,maintenance,Work-order identifier
+WODescription,work_order_description,maintenance,Free-text work-order description
+WOPriority,work_order_priority,maintenance,Priority assigned by source facility manager
+WOStartDate,work_order_start_date,maintenance,Parsed date
+WOEnd Date,work_order_end_date,maintenance,Parsed date
+WODuration,work_order_duration_days,maintenance,Source/calculated duration in days
+PPM/UPM,maintenance_class,maintenance,Planned preventive or unplanned maintenance
+LaborCost,labor_cost_usd,cost,Maintenance labour cost
+MaterialCost,material_cost_usd,cost,Maintenance material cost
+OtherCosts,other_cost_usd,cost,Other work-order costs
+TotalCost,total_cost_usd,cost,Total work-order cost
+Labor hours,labor_hours,maintenance,Work-order labour hours

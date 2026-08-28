@@ -1,0 +1,6 @@
+integration_role,definition
+OPERATIONAL,Real operational data from a source facility/system.
+BENCHMARK,Real external benchmark/reference data; not fictional-site operational data.
+EXTERNAL_CONTEXT,External contextual data joined only through valid geography/time keys.
+REFERENCE,Reference or metadata source.
+SYNTHETIC_INTEGRATION,Explicitly synthetic mappings/records created later to fill integration gaps.

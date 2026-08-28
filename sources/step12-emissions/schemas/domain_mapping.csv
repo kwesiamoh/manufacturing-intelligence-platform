@@ -1,0 +1,6 @@
+source_concept,project_domain,grain,treatment
+verified emissions,ghg_emissions,installation-year,preserve
+allocated allowances,carbon_compliance,installation-year or aggregate,preserve
+surrendered units,carbon_compliance,installation-year or aggregate,preserve
+activity type,industry_classification,installation,preserve
+country,geography,installation,preserve

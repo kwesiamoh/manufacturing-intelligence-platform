@@ -1,0 +1,7 @@
+product_code,product_name,product_family,package_type,package_size,package_unit,data_class
+BEV-WAT-STILL,Still Water,Water,PET Bottle,0.5,L,SYNTHETIC_MASTER_DATA
+BEV-WAT-SPARK,Sparkling Water,Water,PET Bottle,0.5,L,SYNTHETIC_MASTER_DATA
+BEV-CSD-COLA,Cola Soft Drink,Carbonated Soft Drink,PET Bottle,0.5,L,SYNTHETIC_MASTER_DATA
+BEV-CSD-CITRUS,Citrus Soft Drink,Carbonated Soft Drink,PET Bottle,0.5,L,SYNTHETIC_MASTER_DATA
+BEV-JUI-ORANGE,Orange Juice Drink,Juice Drink,PET Bottle,1.0,L,SYNTHETIC_MASTER_DATA
+BEV-ENE-CLASSIC,Energy Drink,Energy Drink,Can,0.25,L,SYNTHETIC_MASTER_DATA

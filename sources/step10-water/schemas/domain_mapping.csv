@@ -1,0 +1,6 @@
+source_concept,project_domain,grain,treatment
+Process water,industrial_water,industry-year-purpose,preserve
+"Water for cooling, condensing and steam",industrial_water,industry-year-purpose,preserve
+Sanitary service and domestic use of water,industrial_water,industry-year-purpose,preserve
+Other initial uses of intake water,industrial_water,industry-year-purpose,preserve
+Statistics Canada quality/status flags,data_quality,record-level metadata,preserve

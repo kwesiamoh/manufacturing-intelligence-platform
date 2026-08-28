@@ -1,0 +1,3 @@
+maintenance_type,cost_basis,labor_rate_eur_per_hour,material_cost_rule,data_class,notes
+CORRECTIVE_MECHANICAL,labor_only,42.0,,SYNTHETIC_REFERENCE,Stage 5 may calculate labor_cost = labor_hours × standard rate. Material cost remains null unless explicitly added later.
+CORRECTIVE_ELECTRICAL,labor_only,42.0,,SYNTHETIC_REFERENCE,Stage 5 may calculate labor_cost = labor_hours × standard rate. Material cost remains null unless explicitly added later.

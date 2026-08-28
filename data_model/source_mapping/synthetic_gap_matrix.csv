@@ -1,0 +1,19 @@
+domain,fields,data_class,status,why_needed,rule
+enterprise_company,company_id/company_name,SYNTHETIC_MASTER_DATA,REQUIRED,Needed to represent one fictional multinational beverage manufacturer.,Create once and keep stable.
+site_master,site_code/site_name/country/reference_city,SYNTHETIC_MASTER_DATA,ALREADY_DEFINED,Required by original six-site scope.,Use Stage 2E site registry.
+line_master,line_code/site_code/line_name,SYNTHETIC_MASTER_DATA,ALREADY_DEFINED,Required by original 30-line scope.,Use Stage 2E line registry.
+product_master,product_code/product_name/product_family/package_type/package_size/package_unit,SYNTHETIC_MASTER_DATA,REQUIRED,"Needed for multi-product production, quality and benchmarking.",Define beverage-only portfolio.
+site_product_assignment,site_code/product_code/line_code,SYNTHETIC_MAPPING,REQUIRED,Needed to create coherent site/product/line relationships.,No unrelated industries.
+shift_master,shift_code/start_time/end_time,SYNTHETIC_MASTER_DATA,REQUIRED,Original brief specifies three shifts.,One common three-shift pattern unless a source requires otherwise.
+production_plan,line_code/product_code/date/shift/planned_quantity,SYNTHETIC_OPERATIONAL,REQUIRED,Real bottling data does not provide an enterprise-wide six-site production plan.,Generate later from documented line capacities and schedules.
+line_capacity,line_code/nominal_capacity/capacity_unit,SYNTHETIC_MASTER_DATA,REQUIRED,"Needed for performance, utilization and production-attainment KPIs.","Generate once, within realistic beverage bottling ranges."
+equipment_hierarchy,equipment_code/equipment_type/line_code/area_code,SYNTHETIC_MASTER_DATA,REQUIRED,"Needed to connect downtime, maintenance and telemetry in the fictional beverage enterprise.",Use beverage-line equipment only.
+maintenance_events,equipment_code/start/end/type/failure_reason/cost,SYNTHETIC_OPERATIONAL,REQUIRED,No real maintenance dataset is from the same bottling operation.,Generate later; FMUCD remains benchmark/reference only.
+quality_events,line_code/product_code/timestamp/defect/result/quantities,SYNTHETIC_OPERATIONAL,REQUIRED,SECOM quality data is semiconductor-specific and must not be relabelled.,Generate beverage-relevant quality events later.
+energy_allocation,site_code/line_code/timestamp/consumption,SYNTHETIC_OPERATIONAL,REQUIRED,Real energy sources are from unrelated facilities.,Use source-derived distributions/patterns but label synthetic integration.
+utility_allocation,site_code/line_code/equipment_code/timestamp/utility_measurements,SYNTHETIC_OPERATIONAL,REQUIRED,Utility datasets are real but not from the fictional beverage sites.,Use only where needed for site/line demonstration.
+financial_parameters,product_code/value_per_unit/labor_rate/downtime_cost_basis,SYNTHETIC_REFERENCE,REQUIRED,Needed for production-loss and business-case costing.,Keep simple and documented; no fake market claims.
+weather_context,site_code/timestamp/weather_fields,REAL_EXTERNAL_CONTEXT,ALREADY_DEFINED,ERA5-Land is real external context for the fictional site locations.,Do not synthesize.
+energy_prices,country/period/utility/price,REAL_BENCHMARK,ALREADY_DEFINED,Eurostat price data is real benchmark data.,Map by country/period where valid.
+emissions_benchmark,installation/activity/year/emissions,REAL_BENCHMARK,ALREADY_DEFINED,EU ETS remains benchmark/reference.,Do not relabel as fictional-site emissions.
+water_benchmark,industry/year/use/volume,REAL_BENCHMARK,ALREADY_DEFINED,StatCan industrial water remains benchmark/reference.,Do not relabel as fictional-site meter data.

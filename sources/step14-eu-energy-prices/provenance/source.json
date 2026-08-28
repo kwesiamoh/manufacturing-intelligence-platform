@@ -1,0 +1,11 @@
+{
+  "publisher": "Eurostat",
+  "electricity_dataset": "nrg_pc_205",
+  "gas_dataset": "nrg_pc_203",
+  "official_energy_info": "https://ec.europa.eu/eurostat/web/energy/information-data",
+  "electricity_news_reference": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20260508-2",
+  "gas_news_reference": "https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20260508-3",
+  "latest_period_used_for_reference": "2025-S2",
+  "synthetic": false,
+  "project_role": "European industrial energy-price benchmark"
+}

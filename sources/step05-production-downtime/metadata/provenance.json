@@ -1,0 +1,24 @@
+{
+  "dataset_id": "zenodo_18146866",
+  "title": "Industrial Production Time-Series Dataset from a Beverage Bottling Line (2022–2023)",
+  "repository": "Zenodo",
+  "record_url": "https://zenodo.org/records/18146866",
+  "doi": "10.5281/zenodo.18146866",
+  "source_file": "production_raw.xlsx",
+  "source_download_url": "https://zenodo.org/records/18146866/files/production_raw.xlsx?download=1",
+  "expected_md5": "d9c095d5eba8706ac7dda92af63f5c35",
+  "published_date": "2026-01-04",
+  "observation_period": {
+    "start": "2022-07",
+    "end": "2023-02"
+  },
+  "industrial_context": "real industrial beverage filling machine",
+  "license": "CC BY 4.0",
+  "synthetic_records_added": false,
+  "associated_article": {
+    "title": "IoT-Driven Deep Learning for Enhanced Industrial Production Forecasting",
+    "journal": "IEEE Internet of Things Journal",
+    "year": 2024,
+    "doi": "10.1109/JIOT.2024.3447579"
+  }
+}

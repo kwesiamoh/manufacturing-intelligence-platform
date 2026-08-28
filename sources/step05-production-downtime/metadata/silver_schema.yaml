@@ -1,0 +1,39 @@
+production_hourly:
+  fields:
+    - source_dataset_id: string
+    - interval_start_utc: datetime
+    - interval_end_utc: datetime
+    - production_gallons: numeric
+
+production_daily:
+  fields:
+    - source_dataset_id: string
+    - production_date: date
+    - product_type_l: numeric
+    - production_units: numeric
+    - liters_produced: numeric
+    - production_start_timestamp: datetime
+    - production_end_timestamp: datetime
+    - efficiency_pct: numeric
+    - gallons_per_hour: numeric
+    - monitored_time_h: numeric
+    - operation_time_h: numeric
+    - downtime_h: numeric
+
+operation_hourly:
+  fields:
+    - source_dataset_id: string
+    - interval_start_utc: datetime
+    - interval_end_utc: datetime
+    - monitored_time_h: numeric
+    - operation_time_h: numeric
+    - downtime_h: numeric
+    - efficiency_pct: numeric
+
+downtime_events:
+  fields:
+    - source_dataset_id: string
+    - downtime_id: string
+    - downtime_start_timestamp: datetime
+    - downtime_end_timestamp: datetime
+    - downtime_h: numeric

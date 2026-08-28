@@ -1,0 +1,214 @@
+{
+  "manifest_version": "1.0",
+  "schema_version": "velora-production-silver-v1",
+  "stage": "16A.5",
+  "title": "Canonical Velora synthetic production seed",
+  "governance_decision": "governed_canonical_seed",
+  "provenance_statement": "This immutable materialized artifact is the reproducible upstream boundary in the current repository snapshot. It represents synthetic Velora operational integration data, not observed plant data. The original first-principles production generator was not recovered, and the documented seed/configuration is insufficient to reconstruct its exact row-level logic without guessing.",
+  "artifact": {
+    "path": "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet",
+    "provenance_status": "governed_canonical_seed",
+    "data_class": "SYNTHETIC_OPERATIONAL",
+    "integration_role": "SYNTHETIC_INTEGRATION",
+    "immutable": true,
+    "original_generator_recovered": false,
+    "first_principles_generation_recoverable": false,
+    "sha256": "57772350e5a75c7245958af6ec54d2b19e1d863e58adf7280f7f1114db7dd1b7",
+    "content_fingerprint": {
+      "algorithm": "velora-tabular-sha256-v1",
+      "sha256": "bb7a789c9231224f1d72b013081d806fb721bab43a8ebd8fdb7e5898889c66f3",
+      "sort_key": [
+        "production_record_id"
+      ],
+      "column_order": "manifest schema order",
+      "value_encoding": "Typed, length-prefixed canonical values: UTF-8 strings; integer nanoseconds for timestamps; base-10 int64; big-endian IEEE-754 doubles with negative zero normalized; explicit null marker.",
+      "row_order_independent": true,
+      "parquet_metadata_independent": true
+    },
+    "expected_row_count": 65790,
+    "schema_version": "velora-production-silver-v1",
+    "schema": [
+      { "name": "production_record_id", "logical_type": "string" },
+      { "name": "company_code", "logical_type": "string" },
+      { "name": "site_code", "logical_type": "string" },
+      { "name": "line_code", "logical_type": "string" },
+      { "name": "line_class_code", "logical_type": "string" },
+      { "name": "shift_code", "logical_type": "string" },
+      { "name": "product_code", "logical_type": "string" },
+      { "name": "timestamp_start", "logical_type": "timestamp[ns]" },
+      { "name": "timestamp_end", "logical_type": "timestamp[ns]" },
+      { "name": "scheduled_shift_min", "logical_type": "double" },
+      { "name": "scheduled_break_min", "logical_type": "double" },
+      { "name": "planned_production_time_min", "logical_type": "double" },
+      { "name": "planned_changeover_min", "logical_type": "double" },
+      { "name": "unplanned_downtime_min", "logical_type": "double" },
+      { "name": "operating_time_min", "logical_type": "double" },
+      { "name": "nominal_rate", "logical_type": "int64" },
+      { "name": "capacity_unit", "logical_type": "string" },
+      { "name": "planned_quantity", "logical_type": "int64" },
+      { "name": "actual_quantity", "logical_type": "int64" },
+      { "name": "good_quantity", "logical_type": "int64" },
+      { "name": "reject_quantity", "logical_type": "int64" },
+      { "name": "availability_driver", "logical_type": "double" },
+      { "name": "performance_driver", "logical_type": "double" },
+      { "name": "quality_driver", "logical_type": "double" },
+      { "name": "data_class", "logical_type": "string" },
+      { "name": "integration_role", "logical_type": "string" },
+      { "name": "generator_seed", "logical_type": "int64" }
+    ],
+    "primary_key": [
+      "production_record_id"
+    ],
+    "business_grain": [
+      "timestamp_start",
+      "site_code",
+      "line_code",
+      "shift_code"
+    ],
+    "ordering": {
+      "semantic_order_required": false,
+      "observed_file_order_is_not_business_grain_order": true,
+      "verification_sort_key": [
+        "production_record_id"
+      ]
+    },
+    "date_coverage": {
+      "timestamp_start_min": "2024-01-01T06:00:00",
+      "timestamp_start_max": "2025-12-31T22:00:00",
+      "timestamp_end_min": "2024-01-01T14:00:00",
+      "timestamp_end_max": "2026-01-01T06:00:00",
+      "timestamp_start_calendar_dates": 731
+    },
+    "coverage": {
+      "sites": [
+        "SITE-CZ-01",
+        "SITE-DE-01",
+        "SITE-ES-01",
+        "SITE-FR-01",
+        "SITE-NL-01",
+        "SITE-PL-01"
+      ],
+      "lines": [
+        "SITE-CZ-01-L01",
+        "SITE-CZ-01-L02",
+        "SITE-CZ-01-L03",
+        "SITE-CZ-01-L04",
+        "SITE-CZ-01-L05",
+        "SITE-DE-01-L01",
+        "SITE-DE-01-L02",
+        "SITE-DE-01-L03",
+        "SITE-DE-01-L04",
+        "SITE-DE-01-L05",
+        "SITE-ES-01-L01",
+        "SITE-ES-01-L02",
+        "SITE-ES-01-L03",
+        "SITE-ES-01-L04",
+        "SITE-ES-01-L05",
+        "SITE-FR-01-L01",
+        "SITE-FR-01-L02",
+        "SITE-FR-01-L03",
+        "SITE-FR-01-L04",
+        "SITE-FR-01-L05",
+        "SITE-NL-01-L01",
+        "SITE-NL-01-L02",
+        "SITE-NL-01-L03",
+        "SITE-NL-01-L04",
+        "SITE-NL-01-L05",
+        "SITE-PL-01-L01",
+        "SITE-PL-01-L02",
+        "SITE-PL-01-L03",
+        "SITE-PL-01-L04",
+        "SITE-PL-01-L05"
+      ],
+      "products": [
+        "BEV-CSD-CITRUS",
+        "BEV-CSD-COLA",
+        "BEV-ENE-CLASSIC",
+        "BEV-JUI-ORANGE",
+        "BEV-WAT-SPARK",
+        "BEV-WAT-STILL"
+      ],
+      "shifts": [
+        "SHIFT-A",
+        "SHIFT-B",
+        "SHIFT-C"
+      ]
+    },
+    "null_profile": {
+      "production_record_id": 0,
+      "company_code": 0,
+      "site_code": 0,
+      "line_code": 0,
+      "line_class_code": 0,
+      "shift_code": 0,
+      "product_code": 0,
+      "timestamp_start": 0,
+      "timestamp_end": 0,
+      "scheduled_shift_min": 0,
+      "scheduled_break_min": 0,
+      "planned_production_time_min": 0,
+      "planned_changeover_min": 0,
+      "unplanned_downtime_min": 0,
+      "operating_time_min": 0,
+      "nominal_rate": 0,
+      "capacity_unit": 0,
+      "planned_quantity": 0,
+      "actual_quantity": 0,
+      "good_quantity": 0,
+      "reject_quantity": 0,
+      "availability_driver": 0,
+      "performance_driver": 0,
+      "quality_driver": 0,
+      "data_class": 0,
+      "integration_role": 0,
+      "generator_seed": 0
+    },
+    "constant_values": {
+      "company_code": [
+        "EBM-GROUP"
+      ],
+      "data_class": [
+        "SYNTHETIC_OPERATIONAL"
+      ],
+      "integration_role": [
+        "SYNTHETIC_INTEGRATION"
+      ],
+      "generator_seed": [
+        20260825
+      ]
+    },
+    "reconciliation": {
+      "quantity_mismatch_rows": 0,
+      "invalid_timestamp_interval_rows": 0,
+      "column_totals": {
+        "planned_quantity": { "value": 18406203993 },
+        "actual_quantity": { "value": 17526134312 },
+        "good_quantity": { "value": 17423669171 },
+        "reject_quantity": { "value": 102465141 },
+        "planned_changeover_min": {
+          "value": 189750.0,
+          "absolute_tolerance": 0.000001
+        },
+        "unplanned_downtime_min": {
+          "value": 2135526.351,
+          "absolute_tolerance": 0.000001
+        }
+      }
+    }
+  },
+  "supporting_serialization_source": {
+    "path": "data/bronze/synthetic_enterprise/production/production_operations_2024_2025.csv",
+    "role": "Retained Bronze serialization source for the Bronze-to-Silver converter; not a production generator.",
+    "sha256": "d766ecb3064047f6248705772f12b6c5dc5654ae534ff898d97bd5544a2e2d66",
+    "expected_row_count": 65790,
+    "logical_values_equivalent_to_canonical_silver": true,
+    "canonical_build_requirement": false
+  },
+  "downstream_consumers": [
+    "synthetic/generators/generate_downtime_events.py",
+    "synthetic/generators/generate_quality_events.py",
+    "synthetic/generators/generate_maintenance_work_orders.py (indirectly through downtime)",
+    "synthetic/generators/generate_energy_utilities.py",
+    "pipelines/postgres/load_synthetic_facts.py"
+  ]
+}
