@@ -83,7 +83,7 @@ def split_count(total):
 
 def main():
     if not PRODUCTION.exists():
-        raise FileNotFoundError(f"Missing Stage 3D production file: {PRODUCTION}")
+        raise FileNotFoundError(f"Missing governed production file: {PRODUCTION}")
 
     BRONZE.mkdir(parents=True, exist_ok=True)
     SILVER.mkdir(parents=True, exist_ok=True)
@@ -140,7 +140,7 @@ def main():
 
     q = pd.DataFrame(events)
 
-    # Exact reconciliation to Stage 3D reject quantities.
+    # Exact reconciliation to production reject quantities.
     reject_by_prod = q.groupby("production_record_id")["rejected_units"].sum()
     check = prod[["production_record_id","reject_quantity"]].copy()
     check["event_reject_quantity"] = check["production_record_id"].map(reject_by_prod).fillna(0).astype(int)

@@ -9,13 +9,13 @@ rng = np.random.default_rng(SEED)
 ROOT = Path(__file__).resolve().parents[2]
 PRODUCTION = ROOT / "data" / "silver" / "synthetic_enterprise" / \
     "production" / "production_operations_2024_2025.parquet"
-WEATHER = ROOT / "sources" / "step13-weather" / "data" / "silver" / \
+WEATHER = ROOT / "sources" / "era5-weather" / "data" / "silver" / \
     "weather" / "enterprise_weather_context_2024_2025.parquet"
 
 BRONZE = ROOT / "data" / "bronze" / "synthetic_enterprise" / "energy"
 SILVER = ROOT / "data" / "silver" / "synthetic_enterprise" / "energy"
 
-# Stage 3H is intentionally compact.
+# The energy and utilities model is intentionally compact.
 #
 # PET production power is anchored to a peer-reviewed measured PET bottling-plant
 # average of 245.3 kW during production and 12.327 kW during an unproductive period.
@@ -58,10 +58,10 @@ SITE_AUX_BASE_KW = 180.0
 def main():
     if not PRODUCTION.exists():
         raise FileNotFoundError(
-            f"Missing Stage 3D production file: {PRODUCTION}")
+            f"Missing governed production file: {PRODUCTION}")
     if not WEATHER.exists():
         raise FileNotFoundError(
-            f"Missing Stage 2E ERA5-Land Silver weather file: {WEATHER}")
+            f"Missing ERA5-Land Silver weather file: {WEATHER}")
 
     BRONZE.mkdir(parents=True, exist_ok=True)
     SILVER.mkdir(parents=True, exist_ok=True)
@@ -79,7 +79,7 @@ def main():
                        "air_temperature_c"]].copy()
     weather["shift_date"] = weather["timestamp_utc"].dt.floor("D")
 
-    # Create shift labels matching Stage 3D.
+    # Create shift labels matching production.
     h = weather["timestamp_utc"].dt.hour
     weather["shift_code"] = np.select(
         [(h >= 6) & (h < 14), (h >= 14) & (h < 22)],

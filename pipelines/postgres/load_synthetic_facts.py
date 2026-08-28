@@ -343,7 +343,7 @@ def main():
 
             validate(cur, source_id)
 
-    print("\nStage 4D/4E synthetic fact load complete.")
+    print("\nsynthetic fact synthetic fact load complete.")
 
 if __name__ == "__main__":
     main()

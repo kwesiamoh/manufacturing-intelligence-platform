@@ -1,4 +1,4 @@
--- Stage 12B.2: Laney p' SPC for reject proportion
+-- Laney p-prime SPC: Laney p' SPC for reject proportion
 -- Replaces the ordinary p-chart as the primary SPC result because the
 -- synthetic enterprise data exhibits strong extra-binomial variation.
 --

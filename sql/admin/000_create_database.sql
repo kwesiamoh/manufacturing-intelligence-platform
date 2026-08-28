@@ -1,4 +1,4 @@
--- Stage 4A
+-- database
 -- Run while connected to the default postgres database.
 -- The canonical bootstrap passes db_name with psql -v. The default preserves
 -- the established local database name for direct/manual execution.

@@ -1,4 +1,4 @@
--- Stage 5B — Synthetic internal financial assumptions for production-loss valuation.
+-- production loss — Synthetic internal financial assumptions for production-loss valuation.
 -- These are portfolio-project assumptions, not observed market prices or accounting ledger values.
 
 CREATE TABLE IF NOT EXISTS cfg_product_loss_value (

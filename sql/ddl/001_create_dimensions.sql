@@ -1,5 +1,5 @@
 -- Manufacturing Intelligence Platform
--- Stage 2D: Canonical dimensions
+-- canonical data model: Canonical dimensions
 -- PostgreSQL
 
 CREATE TABLE IF NOT EXISTS dim_source_dataset (

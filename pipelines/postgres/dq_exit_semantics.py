@@ -1,4 +1,4 @@
-"""Shared process-exit semantics for Stage 7 data-quality runners."""
+"""Shared process-exit semantics for data-quality data-quality runners."""
 
 VALID_RESULT_STATUSES = {"PASS", "WARN", "FAIL"}
 

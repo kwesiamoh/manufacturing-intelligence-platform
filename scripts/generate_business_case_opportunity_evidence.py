@@ -1,4 +1,4 @@
-"""Generate and validate Stage 16A.7 business-case opportunity evidence.
+"""Generate and validate business-case business-case opportunity evidence.
 
 The canonical database result is public.vw_site_loss_summary, created by
 sql/analytics/110_create_production_loss_views.sql.  This script reproduces its

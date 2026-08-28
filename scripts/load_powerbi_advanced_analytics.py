@@ -779,11 +779,11 @@ def main() -> None:
     anomaly_hash = sha256_file(anomaly_path)
     if forecast_hash != EXPECTED_FORECAST_SHA256:
         raise AcceptanceError(
-            "Forecast Parquet SHA-256 does not match the accepted Stage 12E snapshot"
+            "Forecast Parquet SHA-256 does not match the accepted production and energy forecasting snapshot"
         )
     if anomaly_hash != EXPECTED_ANOMALY_SHA256:
         raise AcceptanceError(
-            "Energy-anomaly Parquet SHA-256 does not match the accepted Stage 12D snapshot"
+            "Energy-anomaly Parquet SHA-256 does not match the accepted energy anomaly snapshot"
         )
     display_input_summary(
         forecast_summary, anomaly_summary, forecast_hash, anomaly_hash

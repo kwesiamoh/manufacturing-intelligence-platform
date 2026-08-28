@@ -23,7 +23,7 @@ Primary assets:
 | Misleading provenance | synthetic KPI presented as real | provenance labels and documentation |
 | Model misuse | anomaly detector called predictive maintenance | explicit model-scope statements |
 | Dependency compromise | vulnerable Python package | dependency review/scanning |
-| Accidental cloud spend | deployed AWS resources incur cost | €0 constraint, IaC documentation only |
+| Unapproved cloud deployment | target architecture mistaken for deployed resources | documentation-only Terraform configuration and explicit deployment status |
 | BI overexposure | users see unauthorized sites | workspace controls / RLS in target state |
 
 ## Trust boundaries

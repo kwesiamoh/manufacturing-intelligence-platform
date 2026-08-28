@@ -1,5 +1,5 @@
--- Stage 6B — Supplemental utility/energy-detail tables.
--- These preserve Stage 3H fields not carried by the original fact_energy schema.
+-- utilities — Supplemental utility/energy-detail tables.
+-- These preserve energy and utilities fields not carried by the original fact_energy schema.
 
 CREATE TABLE IF NOT EXISTS fact_line_energy_detail (
     line_energy_detail_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

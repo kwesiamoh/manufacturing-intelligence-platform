@@ -1,4 +1,4 @@
--- Stage 4D/4E validation
+-- synthetic fact validation
 WITH src AS (
     SELECT source_dataset_id
     FROM dim_source_dataset

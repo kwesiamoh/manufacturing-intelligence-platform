@@ -39,12 +39,21 @@ Desktop.ini
 *.pfx
 credentials.json
 credentials.*.json
+pgpass.conf
+.pgpass
+pg_service.conf
+.aws/
+*.secrets.json
 
 # Generated execution logs. Reproducibility comes from scripts, manifests,
 # validation gates, and versioned evidence rather than machine-specific logs.
-logs/**/*.log
-logs/**/*.json
-logs/**/*.txt
+logs/**
+
+# Local PostgreSQL clusters, sockets, and scratch databases
+.postgres/
+pgdata/
+postgres-data/
+*.pid
 
 # Terraform: retain *.tf, the dependency lock file, and *.tfvars.example.
 **/.terraform/
@@ -66,6 +75,8 @@ terraform.rc
 *.pbix.tmp
 *.pbix.autosave
 *.pbit.autosave
+*.pbix.autorecovery
+.pbi/
 
 # Materialized public-source Bronze data. Source code, provenance manifests,
 # checksums, README files, and acquisition instructions remain versioned.
@@ -84,11 +95,11 @@ sources/**/bronze/**/*.json
 
 # Retain small provenance/validation artifacts that materially define source
 # identity or accepted benchmark labels.
-!sources/step02-telemetry/data/bronze/metropt3/acquisition_manifest.json
-!sources/step02-telemetry/data/bronze/metropt3/validation_report.json
-!sources/step02-telemetry/data/bronze/metropt3/reference/failure_windows.csv
-!sources/step05-production-downtime/bronze/production_downtime/BRONZE_SOURCE_NOT_BUNDLED.txt
-!sources/step14-eu-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__download_metadata.json
+!sources/metropt-telemetry/data/bronze/metropt3/acquisition_manifest.json
+!sources/metropt-telemetry/data/bronze/metropt3/validation_report.json
+!sources/metropt-telemetry/data/bronze/metropt3/reference/failure_windows.csv
+!sources/production-downtime/bronze/production_downtime/BRONZE_SOURCE_NOT_BUNDLED.txt
+!sources/eurostat-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__download_metadata.json
 
 # Derived public-source Silver artifacts are reproducible from their governed
 # acquisition/validation/transform routes and are not part of the Git payload.
@@ -104,16 +115,34 @@ data/silver/synthetic_enterprise/**/*.parquet
 # PostgreSQL/Power BI build, which consumes accepted Gold outputs.
 models/**/*.joblib
 
-# Superseded/derived benchmark outputs; retain their historical scripts and
-# small accepted corrected evidence.
+# Generated/supporting benchmark outputs; retain only accepted compact evidence.
 data/gold/advanced_analytics/hydraulic_condition/hydraulic_cycle_features.parquet
 data/gold/advanced_analytics/hydraulic_condition/condition_model_summary.csv
 data/gold/advanced_analytics/hydraulic_condition/*_confusion_matrix.csv
 data/gold/advanced_analytics/hydraulic_condition/*_feature_importance.csv
 data/gold/advanced_analytics/hydraulic_condition/*_holdout_predictions.csv
-!data/gold/advanced_analytics/hydraulic_condition/*_corrected.csv
+!data/gold/advanced_analytics/hydraulic_condition/accepted_*.csv
 data/gold/advanced_analytics/metropt_anomaly/metropt_anomaly_windows.parquet
 data/gold/advanced_analytics/metropt_anomaly/metropt_alert_episodes.csv
 data/gold/advanced_analytics/metropt_anomaly/metropt_failure_event_evaluation.csv
 data/gold/advanced_analytics/metropt_anomaly/metropt_adaptive_*.csv
 data/gold/advanced_analytics/metropt_anomaly/metropt_adaptive_*.parquet
+
+# Reproducible analytical detail excluded from the compact release evidence
+data/gold/advanced_analytics/energy_anomaly/energy_anomaly_calibration_thresholds.csv
+data/gold/advanced_analytics/energy_anomaly/energy_anomaly_site_summary_2025.csv
+data/gold/advanced_analytics/forecasting/daily_site_forecast_holdout_2025.csv
+data/gold/advanced_analytics/hydraulic_condition/accepted_*_holdout_predictions.csv
+data_quality/metropt/
+reports/powerbi/
+reports/advanced_analytics/metropt_feature_columns.txt
+reports/advanced_analytics/metropt_anomaly_metrics.json
+reports/advanced_analytics/metropt_adaptive_alert_metrics.json
+reports/advanced_analytics/hydraulic_condition_feasibility.json
+reports/advanced_analytics/hydraulic_feature_preparation_metrics.json
+
+# Local release-review and audit scratch output
+.release-audit/
+release-review/
+release_audit*.json
+release_audit*.txt

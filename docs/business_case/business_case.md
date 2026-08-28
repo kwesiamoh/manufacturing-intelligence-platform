@@ -105,7 +105,7 @@ without site-specific validation.
 Potential mechanisms:
 - reject-rate monitoring;
 - statistically appropriate process-control monitoring;
-- earlier investigation of abnormal quality behavior.
+- investigation of abnormal quality behavior.
 
 ### Data / reporting productivity
 

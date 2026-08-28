@@ -1,4 +1,4 @@
--- Stage 5A — Production and OEE analytics
+-- OEE — Production and OEE analytics
 -- Source: validated SYNTHETIC_ENTERPRISE production/downtime/quality facts.
 
 CREATE OR REPLACE VIEW vw_shift_production_kpi AS

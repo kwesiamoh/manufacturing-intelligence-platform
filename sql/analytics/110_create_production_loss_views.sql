@@ -1,4 +1,4 @@
--- Stage 5B corrected — Exact technical-capacity loss accounting and financial translation.
+-- production loss corrected — Exact technical-capacity loss accounting and financial translation.
 
 CREATE OR REPLACE VIEW vw_shift_loss_accounting AS
 WITH base AS (

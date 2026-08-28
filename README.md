@@ -86,7 +86,7 @@ For a detailed description of the implemented and AWS-ready target architectures
 
 ### Public reference and benchmark data
 
-Approximately **2.75 GB of source artifacts across 14 public datasets** were acquired or referenced during development.
+The source acquisition catalog covers **14 public datasets**. Bulk source artifacts are not distributed with the repository unless their inclusion is explicitly governed.
 
 The public sources serve different roles, including manufacturing-energy reference data, equipment and maintenance classification, production and downtime examples, quality data, industrial telemetry, hydraulic-condition monitoring, energy-price references, emissions, and utility context.
 
@@ -172,8 +172,8 @@ Accepted enterprise electricity totals for 2024–2025:
 | Line idle electricity | 0.913 GWh |
 | Total line electricity | 113.620 GWh |
 | Site auxiliary electricity | 19.219 GWh |
-| Total site electricity | 132.839 GWh |
-| Weighted electricity intensity | 7.579 kWh / 1,000 units |
+| Total site electricity | 132,839,032.783082 kWh |
+| Weighted electricity intensity | 7.579482755 kWh / 1,000 units |
 
 Compressed-air consumption:
 
@@ -181,7 +181,7 @@ Compressed-air consumption:
 |---|---:|
 | PET operations | 331.231 million Nm³ |
 | CAN operations | 12.805 million Nm³ |
-| Enterprise total | 344.036 million Nm³ |
+| Enterprise total | 344,035,656.552 Nm³ |
 
 For canning lines, the model uses a governed design assumption of **5.0 Nm³ per 1,000 cans**. This is a portfolio modelling assumption, not measured Velora plant data.
 
@@ -198,9 +198,7 @@ The analytical layer uses:
 
 Monitoring subgroups are classified as in control, above the upper control limit, or below the lower control limit.
 
-During the final reproducibility build, SQL 623 was identified as a validation-performance bottleneck because it repeatedly expanded the nested Laney analytical view. The validator was changed to materialize the unchanged accepted view once into a session-local temporary table.
-
-This changed validation execution strategy only. The Laney calculations, thresholds, control limits, and accepted analytical result were not changed.
+SQL 623 materializes the accepted Laney view once in a session-local temporary table for validation. The calculation, thresholds, and control limits remain defined by SQL 622.
 
 ---
 
@@ -209,9 +207,9 @@ This changed validation execution strategy only. The Laney calculations, thresho
 | Metric | Value |
 |---|---:|
 | Corrective failures | 46,670 |
-| Corrective downtime | 14,856.65 h |
-| Repair hours | 13,207.53 h |
-| Weighted MTTR | 0.283 h |
+| Corrective downtime | 14,856.652017 h |
+| Repair hours | 13,207.527188 h |
+| Weighted MTTR | 0.282998226 h |
 | Monthly site-line records | 720 |
 | Analysis period | 24 months |
 
@@ -354,15 +352,9 @@ These are model-derived technical opportunity estimates. They are not realized s
 
 ## Reproducibility
 
-Stage 16A.10 was executed against:
+The canonical workflow was verified through a disposable PostgreSQL clean build with fail-fast validation and successful resume.
 
-```text
-manufacturing_intelligence_stage16a10_20260828_proof1
-```
-
-Final result:
-
-**PASS_AFTER_FAIL_FAST_RESUME**
+**Result: PASS**
 
 All 19 mandatory validations passed:
 
@@ -376,21 +368,19 @@ The repository does not distribute the PostgreSQL database itself. It distribute
 Key evidence:
 
 ```text
-reports/reproducibility/stage16a10_build_evidence.json
-docs/reproducibility/stage16a10_clean_build_proof.md
+reports/reproducibility/clean_build_evidence.json
+docs/reproducibility/clean_build_proof.md
 docs/reproducibility/canonical_build_order.md
 config/artifact_manifest.json
 config/canonical_production_seed.json
-config/stage3h_energy_artifact_manifest.json
+config/energy_artifact_manifest.json
 ```
 
 ---
 
 ## Governed production seed
 
-The original first-principles generator for the accepted production population could not be recovered with sufficient confidence.
-
-The accepted production population is therefore preserved as a governed canonical seed:
+The governed production Silver dataset is the reproducible production-data boundary:
 
 ```text
 data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet
@@ -402,7 +392,7 @@ The seed contains 65,790 rows and is hash-verified before the canonical build. T
 
 ## AWS-ready target architecture
 
-The demonstrated implementation runs locally. The platform is designed so that the same batch-oriented architecture can later be deployed using managed AWS services.
+The demonstrated implementation runs locally. Its batch-oriented design maps to managed AWS services for a production deployment.
 
 | Current implementation | AWS target |
 |---|---|
@@ -471,6 +461,8 @@ Configure PostgreSQL authentication with standard libpq credential handling such
 
 ### Canonical PostgreSQL bootstrap
 
+A clone contains acquisition code, governed manifests, the production seed, and compact accepted analytics. Materialize the required external inputs and regenerate the ignored downstream Velora facts before running the bootstrap; the [installation guide](docs/INSTALL.md) gives the exact order.
+
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass `
   -File .\pipelines\postgres\bootstrap_database.ps1 `
@@ -482,19 +474,25 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass `
   -PythonCommand python
 ```
 
-The PostgreSQL port is configurable. The example reflects the development environment used for the final proof.
+The PostgreSQL host, port, user, and database are configurable.
 
-See `docs/reproducibility/canonical_build_order.md` for the authoritative build sequence.
+See the [installation guide](docs/INSTALL.md) and [canonical build order](docs/reproducibility/canonical_build_order.md) for the authoritative workflow.
 
 ---
 
 ## Source acquisition and redistribution
 
-Not every public dataset used during development is redistributed through this repository.
+Not every public dataset is redistributed through this repository. The public boundary is code, source manifests, checksums, acquisition instructions, and compact accepted evidence.
 
-Depending on the source, acquisition may be automated, authenticated, manually supplied, obtained through a verified public route, or excluded from redistribution where licensing or repository policy requires separate handling.
+| Source | Public treatment |
+|---|---|
+| UCI Steel Energy | Automated from the recorded checksum-verified public mirror; UCI remains authoritative |
+| Industrial Utilities | Acquisition-only; the four source workbooks are not redistributed |
+| EU ETS | `MANUAL_INPUT_REQUIRED`; the source workbook is not redistributed |
+| ERA5-Land | Automated authenticated acquisition using user-owned CDS credentials and accepted provider terms |
+| Eurostat prices | Automated structured JSON-stat acquisition and transformation |
 
-Users should obtain third-party datasets under the terms of the original provider.
+The MIT repository license does not relicense third-party datasets. See the [third-party data policy](docs/governance/third_party_data_redistribution.md) and [source acquisition catalog](sources/README.md).
 
 ---
 
@@ -530,19 +528,32 @@ The accepted Laney p′ result is appropriate for the modelled quality populatio
 
 ---
 
-## Project status
-
-**Technical implementation:** Complete  
-**Canonical build:** Validated  
-**Mandatory validations:** 19 / 19 passed  
-**Power BI:** Complete and validated against the proof database  
-**Stage 16A technical hardening:** Complete  
-**Stage 16B portfolio release:** Final documentation and packaging
-
----
-
 ## Portfolio focus
 
 This project demonstrates practical work across manufacturing data engineering, enterprise data modelling, PostgreSQL, Python, data quality, statistical process control, forecasting, anomaly detection, reliability analytics, manufacturing energy analysis, Power BI, reproducibility, AWS architecture, Terraform, and technical documentation.
 
 The focus is on demonstrating how a governed manufacturing intelligence platform can be designed, validated, analysed, and presented from source data through executive reporting.
+
+---
+
+## Documentation
+
+- [Installation and build](docs/INSTALL.md)
+- [Platform architecture](docs/architecture/platform_architecture.md)
+- [Analytics methodology and limitations](docs/methodology/analytics_methodology_and_limitations.md)
+- [Manufacturing KPI definitions](docs/kpi_definitions/manufacturing_kpis.md)
+- [Canonical data dictionary](docs/data_dictionary/canonical_data_dictionary.csv)
+- [Business case](docs/business_case/business_case.md)
+- [Canonical reproducibility order](docs/reproducibility/canonical_build_order.md)
+- [Clean-build proof](docs/reproducibility/clean_build_proof.md)
+- [Data governance](docs/governance/data_governance.md)
+- [Third-party data treatment](docs/governance/third_party_data_redistribution.md)
+- [Power BI report guide](docs/powerbi/final_powerbi_presentation.md)
+- [Cybersecurity controls](docs/security/cybersecurity_controls.md)
+- [Threat model](docs/security/threat_model.md)
+
+---
+
+## License
+
+Repository-owned code and documentation are licensed under the [MIT License](LICENSE). Third-party datasets and provider materials remain subject to their original licenses and terms; the MIT license does not grant redistribution rights for them.

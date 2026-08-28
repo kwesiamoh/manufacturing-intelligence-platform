@@ -1,0 +1,20 @@
+{
+  "package": "manufacturing-intelligence-industrial-utilities",
+  "created": "2026-08-24",
+  "acquisition_mode": "user_acquired_checksum_verified",
+  "public_release_contains_raw_data": false,
+  "raw_data_status": "Materialized Bronze and Silver data are excluded from the public Git payload under the final acquisition-only/no-source-redistribution policy.",
+  "expected_bronze_files": [
+    "preair_G.xlsx",
+    "preair_P.xlsx",
+    "steam_G.xlsx",
+    "steam_P.xlsx"
+  ],
+  "workflow": [
+    "python scripts/download_and_verify.py",
+    "python scripts/validate_bronze.py",
+    "python scripts/bronze_to_silver.py"
+  ],
+  "synthetic_records_added": 0,
+  "release_license_status": "acquisition_only_no_source_redistribution"
+}

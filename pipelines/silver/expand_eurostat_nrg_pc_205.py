@@ -4,8 +4,8 @@ import json
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
-BRONZE = ROOT / "sources" / "step14-eu-energy-prices" / "bronze" / "eurostat_energy_prices" / "nrg_pc_205__full.json"
-SILVER_DIR = ROOT / "sources" / "step14-eu-energy-prices" / "silver" / "eurostat_energy_prices"
+BRONZE = ROOT / "sources" / "eurostat-energy-prices" / "bronze" / "eurostat_energy_prices" / "nrg_pc_205__full.json"
+SILVER_DIR = ROOT / "sources" / "eurostat-energy-prices" / "silver" / "eurostat_energy_prices"
 SILVER_DIR.mkdir(parents=True, exist_ok=True)
 
 TARGET_GEOS = {"DE", "NL", "PL", "CZ", "FR", "ES"}

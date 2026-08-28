@@ -1,7 +1,7 @@
 {
   "manifest_version": "1.0",
   "schema_version": "velora-production-silver-v1",
-  "stage": "16A.5",
+  "release": "v1.0.0",
   "title": "Canonical Velora synthetic production seed",
   "governance_decision": "governed_canonical_seed",
   "provenance_statement": "This immutable materialized artifact is the reproducible upstream boundary in the current repository snapshot. It represents synthetic Velora operational integration data, not observed plant data. The original first-principles production generator was not recovered, and the documented seed/configuration is insufficient to reconstruct its exact row-level logic without guessing.",

@@ -1,4 +1,4 @@
--- Stage 6B — Idle energy, auxiliary/weather energy and compressed-air analytics.
+-- utilities — Idle energy, auxiliary/weather energy and compressed-air analytics.
 
 CREATE OR REPLACE VIEW vw_shift_energy_detail_kpi AS
 SELECT

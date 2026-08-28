@@ -1,4 +1,4 @@
--- Stage 4F reference/benchmark tables
+-- reference data reference/benchmark tables
 -- These tables intentionally remain separate from the fictional enterprise facts.
 
 CREATE TABLE IF NOT EXISTS ref_itac_assessment (

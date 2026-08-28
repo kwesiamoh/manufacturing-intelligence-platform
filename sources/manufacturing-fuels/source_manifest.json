@@ -1,0 +1,20 @@
+{
+  "package": "manufacturing-intelligence-manufacturing-fuels",
+  "created": "2026-08-24",
+  "contains_raw_data": true,
+  "workspace_raw_data_status": "The retained local workspace contains all four expected Bronze workbooks.",
+  "public_release_contains_raw_data": false,
+  "raw_data_status": "The public Git payload excludes the reacquirable workbooks and derived Silver data.",
+  "expected_bronze_files": [
+    "Table3_1.xlsx",
+    "Table7_3.xlsx",
+    "Table7_7.xlsx",
+    "Table7_10.xlsx"
+  ],
+  "synthetic_records_added": 0,
+  "workflow": [
+    "python scripts/download_mecs.py",
+    "python scripts/validate_bronze.py",
+    "python scripts/bronze_to_silver.py"
+  ]
+}

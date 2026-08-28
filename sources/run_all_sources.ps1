@@ -2,7 +2,7 @@
 param(
     [ValidateSet("All", "Acquire", "Validate", "Transform")]
     [string]$Phase = "All",
-    [string[]]$Step,
+    [string[]]$Source,
     [switch]$DryRun,
     [switch]$ContinueOnError,
     [string]$ManifestPath,
@@ -31,21 +31,21 @@ catch {
     throw "Source pipeline manifest is invalid JSON: $resolvedManifest`n$($_.Exception.Message)"
 }
 
-if ($manifest.schema_version -ne "1.0" -or -not $manifest.steps) {
+if ($manifest.schema_version -ne "1.0" -or -not $manifest.routes) {
     throw "Unsupported or empty source pipeline manifest: $resolvedManifest"
 }
 
-$selectedSteps = @($manifest.steps)
-if ($Step) {
+$selectedRoutes = @($manifest.routes)
+if ($Source) {
     $normalized = @(
-        $Step |
+        $Source |
             ForEach-Object { $_ -split "," } |
-            ForEach-Object { $_.Trim().PadLeft(2, "0") }
+            ForEach-Object { $_.Trim() }
     )
-    $selectedSteps = @($selectedSteps | Where-Object { $normalized -contains $_.step })
-    $unknown = @($normalized | Where-Object { $_ -notin @($selectedSteps.step) })
+    $selectedRoutes = @($selectedRoutes | Where-Object { $normalized -contains $_.id })
+    $unknown = @($normalized | Where-Object { $_ -notin @($selectedRoutes.id) })
     if ($unknown) {
-        throw "Unknown source step(s): $($unknown -join ', ')"
+        throw "Unknown source route(s): $($unknown -join ', ')"
     }
 }
 
@@ -61,15 +61,14 @@ $blockingFailure = $false
 
 function Add-Result {
     param(
-        [object]$SourceStep,
+        [object]$SourceRoute,
         [string]$Action,
         [string]$Mode,
         [string]$Status,
         [string]$Detail
     )
     $results.Add([pscustomobject]@{
-        Step = $SourceStep.step
-        Source = $SourceStep.id
+        Route = $SourceRoute.id
         Action = $Action
         Mode = $Mode.ToUpperInvariant()
         Status = $Status
@@ -117,7 +116,7 @@ function Test-CdsCredentials {
 
 function Invoke-SourceAction {
     param(
-        [object]$SourceStep,
+        [object]$SourceRoute,
         [string]$ActionName,
         [object]$Action
     )
@@ -134,7 +133,7 @@ function Invoke-SourceAction {
             $detail += "; missing: $($required.Missing -join ', ')"
             $script:blockingFailure = $true
         }
-        Add-Result $SourceStep $ActionName $mode "MANUAL_INPUT_REQUIRED" $detail
+        Add-Result $SourceRoute $ActionName $mode "MANUAL_INPUT_REQUIRED" $detail
         return
     }
 
@@ -143,13 +142,13 @@ function Invoke-SourceAction {
         if ($status -eq "UNAVAILABLE" -and -not $DryRun) {
             $script:blockingFailure = $true
         }
-        Add-Result $SourceStep $ActionName $mode $status ([string]$Action.reason)
+        Add-Result $SourceRoute $ActionName $mode $status ([string]$Action.reason)
         return
     }
 
     if ($mode -ne "automated" -and $mode -ne "automated_authenticated") {
         $script:blockingFailure = $true
-        Add-Result $SourceStep $ActionName $mode "FAILED" "unsupported action mode"
+        Add-Result $SourceRoute $ActionName $mode "FAILED" "unsupported action mode"
         return
     }
 
@@ -167,13 +166,13 @@ function Invoke-SourceAction {
         else {
             Get-ReuseDetail $required.Paths
         }
-        Add-Result $SourceStep $ActionName $mode "SKIPPED_INTENTIONALLY" $detail
+        Add-Result $SourceRoute $ActionName $mode "SKIPPED_INTENTIONALLY" $detail
         return
     }
 
     if ($ActionName -eq "acquisition" -and -not $required.Complete -and -not $required.Empty) {
         $script:blockingFailure = $true
-        Add-Result $SourceStep $ActionName $mode "FAILED" (
+        Add-Result $SourceRoute $ActionName $mode "FAILED" (
             "partial immutable Bronze set; refusing download/overwrite; missing: " +
             ($required.Missing -join ", ")
         )
@@ -184,7 +183,7 @@ function Invoke-SourceAction {
         if (-not $DryRun) {
             $script:blockingFailure = $true
         }
-        Add-Result $SourceStep $ActionName $mode "UNAVAILABLE" (
+        Add-Result $SourceRoute $ActionName $mode "UNAVAILABLE" (
             "missing prerequisite(s): " + ($required.Missing -join ", ")
         )
         return
@@ -194,7 +193,7 @@ function Invoke-SourceAction {
         if (-not $DryRun) {
             $script:blockingFailure = $true
         }
-        Add-Result $SourceStep $ActionName $mode "UNAVAILABLE" (
+        Add-Result $SourceRoute $ActionName $mode "UNAVAILABLE" (
             "CDS/ERA5 credentials are required via .cdsapirc or CDSAPI_URL/CDSAPI_KEY"
         )
         return
@@ -205,20 +204,20 @@ function Invoke-SourceAction {
         if (-not $DryRun) {
             $script:blockingFailure = $true
         }
-        Add-Result $SourceStep $ActionName $mode "UNAVAILABLE" "script missing: $scriptPath"
+        Add-Result $SourceRoute $ActionName $mode "UNAVAILABLE" "script missing: $scriptPath"
         return
     }
 
     if ($DryRun) {
-        Add-Result $SourceStep $ActionName $mode "SKIPPED_INTENTIONALLY" "dry-run resolved: $scriptPath"
+        Add-Result $SourceRoute $ActionName $mode "SKIPPED_INTENTIONALLY" "dry-run resolved: $scriptPath"
         return
     }
 
     $scriptPath = Resolve-RepoPath ([string]$Action.script)
-    $workingDirectory = Resolve-RepoPath ([string]$SourceStep.package_path)
+    $workingDirectory = Resolve-RepoPath ([string]$SourceRoute.package_path)
     if (-not (Test-Path -LiteralPath $workingDirectory -PathType Container)) {
         $script:blockingFailure = $true
-        Add-Result $SourceStep $ActionName $mode "UNAVAILABLE" (
+        Add-Result $SourceRoute $ActionName $mode "UNAVAILABLE" (
             "package directory missing: $workingDirectory"
         )
         return
@@ -253,7 +252,7 @@ function Invoke-SourceAction {
     if ($exitCode -eq 0) {
         $successDetail = "exit code 0"
         if ($commandOutput) { $successDetail += "; output: $commandOutput" }
-        Add-Result $SourceStep $ActionName $mode "COMPLETED" $successDetail
+        Add-Result $SourceRoute $ActionName $mode "COMPLETED" $successDetail
     }
     else {
         $script:blockingFailure = $true
@@ -261,18 +260,18 @@ function Invoke-SourceAction {
             $detail = "exit code $exitCode"
             if ($commandOutput) { $detail += "; output: $commandOutput" }
         }
-        Add-Result $SourceStep $ActionName $mode "FAILED" $detail
+        Add-Result $SourceRoute $ActionName $mode "FAILED" $detail
     }
 }
 
-foreach ($sourceStep in $selectedSteps) {
+foreach ($sourceRoute in $selectedRoutes) {
     foreach ($phaseName in $phaseNames) {
-        $action = $sourceStep.$phaseName
+        $action = $sourceRoute.$phaseName
         if ($null -eq $action) {
-            Add-Result $sourceStep $phaseName "not_implemented" "SKIPPED_INTENTIONALLY" "no action declared"
+            Add-Result $sourceRoute $phaseName "not_implemented" "SKIPPED_INTENTIONALLY" "no action declared"
             continue
         }
-        Invoke-SourceAction $sourceStep $phaseName $action
+        Invoke-SourceAction $sourceRoute $phaseName $action
         if ($blockingFailure -and -not $ContinueOnError -and -not $DryRun) {
             break
         }
@@ -288,7 +287,7 @@ if ($OutputFormat -eq "Json") {
 else {
     Write-Host ""
     Write-Host "Source orchestration summary"
-    $results | Format-Table Step, Source, Action, Mode, Status, Detail -Wrap -AutoSize
+    $results | Format-Table Route, Action, Mode, Status, Detail -Wrap -AutoSize
 
     $counts = $results | Group-Object Status | Sort-Object Name
     foreach ($count in $counts) {

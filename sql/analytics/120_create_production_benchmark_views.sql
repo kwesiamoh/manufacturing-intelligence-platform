@@ -1,4 +1,4 @@
--- Stage 5C — Production benchmarking, Pareto, changeover and utilization analytics.
+-- production benchmark — Production benchmarking, Pareto, changeover and utilization analytics.
 
 CREATE OR REPLACE VIEW vw_line_performance_summary AS
 SELECT

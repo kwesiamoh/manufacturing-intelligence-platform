@@ -1,8 +1,16 @@
-# Complete local development/reproduction environment.
-# Narrower installation paths remain available in the referenced files.
--r pipelines/postgres/requirements-stage4.txt
--r sources/requirements.txt
--r scripts/requirements_stage12c.txt
--r scripts/requirements_stage12d.txt
--r scripts/requirements_stage12e.txt
--r scripts/requirements_stage13e3.txt
+# Canonical database build, source acquisition, and supported benchmarks.
+psycopg[binary]>=3.2,<4
+psycopg2-binary>=2.9,<3
+pandas>=2.2,<3
+numpy>=1.26,<3
+pyarrow>=17,<25
+polars>=1.6,<2
+fastexcel>=0.12,<1
+openpyxl>=3.1,<4
+xlrd>=2.0,<3
+requests>=2.32,<3
+scikit-learn>=1.4,<2
+joblib>=1.3,<2
+cdsapi>=0.7.7,<1
+xarray>=2025.1
+netCDF4>=1.7,<2

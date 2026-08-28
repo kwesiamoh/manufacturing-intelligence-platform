@@ -7,7 +7,7 @@ from connection_auth import connection_parameters
 
 ROOT = Path(__file__).resolve().parents[2]
 PATH = (
-    ROOT / "sources" / "step14-eu-energy-prices" / "silver"
+    ROOT / "sources" / "eurostat-energy-prices" / "silver"
     / "eurostat_energy_prices"
     / "nrg_pc_205__six_site_countries_2024_2025.parquet"
 )
@@ -117,7 +117,7 @@ def main():
 
             cur.executemany(sql, rows)
 
-    print("\nStage 6C.2 Eurostat price-observation load complete.")
+    print("\nenergy-cost Eurostat price-observation load complete.")
 
 if __name__ == "__main__":
     main()

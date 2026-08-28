@@ -92,5 +92,9 @@ erDiagram
 Notes:
 - Source provenance is retained through `source_dataset_id`.
 - Nullable site/line/equipment foreign keys allow benchmark datasets to coexist without false plant-level joins.
-- Weather remains deferred until final fictional site coordinates are fixed.
-- This ERD reflects the agreed project scope only.
+- The canonical build creates several extensibility facts that remain empty in
+  the accepted operational population; published row counts distinguish loaded
+  facts from those reserved schema tables.
+- ERA5-Land weather is real external context linked to fictional site codes and
+  consumed by the supplemental site-energy workflow. It does not imply measured
+  on-site weather.

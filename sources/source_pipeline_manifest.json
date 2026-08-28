@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
-  "stage": "16A.8",
+  "release": "v1.0.0",
   "scope": "Explicit public-source acquisition, validation, and Silver transformation routes. These external source packages are not the Velora operational clean-build pipeline.",
   "statuses": ["COMPLETED", "MANUAL_INPUT_REQUIRED", "SKIPPED_INTENTIONALLY", "UNAVAILABLE", "FAILED"],
-  "steps": [
+  "routes": [
     {
-      "step": "01",
+      "order": 1,
       "id": "steel-energy",
-      "package_path": "sources/step01-energy",
+      "package_path": "sources/steel-energy",
       "acquisition": {
         "mode": "automated",
         "classification": "automated_from_recorded_verified_public_mirror",
-        "script": "sources/step01-energy/pipelines/download_steel_energy.py",
-        "required_inputs": ["sources/step01-energy/data/bronze/steel_energy/Steel_industry_data.csv"],
+        "script": "sources/steel-energy/pipelines/download_steel_energy.py",
+        "required_inputs": ["sources/steel-energy/data/bronze/steel_energy/Steel_industry_data.csv"],
         "verify_existing_via_script": true,
         "authoritative_source": "UCI Machine Learning Repository, dataset ID 851",
         "retrieval_route": "Recorded public GitHub mirror; not the authoritative publisher",
@@ -20,389 +20,368 @@
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step01-energy/pipelines/validate_steel_energy.py",
-        "required_inputs": ["sources/step01-energy/data/bronze/steel_energy/Steel_industry_data.csv"],
+        "script": "sources/steel-energy/pipelines/validate_steel_energy.py",
+        "required_inputs": ["sources/steel-energy/data/bronze/steel_energy/Steel_industry_data.csv"],
         "verification": "Rechecks governed SHA-256 and CSV contract independently; the transformer retains its existing row-count and null assertions."
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step01-energy/pipelines/transform_steel_energy.py",
-        "required_inputs": ["sources/step01-energy/data/bronze/steel_energy/Steel_industry_data.csv"]
+        "script": "sources/steel-energy/pipelines/transform_steel_energy.py",
+        "required_inputs": ["sources/steel-energy/data/bronze/steel_energy/Steel_industry_data.csv"]
       },
-      "canonical_silver": ["sources/step01-energy/data/silver/steel_energy/steel_energy.parquet"]
+      "canonical_silver": ["sources/steel-energy/data/silver/steel_energy/steel_energy.parquet"]
     },
     {
-      "step": "02",
+      "order": 2,
       "id": "metropt3-telemetry",
-      "package_path": "sources/step02-telemetry",
+      "package_path": "sources/metropt-telemetry",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step02-telemetry/ingestion/batch/download_metropt3.py",
+        "script": "sources/metropt-telemetry/ingestion/batch/download_metropt3.py",
         "required_inputs": [
-          "sources/step02-telemetry/data/bronze/metropt3/metropt3_dataset.zip",
-          "sources/step02-telemetry/data/bronze/metropt3/MetroPT3(AirCompressor).csv"
+          "sources/metropt-telemetry/data/bronze/metropt3/metropt3_dataset.zip",
+          "sources/metropt-telemetry/data/bronze/metropt3/MetroPT3(AirCompressor).csv"
         ]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step02-telemetry/pipelines/validate_metropt3.py",
-        "required_inputs": ["sources/step02-telemetry/data/bronze/metropt3/MetroPT3(AirCompressor).csv"]
+        "script": "sources/metropt-telemetry/pipelines/validate_metropt3.py",
+        "required_inputs": ["sources/metropt-telemetry/data/bronze/metropt3/MetroPT3(AirCompressor).csv"]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step02-telemetry/pipelines/transform_metropt3.py",
-        "required_inputs": ["sources/step02-telemetry/data/bronze/metropt3/MetroPT3(AirCompressor).csv"]
+        "script": "sources/metropt-telemetry/pipelines/transform_metropt3.py",
+        "required_inputs": ["sources/metropt-telemetry/data/bronze/metropt3/MetroPT3(AirCompressor).csv"]
       },
-      "canonical_silver": ["sources/step02-telemetry/data/silver/telemetry/metropt3/"]
+      "canonical_silver": ["sources/metropt-telemetry/data/silver/telemetry/metropt3/"]
     },
     {
-      "step": "03",
+      "order": 3,
       "id": "secom-quality",
-      "package_path": "sources/step03-quality",
+      "package_path": "sources/secom-quality",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step03-quality/scripts/download_source.py",
+        "script": "sources/secom-quality/scripts/download_source.py",
         "required_inputs": [
-          "sources/step03-quality/bronze/secom/secom.data",
-          "sources/step03-quality/bronze/secom/secom_labels.data",
-          "sources/step03-quality/bronze/secom/secom.names"
+          "sources/secom-quality/bronze/secom/secom.data",
+          "sources/secom-quality/bronze/secom/secom_labels.data",
+          "sources/secom-quality/bronze/secom/secom.names"
         ]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step03-quality/scripts/validate_bronze.py",
+        "script": "sources/secom-quality/scripts/validate_bronze.py",
         "required_inputs": [
-          "sources/step03-quality/bronze/secom/secom.data",
-          "sources/step03-quality/bronze/secom/secom_labels.data"
+          "sources/secom-quality/bronze/secom/secom.data",
+          "sources/secom-quality/bronze/secom/secom_labels.data"
         ]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step03-quality/scripts/build_silver.py",
+        "script": "sources/secom-quality/scripts/build_silver.py",
         "required_inputs": [
-          "sources/step03-quality/bronze/secom/secom.data",
-          "sources/step03-quality/bronze/secom/secom_labels.data"
+          "sources/secom-quality/bronze/secom/secom.data",
+          "sources/secom-quality/bronze/secom/secom_labels.data"
         ]
       },
       "canonical_silver": [
-        "sources/step03-quality/silver/quality/secom_process_quality.parquet",
-        "sources/step03-quality/silver/quality/secom_quality_events.parquet"
-      ],
-      "legacy": [{
-        "path": "sources/step03-quality/scripts/bronze_to_silver.py",
-        "status": "superseded",
-        "output": "sources/step03-quality/silver/quality/secom_quality.parquet",
-        "reason": "Uses a different identifier, timestamp, and sensor-numbering contract from the integration-safe fields documented in metadata/quality_domain_mapping.md."
-      }]
+        "sources/secom-quality/silver/quality/secom_process_quality.parquet",
+        "sources/secom-quality/silver/quality/secom_quality_events.parquet"
+      ]
     },
     {
-      "step": "04",
+      "order": 4,
       "id": "hydraulic-reliability",
-      "package_path": "sources/step04-reliability",
+      "package_path": "sources/hydraulic-condition-monitoring",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step04-reliability/scripts/download_bronze.py",
-        "required_inputs": ["sources/step04-reliability/bronze/hydraulic_condition_monitoring/profile.txt"]
+        "script": "sources/hydraulic-condition-monitoring/scripts/download_bronze.py",
+        "required_inputs": ["sources/hydraulic-condition-monitoring/bronze/hydraulic_condition_monitoring/profile.txt"]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step04-reliability/scripts/validate_bronze.py",
-        "required_inputs": ["sources/step04-reliability/bronze/hydraulic_condition_monitoring/profile.txt"]
+        "script": "sources/hydraulic-condition-monitoring/scripts/validate_bronze.py",
+        "required_inputs": ["sources/hydraulic-condition-monitoring/bronze/hydraulic_condition_monitoring/profile.txt"]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step04-reliability/scripts/bronze_to_silver.py",
-        "required_inputs": ["sources/step04-reliability/bronze/hydraulic_condition_monitoring/profile.txt"]
+        "script": "sources/hydraulic-condition-monitoring/scripts/bronze_to_silver.py",
+        "required_inputs": ["sources/hydraulic-condition-monitoring/bronze/hydraulic_condition_monitoring/profile.txt"]
       },
-      "canonical_silver": ["sources/step04-reliability/silver/reliability/"]
+      "canonical_silver": ["sources/hydraulic-condition-monitoring/silver/reliability/"]
     },
     {
-      "step": "05",
+      "order": 5,
       "id": "beverage-production-downtime",
-      "package_path": "sources/step05-production-downtime",
+      "package_path": "sources/production-downtime",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step05-production-downtime/scripts/download_source.py",
-        "required_inputs": ["sources/step05-production-downtime/bronze/production_downtime/production_raw.xlsx"]
+        "script": "sources/production-downtime/scripts/download_source.py",
+        "required_inputs": ["sources/production-downtime/bronze/production_downtime/production_raw.xlsx"]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step05-production-downtime/scripts/validate_bronze.py",
-        "required_inputs": ["sources/step05-production-downtime/bronze/production_downtime/production_raw.xlsx"]
+        "script": "sources/production-downtime/scripts/validate_bronze.py",
+        "required_inputs": ["sources/production-downtime/bronze/production_downtime/production_raw.xlsx"]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step05-production-downtime/scripts/transform_silver.py",
-        "required_inputs": ["sources/step05-production-downtime/bronze/production_downtime/production_raw.xlsx"]
+        "script": "sources/production-downtime/scripts/transform_silver.py",
+        "required_inputs": ["sources/production-downtime/bronze/production_downtime/production_raw.xlsx"]
       },
       "canonical_silver": [
-        "sources/step05-production-downtime/silver/production_downtime/production_hourly.parquet",
-        "sources/step05-production-downtime/silver/production_downtime/production_daily.parquet",
-        "sources/step05-production-downtime/silver/production_downtime/operation_hourly.parquet",
-        "sources/step05-production-downtime/silver/production_downtime/downtime_events.parquet"
-      ],
-      "legacy": [{
-        "path": "sources/step05-production-downtime/scripts/bronze_to_silver.py",
-        "status": "superseded",
-        "outputs": ["processed_hourly.parquet", "daily_operation_summary.parquet", "hourly_operation_breakdown.parquet", "downtime_event_log.parquet"],
-        "reason": "Generic sheet-copy contract lacks the source_dataset_id and typed canonical fields defined by metadata/silver_schema.yaml and the package README."
-      }]
+        "sources/production-downtime/silver/production_downtime/production_hourly.parquet",
+        "sources/production-downtime/silver/production_downtime/production_daily.parquet",
+        "sources/production-downtime/silver/production_downtime/operation_hourly.parquet",
+        "sources/production-downtime/silver/production_downtime/downtime_events.parquet"
+      ]
     },
     {
-      "step": "06",
+      "order": 6,
       "id": "fmucd-maintenance",
-      "package_path": "sources/step06-maintenance",
+      "package_path": "sources/fmucd-maintenance",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step06-maintenance/scripts/download_fmucd.py",
-        "required_inputs": ["sources/step06-maintenance/bronze/Facility Management Unified Classification Database (FMUCD).csv"]
+        "script": "sources/fmucd-maintenance/scripts/download_fmucd.py",
+        "required_inputs": ["sources/fmucd-maintenance/bronze/Facility Management Unified Classification Database (FMUCD).csv"]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step06-maintenance/scripts/validate_bronze.py",
-        "required_inputs": ["sources/step06-maintenance/bronze/Facility Management Unified Classification Database (FMUCD).csv"]
+        "script": "sources/fmucd-maintenance/scripts/validate_bronze.py",
+        "required_inputs": ["sources/fmucd-maintenance/bronze/Facility Management Unified Classification Database (FMUCD).csv"]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step06-maintenance/scripts/bronze_to_silver.py",
-        "required_inputs": ["sources/step06-maintenance/bronze/Facility Management Unified Classification Database (FMUCD).csv"]
+        "script": "sources/fmucd-maintenance/scripts/bronze_to_silver.py",
+        "required_inputs": ["sources/fmucd-maintenance/bronze/Facility Management Unified Classification Database (FMUCD).csv"]
       },
-      "canonical_silver": ["sources/step06-maintenance/silver/fmucd_maintenance.parquet"]
+      "canonical_silver": ["sources/fmucd-maintenance/silver/fmucd_maintenance.parquet"]
     },
     {
-      "step": "07",
+      "order": 7,
       "id": "cnc-production-orders",
-      "package_path": "sources/step07-production-orders",
+      "package_path": "sources/cnc-production-orders",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step07-production-orders/scripts/download_bronze.py",
-        "required_inputs": ["sources/step07-production-orders/bronze/series_production_cnc/Data_from_2021-11-26.csv"]
+        "script": "sources/cnc-production-orders/scripts/download_bronze.py",
+        "required_inputs": ["sources/cnc-production-orders/bronze/series_production_cnc/Data_from_2021-11-26.csv"]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step07-production-orders/scripts/validate_bronze.py",
-        "required_inputs": ["sources/step07-production-orders/bronze/series_production_cnc/Data_from_2021-11-26.csv"]
+        "script": "sources/cnc-production-orders/scripts/validate_bronze.py",
+        "required_inputs": ["sources/cnc-production-orders/bronze/series_production_cnc/Data_from_2021-11-26.csv"]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step07-production-orders/scripts/bronze_to_silver.py",
-        "required_inputs": ["sources/step07-production-orders/bronze/series_production_cnc/Data_from_2021-11-26.csv"]
+        "script": "sources/cnc-production-orders/scripts/bronze_to_silver.py",
+        "required_inputs": ["sources/cnc-production-orders/bronze/series_production_cnc/Data_from_2021-11-26.csv"]
       },
-      "canonical_silver": ["sources/step07-production-orders/silver/series_production_cnc/"]
+      "canonical_silver": ["sources/cnc-production-orders/silver/series_production_cnc/"]
     },
     {
-      "step": "08",
+      "order": 8,
       "id": "itac-energy-cost",
-      "package_path": "sources/step08-energy-cost",
+      "package_path": "sources/industrial-energy-assessment",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step08-energy-cost/scripts/download_itac.py",
-        "required_inputs": ["sources/step08-energy-cost/bronze/itac/ITAC_Database.zip"]
+        "script": "sources/industrial-energy-assessment/scripts/download_itac.py",
+        "required_inputs": ["sources/industrial-energy-assessment/bronze/itac/ITAC_Database.zip"]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step08-energy-cost/scripts/validate_bronze.py",
-        "required_inputs": ["sources/step08-energy-cost/bronze/itac/ITAC_Database.zip"]
+        "script": "sources/industrial-energy-assessment/scripts/validate_bronze.py",
+        "required_inputs": ["sources/industrial-energy-assessment/bronze/itac/ITAC_Database.zip"]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step08-energy-cost/scripts/bronze_to_silver.py",
-        "required_inputs": ["sources/step08-energy-cost/bronze/itac/ITAC_Database.zip"]
+        "script": "sources/industrial-energy-assessment/scripts/bronze_to_silver.py",
+        "required_inputs": ["sources/industrial-energy-assessment/bronze/itac/ITAC_Database.zip"]
       },
-      "canonical_silver": ["sources/step08-energy-cost/silver/itac/"]
+      "canonical_silver": ["sources/industrial-energy-assessment/silver/itac/"]
     },
     {
-      "step": "09",
+      "order": 9,
       "id": "industrial-park-utilities",
-      "package_path": "sources/step09-utilities",
+      "package_path": "sources/industrial-utilities",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step09-utilities/scripts/download_and_verify.py",
+        "script": "sources/industrial-utilities/scripts/download_and_verify.py",
         "required_inputs": [
-          "sources/step09-utilities/bronze/industrial_park_ies/preair_G.xlsx",
-          "sources/step09-utilities/bronze/industrial_park_ies/preair_P.xlsx",
-          "sources/step09-utilities/bronze/industrial_park_ies/steam_G.xlsx",
-          "sources/step09-utilities/bronze/industrial_park_ies/steam_P.xlsx"
+          "sources/industrial-utilities/bronze/industrial_park_ies/preair_G.xlsx",
+          "sources/industrial-utilities/bronze/industrial_park_ies/preair_P.xlsx",
+          "sources/industrial-utilities/bronze/industrial_park_ies/steam_G.xlsx",
+          "sources/industrial-utilities/bronze/industrial_park_ies/steam_P.xlsx"
         ]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step09-utilities/scripts/validate_bronze.py",
+        "script": "sources/industrial-utilities/scripts/validate_bronze.py",
         "required_inputs": [
-          "sources/step09-utilities/bronze/industrial_park_ies/preair_G.xlsx",
-          "sources/step09-utilities/bronze/industrial_park_ies/preair_P.xlsx",
-          "sources/step09-utilities/bronze/industrial_park_ies/steam_G.xlsx",
-          "sources/step09-utilities/bronze/industrial_park_ies/steam_P.xlsx"
+          "sources/industrial-utilities/bronze/industrial_park_ies/preair_G.xlsx",
+          "sources/industrial-utilities/bronze/industrial_park_ies/preair_P.xlsx",
+          "sources/industrial-utilities/bronze/industrial_park_ies/steam_G.xlsx",
+          "sources/industrial-utilities/bronze/industrial_park_ies/steam_P.xlsx"
         ]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step09-utilities/scripts/bronze_to_silver.py",
+        "script": "sources/industrial-utilities/scripts/bronze_to_silver.py",
         "required_inputs": [
-          "sources/step09-utilities/bronze/industrial_park_ies/preair_G.xlsx",
-          "sources/step09-utilities/bronze/industrial_park_ies/preair_P.xlsx",
-          "sources/step09-utilities/bronze/industrial_park_ies/steam_G.xlsx",
-          "sources/step09-utilities/bronze/industrial_park_ies/steam_P.xlsx"
+          "sources/industrial-utilities/bronze/industrial_park_ies/preair_G.xlsx",
+          "sources/industrial-utilities/bronze/industrial_park_ies/preair_P.xlsx",
+          "sources/industrial-utilities/bronze/industrial_park_ies/steam_G.xlsx",
+          "sources/industrial-utilities/bronze/industrial_park_ies/steam_P.xlsx"
         ]
       },
-      "canonical_silver": ["sources/step09-utilities/silver/industrial_park_ies/"],
-      "limitations": ["Source license/redistribution status is unresolved. Materialized Bronze and Silver data are excluded from the public release boundary pending a documented Stage 16B decision."]
+      "canonical_silver": ["sources/industrial-utilities/silver/industrial_park_ies/"],
+      "limitations": ["Final public treatment is acquisition-only/no source redistribution. Materialized Bronze and Silver files are excluded; users obtain the four workbooks under provider terms."]
     },
     {
-      "step": "10",
+      "order": 10,
       "id": "statcan-water",
-      "package_path": "sources/step10-water",
+      "package_path": "sources/industrial-water",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step10-water/scripts/download_statcan.py",
-        "required_inputs": ["sources/step10-water/bronze/statcan_industrial_water/38100056-eng.zip"]
+        "script": "sources/industrial-water/scripts/download_statcan.py",
+        "required_inputs": ["sources/industrial-water/bronze/statcan_industrial_water/38100056-eng.zip"]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step10-water/scripts/validate_bronze.py",
-        "required_inputs": ["sources/step10-water/bronze/statcan_industrial_water/38100056-eng.zip"]
+        "script": "sources/industrial-water/scripts/validate_bronze.py",
+        "required_inputs": ["sources/industrial-water/bronze/statcan_industrial_water/38100056-eng.zip"]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step10-water/scripts/bronze_to_silver.py",
-        "required_inputs": ["sources/step10-water/bronze/statcan_industrial_water/38100056-eng.zip"]
+        "script": "sources/industrial-water/scripts/bronze_to_silver.py",
+        "required_inputs": ["sources/industrial-water/bronze/statcan_industrial_water/38100056-eng.zip"]
       },
-      "canonical_silver": ["sources/step10-water/silver/statcan_industrial_water/"]
+      "canonical_silver": ["sources/industrial-water/silver/statcan_industrial_water/"]
     },
     {
-      "step": "11",
+      "order": 11,
       "id": "eia-mecs-fuels",
-      "package_path": "sources/step11-fuels",
+      "package_path": "sources/manufacturing-fuels",
       "acquisition": {
         "mode": "automated",
-        "script": "sources/step11-fuels/scripts/download_mecs.py",
+        "script": "sources/manufacturing-fuels/scripts/download_mecs.py",
         "required_inputs": [
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table3_1.xlsx",
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table7_3.xlsx",
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table7_7.xlsx",
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table7_10.xlsx"
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table3_1.xlsx",
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table7_3.xlsx",
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table7_7.xlsx",
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table7_10.xlsx"
         ]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step11-fuels/scripts/validate_bronze.py",
+        "script": "sources/manufacturing-fuels/scripts/validate_bronze.py",
         "required_inputs": [
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table3_1.xlsx",
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table7_3.xlsx",
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table7_7.xlsx",
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table7_10.xlsx"
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table3_1.xlsx",
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table7_3.xlsx",
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table7_7.xlsx",
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table7_10.xlsx"
         ]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step11-fuels/scripts/bronze_to_silver.py",
+        "script": "sources/manufacturing-fuels/scripts/bronze_to_silver.py",
         "required_inputs": [
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table3_1.xlsx",
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table7_3.xlsx",
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table7_7.xlsx",
-          "sources/step11-fuels/bronze/eia_mecs_2022/Table7_10.xlsx"
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table3_1.xlsx",
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table7_3.xlsx",
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table7_7.xlsx",
+          "sources/manufacturing-fuels/bronze/eia_mecs_2022/Table7_10.xlsx"
         ]
       },
-      "canonical_silver": ["sources/step11-fuels/silver/eia_mecs_2022/"]
+      "canonical_silver": ["sources/manufacturing-fuels/silver/eia_mecs_2022/"]
     },
     {
-      "step": "12",
+      "order": 12,
       "id": "eea-eu-ets-emissions",
-      "package_path": "sources/step12-emissions",
+      "package_path": "sources/eu-ets-emissions",
       "acquisition": {
         "mode": "manual_input",
-        "script": "sources/step12-emissions/scripts/download_eea_eu_ets.py",
-        "required_inputs": ["sources/step12-emissions/bronze/eea_eu_ets/ETS_Database_July_2026.xlsx"],
+        "script": "sources/eu-ets-emissions/scripts/download_eea_eu_ets.py",
+        "required_inputs": ["sources/eu-ets-emissions/bronze/eea_eu_ets/ETS_Database_July_2026.xlsx"],
         "reason": "The retained script is an instruction-only pointer to the EEA Datahub; official release selection and download are manual."
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step12-emissions/scripts/validate_bronze.py",
-        "required_inputs": ["sources/step12-emissions/bronze/eea_eu_ets/ETS_Database_July_2026.xlsx"]
+        "script": "sources/eu-ets-emissions/scripts/validate_bronze.py",
+        "required_inputs": ["sources/eu-ets-emissions/bronze/eea_eu_ets/ETS_Database_July_2026.xlsx"]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step12-emissions/scripts/bronze_to_silver.py",
-        "required_inputs": ["sources/step12-emissions/bronze/eea_eu_ets/ETS_Database_July_2026.xlsx"]
+        "script": "sources/eu-ets-emissions/scripts/bronze_to_silver.py",
+        "required_inputs": ["sources/eu-ets-emissions/bronze/eea_eu_ets/ETS_Database_July_2026.xlsx"]
       },
-      "canonical_silver": ["sources/step12-emissions/silver/eea_eu_ets/"],
-      "limitations": ["Acquisition is manual and license/redistribution status is unresolved. Materialized Bronze and Silver data are excluded from the public release boundary pending a documented Stage 16B decision."]
+      "canonical_silver": ["sources/eu-ets-emissions/silver/eea_eu_ets/"],
+      "limitations": ["Acquisition is manual and reports MANUAL_INPUT_REQUIRED when absent. Final public treatment is no source redistribution; users obtain the official workbook under provider terms."]
     },
     {
-      "step": "13",
+      "order": 13,
       "id": "era5-land-weather",
-      "package_path": "sources/step13-weather",
+      "package_path": "sources/era5-weather",
       "acquisition": {
         "mode": "automated_authenticated",
-        "script": "sources/step13-weather/scripts/download_era5_land.py",
+        "script": "sources/era5-weather/scripts/download_era5_land.py",
         "required_inputs": [
-          "sources/step13-weather/data/bronze/era5_land/SITE-DE-01/SITE-DE-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-NL-01/SITE-NL-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-PL-01/SITE-PL-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-CZ-01/SITE-CZ-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-FR-01/SITE-FR-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-ES-01/SITE-ES-01_era5_land_2024_2025.zip"
+          "sources/era5-weather/data/bronze/era5_land/SITE-DE-01/SITE-DE-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-NL-01/SITE-NL-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-PL-01/SITE-PL-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-CZ-01/SITE-CZ-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-FR-01/SITE-FR-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-ES-01/SITE-ES-01_era5_land_2024_2025.zip"
         ]
       },
       "validation": {
         "mode": "automated",
-        "script": "sources/step13-weather/scripts/validate_bronze.py",
+        "script": "sources/era5-weather/scripts/validate_bronze.py",
         "required_inputs": [
-          "sources/step13-weather/data/bronze/era5_land/SITE-DE-01/SITE-DE-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-NL-01/SITE-NL-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-PL-01/SITE-PL-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-CZ-01/SITE-CZ-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-FR-01/SITE-FR-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-ES-01/SITE-ES-01_era5_land_2024_2025.zip"
+          "sources/era5-weather/data/bronze/era5_land/SITE-DE-01/SITE-DE-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-NL-01/SITE-NL-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-PL-01/SITE-PL-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-CZ-01/SITE-CZ-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-FR-01/SITE-FR-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-ES-01/SITE-ES-01_era5_land_2024_2025.zip"
         ]
       },
       "transformation": {
         "mode": "automated",
-        "script": "sources/step13-weather/scripts/bronze_to_silver.py",
+        "script": "sources/era5-weather/scripts/bronze_to_silver.py",
         "required_inputs": [
-          "sources/step13-weather/data/bronze/era5_land/SITE-DE-01/SITE-DE-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-NL-01/SITE-NL-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-PL-01/SITE-PL-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-CZ-01/SITE-CZ-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-FR-01/SITE-FR-01_era5_land_2024_2025.zip",
-          "sources/step13-weather/data/bronze/era5_land/SITE-ES-01/SITE-ES-01_era5_land_2024_2025.zip"
+          "sources/era5-weather/data/bronze/era5_land/SITE-DE-01/SITE-DE-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-NL-01/SITE-NL-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-PL-01/SITE-PL-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-CZ-01/SITE-CZ-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-FR-01/SITE-FR-01_era5_land_2024_2025.zip",
+          "sources/era5-weather/data/bronze/era5_land/SITE-ES-01/SITE-ES-01_era5_land_2024_2025.zip"
         ]
       },
-      "canonical_silver": ["sources/step13-weather/data/silver/weather/"],
+      "canonical_silver": ["sources/era5-weather/data/silver/weather/"],
       "limitations": ["CDS account credentials and any required Copernicus terms acceptance must be completed externally before acquisition."]
     },
     {
-      "step": "14",
+      "order": 14,
       "id": "eurostat-energy-prices",
-      "package_path": "sources/step14-eu-energy-prices",
+      "package_path": "sources/eurostat-energy-prices",
       "acquisition": {
         "mode": "automated",
         "script": "pipelines/bronze/download_eurostat_nrg_pc_205.py",
-        "required_inputs": ["sources/step14-eu-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__full.json"]
+        "required_inputs": ["sources/eurostat-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__full.json"]
       },
       "validation": {
         "mode": "automated",
         "script": "pipelines/bronze/validate_eurostat_nrg_pc_205.py",
-        "required_inputs": ["sources/step14-eu-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__full.json"]
+        "required_inputs": ["sources/eurostat-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__full.json"]
       },
       "transformation": {
         "mode": "automated",
         "script": "pipelines/silver/expand_eurostat_nrg_pc_205.py",
-        "required_inputs": ["sources/step14-eu-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__full.json"]
+        "required_inputs": ["sources/eurostat-energy-prices/bronze/eurostat_energy_prices/nrg_pc_205__full.json"]
       },
       "canonical_silver": [
-        "sources/step14-eu-energy-prices/silver/eurostat_energy_prices/nrg_pc_205__observations.parquet",
-        "sources/step14-eu-energy-prices/silver/eurostat_energy_prices/nrg_pc_205__six_site_countries_2024_2025.parquet"
-      ],
-      "legacy": [{
-        "path": "sources/step14-eu-energy-prices/scripts/bronze_to_silver.py",
-        "status": "superseded",
-        "reason": "Metadata-only scaffold discards observation rows and cannot supply the accepted PostgreSQL price loader."
-      }, {
-        "path": "sources/step14-eu-energy-prices/scripts/download_eurostat.py",
-        "status": "superseded",
-        "reason": "Downloads the earlier package-local filenames paired with the metadata-only route; the canonical route retains nrg_pc_205__full.json."
-      }]
+        "sources/eurostat-energy-prices/silver/eurostat_energy_prices/nrg_pc_205__observations.parquet",
+        "sources/eurostat-energy-prices/silver/eurostat_energy_prices/nrg_pc_205__six_site_countries_2024_2025.parquet"
+      ]
     }
   ]
 }

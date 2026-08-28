@@ -137,7 +137,7 @@ Examples:
 
 - operating-hours MTBF is explicitly a **proxy** because line operating hours
   are used rather than direct asset runtime;
-- Stage 13 condition classification is not RUL prediction;
+- hydraulic condition classification is not remaining-useful-life prediction;
 - MetroPT anomaly detection is not claimed as a two-hour predictive-maintenance
   warning model.
 

@@ -1,7 +1,0 @@
-site_code,site_name,monitored_shifts,high_energy_anomalies,low_energy_anomalies,residual_energy_kwh,high_energy_anomaly_pct
-SITE-CZ-01,Czechia Manufacturing Site,5475,60,65,-28.32289067008378,1.095890410958904
-SITE-DE-01,Germany Manufacturing Site,5475,52,18,-12.844907168534746,0.9497716894977168
-SITE-ES-01,Spain Manufacturing Site,5475,32,57,-407.73639850022437,0.5844748858447488
-SITE-FR-01,France Manufacturing Site,5475,43,43,-1.4735061190242504,0.7853881278538812
-SITE-NL-01,Netherlands Manufacturing Site,5475,47,42,67.23558593188568,0.8584474885844748
-SITE-PL-01,Poland Manufacturing Site,5475,20,57,-13.817628823744826,0.365296803652968

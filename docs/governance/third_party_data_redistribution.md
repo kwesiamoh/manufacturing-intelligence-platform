@@ -10,9 +10,9 @@ Where redistribution rights are not established, the repository provides acquisi
 
 ---
 
-## Step 09: Utilities source workbooks
+## Industrial Utilities workbooks
 
-The Step 09 utilities inputs are:
+The Industrial Utilities inputs are:
 
 ```text
 preair_G.xlsx
@@ -25,7 +25,7 @@ steam_P.xlsx
 
 **Do not redistribute these source workbooks in the public repository.**
 
-The project does not currently establish sufficient redistribution rights for these files.
+Repository evidence does not grant redistribution rights for these files, so the public treatment is acquisition-only.
 
 The repository may include:
 
@@ -37,17 +37,13 @@ The repository may include:
 - transformation scripts
 - downstream derived logic where redistribution is permitted
 
-Users who want to reproduce this source step must obtain the original files separately under the terms of the source provider.
-
-### Public repository wording
-
-> Step 09 utility workbooks are not redistributed with this repository because redistribution rights have not been established. The repository retains the expected filenames, source metadata, validation logic, and transformation code required to process user-obtained copies.
+Users who want to reproduce this source route must obtain the original files separately under the terms of the source provider.
 
 ---
 
-## Step 12: EU ETS source workbook
+## EU ETS source workbook
 
-The Step 12 source is:
+The EU ETS source is:
 
 ```text
 ETS_Database_July_2026.xlsx
@@ -55,7 +51,7 @@ ETS_Database_July_2026.xlsx
 
 ### Acquisition status
 
-Step 12 remains a **manual acquisition** source.
+EU ETS is a **manual acquisition** source.
 
 The canonical source runner correctly reports:
 
@@ -69,7 +65,7 @@ when the workbook is absent.
 
 **Do not redistribute the EU ETS workbook in the public repository.**
 
-The project does not currently establish sufficient redistribution rights for direct inclusion of the workbook.
+Repository evidence does not grant redistribution rights for direct inclusion of the workbook, so the public treatment is manual acquisition with no source redistribution.
 
 The repository may include:
 
@@ -80,15 +76,11 @@ The repository may include:
 - transformation scripts
 - downstream analytical logic where redistribution is permitted
 
-Users must obtain the workbook separately from the original provider and place it in the documented local path before running the source step.
-
-### Public repository wording
-
-> Step 12 EU ETS data is handled as a manual-input source. The original workbook is not redistributed with this repository. Users must obtain it from the original provider under the applicable terms, place it in the documented local path, and then run the included validation and transformation workflow.
+Users must obtain the workbook separately from the original provider and place it in the documented local path before running validation and transformation.
 
 ---
 
-## Step 01: Steel Energy reference
+## Steel Energy reference
 
 The authoritative source remains the UCI Machine Learning Repository.
 
@@ -100,9 +92,7 @@ DOI: 10.24432/C52G8C
 License: CC BY 4.0
 ```
 
-The accepted project retrieval route uses a recorded verified public mirror because the original UCI binary endpoint was unavailable in the development environment.
-
-The release should preserve this distinction:
+Acquisition uses a recorded, checksum-verified public mirror while UCI remains the authoritative dataset publisher:
 
 - UCI is the authoritative source
 - the mirror is only the retrieval route
@@ -110,7 +100,7 @@ The release should preserve this distinction:
 
 ---
 
-## Step 13: ERA5
+## ERA5-Land
 
 ERA5 is handled as authenticated acquisition.
 
@@ -118,7 +108,7 @@ Users must provide their own credentials and accept the relevant provider terms.
 
 No user credentials are distributed or committed.
 
-The source should be described as:
+Its acquisition classification is:
 
 ```text
 automated authenticated acquisition
@@ -126,11 +116,9 @@ automated authenticated acquisition
 
 ---
 
-## Step 14: Eurostat
+## Eurostat energy prices
 
-The accepted Eurostat route is the structured JSON-stat pipeline.
-
-Older metadata-only logic is not the canonical transformation path.
+The Eurostat route uses the structured JSON-stat acquisition, validation, and transformation pipeline.
 
 ---
 
@@ -149,6 +137,6 @@ For public release:
 
 ## Final release status
 
-The unresolved redistribution questions for Steps 09 and 12 are closed by adopting **acquisition-only / no-source-redistribution** handling.
+Industrial Utilities uses **acquisition-only / no-source-redistribution** handling. EU ETS uses **manual acquisition / no-source-redistribution** handling.
 
 This is a release-governance decision and does not change the completed technical reproducibility proof.

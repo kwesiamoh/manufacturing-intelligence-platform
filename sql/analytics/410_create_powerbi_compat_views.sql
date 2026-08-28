@@ -1,4 +1,4 @@
--- Stage 11B Power BI compatibility layer
+-- Power BI compatibility Power BI compatibility layer
 -- Purpose:
 --   PostgreSQL unconstrained NUMERIC values can exceed the precision metadata
 --   supported by the .NET System.Decimal provider used by Power BI.

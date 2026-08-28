@@ -53,7 +53,7 @@ Recommended target controls:
 
 Python dependencies should be pinned or constrained through requirements files.
 
-Recommended future CI controls:
+Recommended CI controls for a deployed implementation:
 
 - dependency vulnerability scanning;
 - static code checks;

@@ -1,4 +1,4 @@
--- Stage 4A verification
+-- database verification
 
 SELECT current_database() AS database_name;
 

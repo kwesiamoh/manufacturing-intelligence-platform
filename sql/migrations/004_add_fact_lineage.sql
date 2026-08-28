@@ -1,5 +1,5 @@
--- Stage 4D schema alignment
--- Preserve Stage 3 synthetic lineage when loading facts.
+-- fact lineage schema alignment
+-- Preserve synthetic lineage when loading facts.
 
 ALTER TABLE fact_production
     ADD COLUMN IF NOT EXISTS source_record_id VARCHAR(64);

@@ -1,5 +1,5 @@
 -- Manufacturing Intelligence Platform
--- Stage 2D: Canonical facts
+-- canonical data model: Canonical facts
 -- PostgreSQL
 
 CREATE TABLE IF NOT EXISTS fact_telemetry (

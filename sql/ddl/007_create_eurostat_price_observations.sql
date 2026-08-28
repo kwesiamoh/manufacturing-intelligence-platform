@@ -1,4 +1,4 @@
--- Stage 6C.2 — Structured Eurostat non-household electricity-price benchmark.
+-- energy-cost — Structured Eurostat non-household electricity-price benchmark.
 
 CREATE TABLE IF NOT EXISTS ref_eurostat_electricity_price_observation (
     price_observation_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

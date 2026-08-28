@@ -129,7 +129,7 @@ def split_duration(total_min):
 
 def main():
     if not PRODUCTION.exists():
-        raise FileNotFoundError(f"Missing Stage 3D Silver production file: {PRODUCTION}")
+        raise FileNotFoundError(f"Missing production Silver production file: {PRODUCTION}")
 
     BRONZE.mkdir(parents=True, exist_ok=True)
     SILVER.mkdir(parents=True, exist_ok=True)

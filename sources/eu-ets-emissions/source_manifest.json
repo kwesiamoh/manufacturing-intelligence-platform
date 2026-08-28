@@ -1,0 +1,15 @@
+{
+  "package": "manufacturing-intelligence-eu-ets-emissions",
+  "created": "2026-08-24",
+  "public_release_contains_raw_data": false,
+  "raw_data_status": "Users obtain the official EEA July 2026 workbook manually and place it under bronze/eea_eu_ets for local validation and transformation.",
+  "synthetic_records_added": 0,
+  "acquisition_mode": "manual_input_required",
+  "canonical_workflow": [
+    "manual official EEA Datahub acquisition",
+    "python scripts/validate_bronze.py",
+    "python scripts/bronze_to_silver.py"
+  ],
+  "public_release_treatment": "manual_acquisition_no_source_redistribution",
+  "license_review": "No redistribution right is inferred. Materialized Bronze and Silver data are excluded; users obtain the official workbook under provider terms."
+}

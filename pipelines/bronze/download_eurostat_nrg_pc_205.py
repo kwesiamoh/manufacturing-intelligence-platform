@@ -5,7 +5,7 @@ import requests
 from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / "sources" / "step14-eu-energy-prices" / "bronze" / "eurostat_energy_prices"
+OUT = ROOT / "sources" / "eurostat-energy-prices" / "bronze" / "eurostat_energy_prices"
 OUT.mkdir(parents=True, exist_ok=True)
 sys.path.insert(0, str(ROOT / "sources"))
 from _shared.bronze_guard import install_bytes, reuse_complete_set_or_raise

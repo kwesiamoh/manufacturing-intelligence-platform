@@ -1,4 +1,4 @@
--- Stage 12B.2 validation: Laney p' chart
+-- Laney p-prime SPC validation: Laney p' chart
 \pset pager off
 
 -- The accepted Laney view is a nested analytical view. Materialize it once for
@@ -148,9 +148,9 @@ SELECT DISTINCT
 FROM laney_pprime_validation_snapshot;
 
 \echo ''
-\echo '=== Stage 12B.2 Laney p-prime validation complete ==='
+\echo '=== Laney p-prime SPC Laney p-prime validation complete ==='
 
-\echo '=== Mandatory Stage 12B.2 gate ==='
+\echo '=== Mandatory Laney p-prime SPC gate ==='
 DO $validation$
 DECLARE
     bad_count bigint;
@@ -160,7 +160,7 @@ BEGIN
            WHERE spc_phase = 'BASELINE_2024') <> 32940
        OR (SELECT COUNT(*) FROM laney_pprime_validation_snapshot
            WHERE spc_phase = 'MONITORING_2025') <> 32850 THEN
-        RAISE EXCEPTION 'Stage 12B.2 Laney p-prime view has incomplete canonical phase coverage';
+        RAISE EXCEPTION 'Laney p-prime SPC Laney p-prime view has incomplete canonical phase coverage';
     END IF;
 
     SELECT COUNT(*) INTO bad_count
@@ -173,14 +173,14 @@ BEGIN
        OR abs(subgroup_units - round(subgroup_units)) > 0.000001
        OR abs(reject_units - round(reject_units)) > 0.000001;
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Stage 12B.2 Laney p-prime gate found % invalid rows', bad_count;
+        RAISE EXCEPTION 'Laney p-prime SPC Laney p-prime gate found % invalid rows', bad_count;
     END IF;
 
     IF EXISTS (
         SELECT 1 FROM laney_pprime_validation_snapshot
         WHERE source_code <> 'SYNTHETIC_ENTERPRISE' OR is_real_data IS DISTINCT FROM FALSE
     ) THEN
-        RAISE EXCEPTION 'Stage 12B.2 provenance gate expected only synthetic Velora integration data';
+        RAISE EXCEPTION 'Laney p-prime SPC provenance gate expected only synthetic Velora integration data';
     END IF;
 END
 $validation$;

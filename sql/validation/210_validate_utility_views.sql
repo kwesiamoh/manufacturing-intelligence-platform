@@ -1,6 +1,6 @@
 \pset pager off
 
-\echo '=== Stage 6B detail-table counts ==='
+\echo '=== utilities detail-table counts ==='
 SELECT 'fact_line_energy_detail' AS object_name, COUNT(*) AS row_count
 FROM fact_line_energy_detail
 UNION ALL
@@ -100,7 +100,7 @@ FROM vw_compressed_air_line_summary
 WHERE modelled_shift_count > 0
 ORDER BY site_code, line_code, product_code;
 
-\echo '=== Mandatory Stage 6B gate ==='
+\echo '=== Mandatory utilities gate ==='
 DO $validation$
 DECLARE
     bad_count bigint;
@@ -112,7 +112,7 @@ BEGIN
        OR NOT EXISTS (SELECT 1 FROM vw_line_idle_energy_summary)
        OR NOT EXISTS (SELECT 1 FROM vw_compressed_air_line_summary)
        OR (SELECT COUNT(*) FROM vw_site_auxiliary_summary) <> 6 THEN
-        RAISE EXCEPTION 'Stage 6B detail and utility views have incomplete canonical coverage';
+        RAISE EXCEPTION 'utilities detail and utility views have incomplete canonical coverage';
     END IF;
 
     SELECT SUM(n) INTO bad_count
@@ -138,7 +138,7 @@ BEGIN
            OR weather_sensitive_aux_power_share > 1.000001
     ) checks;
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Stage 6B utility gate found % invalid or unreconciled rows', bad_count;
+        RAISE EXCEPTION 'utilities utility gate found % invalid or unreconciled rows', bad_count;
     END IF;
 END
 $validation$;

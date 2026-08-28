@@ -1,6 +1,6 @@
 \pset pager off
 
-\echo '=== Stage 10B Gold model row counts ==='
+\echo '=== Gold model Gold model row counts ==='
 SELECT 'gold.vw_shift_manufacturing_performance' AS object_name, COUNT(*) AS row_count
 FROM gold.vw_shift_manufacturing_performance
 UNION ALL

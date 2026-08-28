@@ -1,4 +1,4 @@
--- Stage 7A — Core data quality framework
+-- data-quality — Core data quality framework
 
 CREATE TABLE IF NOT EXISTS dq_rule (
     dq_rule_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

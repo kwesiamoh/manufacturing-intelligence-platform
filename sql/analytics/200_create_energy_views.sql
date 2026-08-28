@@ -1,4 +1,4 @@
--- Stage 6A — Electricity performance and energy-intensity analytics
+-- energy — Electricity performance and energy-intensity analytics
 -- Uses validated synthetic enterprise line-level electricity facts.
 
 CREATE OR REPLACE VIEW vw_shift_energy_kpi AS

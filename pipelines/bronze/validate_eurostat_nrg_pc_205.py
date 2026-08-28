@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SOURCE = (
     ROOT
     / "sources"
-    / "step14-eu-energy-prices"
+    / "eurostat-energy-prices"
     / "bronze"
     / "eurostat_energy_prices"
     / "nrg_pc_205__full.json"

@@ -1,0 +1,3 @@
+The materialized production_raw.xlsx workbook is excluded from the public Git payload. Acquire it from the documented authoritative source before running validation and transformation.
+
+Run ../../scripts/download_source.py from the package root (or `python scripts/download_source.py`) on an internet-connected machine. The script verifies the official Zenodo MD5 before accepting the file as Bronze data.

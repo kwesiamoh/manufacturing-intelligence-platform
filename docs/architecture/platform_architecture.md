@@ -277,7 +277,7 @@ Mandatory SQL execution uses PostgreSQL fail-fast behaviour:
 ON_ERROR_STOP=1
 ```
 
-The final Stage 16A.10 proof passed all 19 mandatory validations.
+The accepted disposable clean-build proof passed all 19 mandatory validations.
 
 The proof database itself is not distributed through GitHub. Reproducibility is demonstrated through governed inputs, scripts, manifests, hashes, validation logic, and captured build evidence.
 
@@ -406,6 +406,6 @@ Those capabilities would require additional operational infrastructure beyond th
 ## Related documentation
 
 - `docs/reproducibility/canonical_build_order.md`
-- `docs/reproducibility/stage16a10_clean_build_proof.md`
-- `reports/reproducibility/stage16a10_build_evidence.json`
-- `docs/governance/repository_release_policy.md`
+- `docs/reproducibility/clean_build_proof.md`
+- `reports/reproducibility/clean_build_evidence.json`
+- `docs/governance/third_party_data_redistribution.md`

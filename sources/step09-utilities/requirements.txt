@@ -1,4 +1,0 @@
-requests>=2.32
-polars>=1.6
-fastexcel>=0.11
-pyarrow>=17

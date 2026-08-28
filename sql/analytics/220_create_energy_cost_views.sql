@@ -1,4 +1,4 @@
--- Stage 6C.2 — Benchmark electricity-cost analytics.
+-- energy-cost — Benchmark electricity-cost analytics.
 -- Synthetic enterprise consumption x real external Eurostat price benchmark.
 
 CREATE OR REPLACE VIEW vw_site_shift_electricity_cost_benchmark AS

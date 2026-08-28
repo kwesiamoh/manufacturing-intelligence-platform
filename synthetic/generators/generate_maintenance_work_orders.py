@@ -29,7 +29,7 @@ def maintenance_required(row):
 
 def main():
     if not DOWNTIME.exists():
-        raise FileNotFoundError(f"Missing Stage 3E Silver downtime file: {DOWNTIME}")
+        raise FileNotFoundError(f"Missing downtime Silver downtime file: {DOWNTIME}")
 
     BRONZE.mkdir(parents=True, exist_ok=True)
     SILVER.mkdir(parents=True, exist_ok=True)

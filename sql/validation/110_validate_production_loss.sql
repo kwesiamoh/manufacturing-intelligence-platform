@@ -1,13 +1,13 @@
 \pset pager off
 
-\echo '=== Stage 5B config validation ==='
+\echo '=== production loss config validation ==='
 SELECT
     COUNT(*) AS product_value_rows,
     COUNT(*) FILTER (WHERE standard_loss_value_eur_per_unit IS NULL) AS null_values,
     COUNT(*) FILTER (WHERE standard_loss_value_eur_per_unit < 0) AS negative_values
 FROM cfg_product_loss_value;
 
-\echo '=== Stage 5B row counts ==='
+\echo '=== production loss row counts ==='
 SELECT 'vw_shift_loss_accounting' AS object_name, COUNT(*) AS row_count
 FROM vw_shift_loss_accounting
 UNION ALL
@@ -89,7 +89,7 @@ SELECT
 FROM vw_site_loss_summary
 ORDER BY total_technical_opportunity_eur DESC;
 
-\echo '=== Mandatory Stage 5B gate ==='
+\echo '=== Mandatory production loss gate ==='
 DO $validation$
 DECLARE
     bad_count bigint;
@@ -100,14 +100,14 @@ BEGIN
             WHERE standard_loss_value_eur_per_unit IS NULL
                OR standard_loss_value_eur_per_unit < 0
        ) THEN
-        RAISE EXCEPTION 'Stage 5B product loss-value configuration is incomplete or invalid';
+        RAISE EXCEPTION 'production loss product loss-value configuration is incomplete or invalid';
     END IF;
 
     IF (SELECT COUNT(*) FROM vw_shift_loss_accounting) <> 65790
        OR (SELECT COUNT(*) FROM vw_line_daily_loss_accounting) <> 21930
        OR (SELECT COUNT(*) FROM vw_site_daily_loss_accounting) <> 4386
        OR (SELECT COUNT(*) FROM vw_site_loss_summary) <> 6 THEN
-        RAISE EXCEPTION 'Stage 5B view row counts do not match the canonical population';
+        RAISE EXCEPTION 'production loss view row counts do not match the canonical population';
     END IF;
 
     SELECT COUNT(*) INTO bad_count
@@ -133,7 +133,7 @@ BEGIN
        OR total_technical_loss_units < 0
        OR total_technical_opportunity_eur < 0;
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Stage 5B accounting gate found % invalid shift rows', bad_count;
+        RAISE EXCEPTION 'production loss accounting gate found % invalid shift rows', bad_count;
     END IF;
 END
 $validation$;

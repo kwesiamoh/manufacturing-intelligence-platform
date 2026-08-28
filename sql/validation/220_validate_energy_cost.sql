@@ -103,7 +103,7 @@ SELECT
 FROM vw_site_electricity_cost_rank
 ORDER BY cost_intensity_rank;
 
-\echo '=== Mandatory Stage 6C.2 gate ==='
+\echo '=== Mandatory energy-cost gate ==='
 DO $validation$
 DECLARE
     selected_price_count bigint;
@@ -117,7 +117,7 @@ BEGIN
       AND currency_code = 'EUR'
       AND unit_code = 'KWH';
     IF selected_price_count <> 24 THEN
-        RAISE EXCEPTION 'Stage 6C.2 selected Eurostat price population has % rows; expected 24',
+        RAISE EXCEPTION 'energy-cost selected Eurostat price population has % rows; expected 24',
             selected_price_count;
     END IF;
 
@@ -142,11 +142,11 @@ BEGIN
           AND currency_code = 'EUR'
           AND unit_code = 'KWH'
     ) <> 6 THEN
-        RAISE EXCEPTION 'Stage 6C.2 Eurostat country/semester coverage is incomplete';
+        RAISE EXCEPTION 'energy-cost Eurostat country/semester coverage is incomplete';
     END IF;
 
     IF (SELECT COUNT(*) FROM vw_site_shift_electricity_cost_benchmark) <> 13158 THEN
-        RAISE EXCEPTION 'Stage 6C.2 site-shift benchmark does not contain 13,158 rows';
+        RAISE EXCEPTION 'energy-cost site-shift benchmark does not contain 13,158 rows';
     END IF;
 
     SELECT COUNT(*) INTO bad_count
@@ -157,7 +157,7 @@ BEGIN
        OR ABS(benchmark_electricity_cost_eur
               - site_total_electricity_kwh * benchmark_eur_per_kwh) > 0.01;
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Stage 6C.2 cost gate found % missing, invalid, or unreconciled rows', bad_count;
+        RAISE EXCEPTION 'energy-cost cost gate found % missing, invalid, or unreconciled rows', bad_count;
     END IF;
 
     SELECT COUNT(*) INTO bad_count
@@ -169,7 +169,7 @@ BEGIN
     ) annual
     WHERE annual_mwh < 2000 OR annual_mwh >= 20000;
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Stage 6C.2 annual consumption-band gate found % site-years outside the selected band',
+        RAISE EXCEPTION 'energy-cost annual consumption-band gate found % site-years outside the selected band',
             bad_count;
     END IF;
 END

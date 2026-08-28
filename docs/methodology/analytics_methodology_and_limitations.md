@@ -45,11 +45,7 @@ These figures are model-derived from the governed synthetic enterprise history. 
 
 ### Method selection
 
-An ordinary p-chart was evaluated during development for reject-rate monitoring.
-
-The ordinary chart produced excessive special-cause signalling because the subgroup behaviour showed substantial overdispersion. It was therefore retained only as a superseded diagnostic method.
-
-The accepted method is a **Laney p′ chart**.
+Reject-rate SPC uses a **Laney p′ chart** because an ordinary p-chart produces excessive special-cause signalling for the substantially overdispersed subgroup population.
 
 Laney p′ retains the p-chart structure while adjusting the control limits using a dispersion correction estimated from standardized subgroup behaviour.
 
@@ -76,13 +72,7 @@ analytics.vw_quality_reject_laney_pprime
 
 SQL 623 validates the accepted Laney p′ result.
 
-During the final reproducibility build, SQL 623 was found to be computationally expensive because the validation repeatedly expanded the same nested analytical view.
-
-The validator was changed to materialize the unchanged accepted Laney view once into a session-local temporary table before performing validation checks.
-
-This changed execution strategy only.
-
-It did **not** change:
+SQL 623 materializes the accepted Laney view once into a session-local temporary table before performing validation checks. This avoids repeated expansion of the computationally expensive nested view while preserving:
 
 - Laney calculations
 - dispersion correction
@@ -359,7 +349,7 @@ It does not support a claim of predictive-maintenance early warning.
 
 ### Limitation
 
-The retained test events had been inspected during earlier iterations.
+The retained test events were inspected before final evaluation.
 
 The final evaluation is therefore not a fully untouched end-to-end lifecycle test.
 
@@ -401,7 +391,7 @@ It should not be presented as a predictive-maintenance forecasting result.
 
 The final canonical build contains **24 active core DQ rules**.
 
-Stage 16A.10 result:
+Accepted clean-build result:
 
 | Status | Rules |
 |---|---:|
@@ -419,7 +409,7 @@ The final Power BI score is 100% because all 24 active canonical rules passed.
 
 This does not mean the data is universally perfect.
 
-Optional benchmark DQ rules, including the earlier MetroPT-related rules, are excluded from the canonical Velora DQ score.
+Optional benchmark DQ rules are excluded from the canonical Velora DQ score.
 
 ---
 
@@ -498,7 +488,7 @@ This is a reproducibility decision, not an analytical method.
 
 ## Reproducibility and analytical controls
 
-The final Stage 16A.10 proof passed all 19 mandatory validations:
+The accepted clean-build proof passed all 19 mandatory validations:
 
 ```text
 010 020 030 040 050 100 110 120 200 210
@@ -525,7 +515,7 @@ The accepted proof status is:
 PASS_AFTER_FAIL_FAST_RESUME
 ```
 
-This wording is retained because the clean build was resumed from the first incomplete mandatory step after the original fail-fast interruption rather than being rerun from the beginning.
+This status records the actual fail-fast interruption and resume from the first incomplete mandatory validation.
 
 ---
 

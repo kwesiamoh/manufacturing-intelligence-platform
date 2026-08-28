@@ -1,12 +1,12 @@
 \pset pager off
 
-\echo '=== Stage 7A active core rule count ==='
+\echo '=== data-quality active core rule count ==='
 SELECT COUNT(*) AS rule_count
 FROM dq_rule
 WHERE active_flag = TRUE
   AND LEFT(rule_code, 8) <> 'METROPT_';
 
-\echo '=== Stage 7A active core result count ==='
+\echo '=== data-quality active core result count ==='
 SELECT COUNT(*) AS result_count
 FROM dq_rule r
 JOIN vw_data_quality_latest l ON l.rule_code = r.rule_code

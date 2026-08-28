@@ -1,5 +1,5 @@
 -- Manufacturing Intelligence Platform
--- Stage 2D: Seed static dimensions
+-- canonical data model: Seed static dimensions
 
 INSERT INTO dim_utility (utility_code, utility_name, default_unit, utility_category)
 VALUES

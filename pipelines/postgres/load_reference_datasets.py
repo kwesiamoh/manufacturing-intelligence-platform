@@ -58,7 +58,7 @@ def first_existing(paths):
 
 def load_itac(cur):
     sid = source_id(cur, "ITAC")
-    base = ROOT / "sources" / "step08-energy-cost" / "silver" / "itac"
+    base = ROOT / "sources" / "industrial-energy-assessment" / "silver" / "itac"
 
     assess_files = list(base.glob("*__assess.parquet"))
     recc_files = list(base.glob("*__recc.parquet"))
@@ -86,7 +86,7 @@ def load_itac(cur):
 
 def load_fmucd(cur):
     sid = source_id(cur, "FMUCD")
-    base = ROOT / "sources" / "step06-maintenance"
+    base = ROOT / "sources" / "fmucd-maintenance"
     p = first_existing([
         base / "silver" / "fmucd_maintenance.parquet",
         base / "data" / "silver" / "fmucd_maintenance.parquet",
@@ -102,7 +102,7 @@ def load_fmucd(cur):
 
 def load_statcan(cur):
     sid = source_id(cur, "STATCAN_WATER")
-    base = ROOT / "sources" / "step10-water"
+    base = ROOT / "sources" / "industrial-water"
     p = first_existing([
         base / "silver" / "statcan_industrial_water" / "38100056.parquet",
         base / "data" / "silver" / "statcan_industrial_water" / "38100056.parquet",
@@ -119,7 +119,7 @@ def load_statcan(cur):
 
 def load_mecs(cur):
     sid = source_id(cur, "EIA_MECS")
-    base = ROOT / "sources" / "step11-fuels"
+    base = ROOT / "sources" / "manufacturing-fuels"
     silver_candidates = [
         base / "silver",
         base / "data" / "silver",
@@ -147,7 +147,7 @@ def load_mecs(cur):
 
 def load_euets(cur):
     sid = source_id(cur, "EU_ETS")
-    base = ROOT / "sources" / "step12-emissions"
+    base = ROOT / "sources" / "eu-ets-emissions"
     p = first_existing([
         base / "silver" / "eea_eu_ets" / "sheet1.parquet",
         base / "data" / "silver" / "eea_eu_ets" / "sheet1.parquet",
@@ -162,7 +162,7 @@ def load_euets(cur):
 
 def load_eurostat(cur):
     sid = source_id(cur, "EUROSTAT_ENERGY_PRICES")
-    base = ROOT / "sources" / "step14-eu-energy-prices"
+    base = ROOT / "sources" / "eurostat-energy-prices"
     silver_candidates = [
         base / "silver",
         base / "data" / "silver",
@@ -183,7 +183,7 @@ def load_eurostat(cur):
                          sid, df, {"dataset_code": code})
         count += len(df)
     if count == 0:
-        print("Eurostat note: current Step 14 Silver may contain metadata-only outputs, so zero expanded rows is acceptable at Stage 4F.")
+        print("Eurostat note: current Eurostat Silver may contain metadata-only outputs, so zero expanded rows is acceptable at reference data.")
     return count, len(files)
 
 
@@ -241,7 +241,7 @@ def main():
 
             print_counts(cur)
 
-    print("\nStage 4F reference/benchmark load complete.")
+    print("\nreference data reference/benchmark load complete.")
 
 
 if __name__ == "__main__":

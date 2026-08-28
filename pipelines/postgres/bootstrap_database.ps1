@@ -164,9 +164,9 @@ $reportingSqlFiles = @(
     "sql\analytics\400_create_gold_models.sql",
     "sql\analytics\410_create_powerbi_compat_views.sql",
     "sql\analytics\622_create_quality_reject_laney_pprime.sql",
-    "sql\analytics\720_create_stage13b_reliability_kpis.sql",
-    "sql\analytics\730_create_stage13c_failure_downtime_analysis.sql",
-    "sql\analytics\742_create_stage13d2_corrected_reliability_trends.sql"
+    "sql\analytics\720_create_reliability_kpis.sql",
+    "sql\analytics\730_create_failure_downtime_analysis.sql",
+    "sql\analytics\742_create_reliability_trends.sql"
 )
 
 $validationSqlFiles = @(
@@ -174,7 +174,7 @@ $validationSqlFiles = @(
     "sql\validation\020_dimension_counts.sql",
     "sql\validation\030_synthetic_fact_counts.sql",
     "sql\validation\040_reference_counts.sql",
-    "sql\validation\050_stage4g_database_validation.sql",
+    "sql\validation\050_database_validation.sql",
     "sql\validation\100_validate_oee_views.sql",
     "sql\validation\110_validate_production_loss.sql",
     "sql\validation\120_validate_production_benchmark.sql",
@@ -184,10 +184,10 @@ $validationSqlFiles = @(
     "sql\validation\300_validate_data_quality.sql",
     "sql\validation\410_validate_gold_models.sql",
     "sql\validation\623_validate_quality_reject_laney_pprime.sql",
-    "sql\validation\721_validate_stage13b_reliability_kpis.sql",
-    "sql\validation\731_validate_stage13c_failure_downtime_analysis.sql",
-    "sql\validation\743_validate_stage13d2_corrected_reliability_trends.sql",
-    "sql\validation\415_validate_stage16a9a_can_air_powerbi.sql",
+    "sql\validation\721_validate_reliability_kpis.sql",
+    "sql\validation\731_validate_failure_downtime_analysis.sql",
+    "sql\validation\743_validate_reliability_trends.sql",
+    "sql\validation\415_validate_can_air_powerbi.sql",
     "sql\validation\751_validate_powerbi_advanced_analytics_views.sql"
 )
 
@@ -195,16 +195,16 @@ $productionBoundaryPaths = @(
     "config\canonical_production_seed.json",
     "scripts\verify_canonical_production_seed.py",
     "data\silver\synthetic_enterprise\production\production_operations_2024_2025.parquet",
-    "config\stage3h_energy_artifact_manifest.json",
-    "scripts\verify_stage3h_energy_artifact.py",
+    "config\energy_artifact_manifest.json",
+    "scripts\verify_energy_artifact.py",
     "scripts\load_powerbi_advanced_analytics.py",
     "pipelines\postgres\connection_auth.py"
 )
 
 $requiredRepositoryPaths = @(
     "sql\admin\000_create_database.sql",
-    "pipelines\postgres\run_stage7a_data_quality.py",
-    "pipelines\postgres\validate_stage4_database.py",
+    "pipelines\postgres\run_data_quality.py",
+    "pipelines\postgres\validate_database.py",
     "scripts\load_powerbi_advanced_analytics.py",
     "sql\analytics\750_create_powerbi_advanced_analytics_views.sql",
     "data_model\source_mapping\source_dataset_seed.csv",
@@ -212,15 +212,15 @@ $requiredRepositoryPaths = @(
     "data_model\dimensions\area_master.csv",
     "data_model\dimensions\product_portfolio.csv",
     "data_model\dimensions\shift_master.csv",
-    "data_model\dimensions\line_master_stage3b.csv",
-    "data_model\dimensions\equipment_master_stage3c.csv",
+    "data_model\dimensions\line_master.csv",
+    "data_model\dimensions\equipment_master.csv",
     "data_model\dimensions\failure_reason_seed.csv",
     "data\silver\synthetic_enterprise\downtime\downtime_events_2024_2025.parquet",
     "data\silver\synthetic_enterprise\quality\quality_events_2024_2025.parquet",
     "data\silver\synthetic_enterprise\maintenance\maintenance_work_orders_2024_2025.parquet",
     "data\silver\synthetic_enterprise\energy\line_energy_utility_2024_2025.parquet",
     "data\silver\synthetic_enterprise\energy\site_energy_2024_2025.parquet",
-    "sources\step14-eu-energy-prices\silver\eurostat_energy_prices\nrg_pc_205__six_site_countries_2024_2025.parquet",
+    "sources\eurostat-energy-prices\silver\eurostat_energy_prices\nrg_pc_205__six_site_countries_2024_2025.parquet",
     "data\gold\advanced_analytics\energy_anomaly\energy_anomaly_shift_monitoring_2025.parquet",
     "data\gold\advanced_analytics\forecasting\daily_site_forecast_holdout_2025.parquet"
 ) + $schemaSqlFiles + $loaderFiles + $coreAnalyticsSqlFiles +
@@ -239,38 +239,38 @@ foreach ($relative in $productionBoundaryPaths) {
 Invoke-PythonFile -RelativePath "scripts\verify_canonical_production_seed.py" `
     -Arguments @("--manifest", "config\canonical_production_seed.json") `
     -StepName "Canonical production seed verification"
-Invoke-PythonFile -RelativePath "scripts\verify_stage3h_energy_artifact.py" `
-    -StepName "Governed Stage 3H energy artifact verification"
+Invoke-PythonFile -RelativePath "scripts\verify_energy_artifact.py" `
+    -StepName "Governed energy artifact verification"
 Invoke-PythonFile -RelativePath "scripts\load_powerbi_advanced_analytics.py" `
     -Arguments @("--validate-only") `
-    -StepName "Accepted Stage 12D/12E materialized-input verification"
+    -StepName "Accepted energy-anomaly and forecasting input verification"
 
 foreach ($relative in ($requiredRepositoryPaths | Sort-Object -Unique)) {
     Assert-RequiredPath -RelativePath $relative
 }
 
 Assert-MatchingFile -Description "ITAC assessment Parquet" `
-    -RelativeDirectory "sources\step08-energy-cost\silver\itac" `
+    -RelativeDirectory "sources\industrial-energy-assessment\silver\itac" `
     -Filter "*__assess.parquet"
 Assert-MatchingFile -Description "ITAC recommendation Parquet" `
-    -RelativeDirectory "sources\step08-energy-cost\silver\itac" `
+    -RelativeDirectory "sources\industrial-energy-assessment\silver\itac" `
     -Filter "*__recc.parquet"
 Assert-AnyPath -Description "FMUCD Silver Parquet" -RelativePaths @(
-    "sources\step06-maintenance\silver\fmucd_maintenance.parquet",
-    "sources\step06-maintenance\data\silver\fmucd_maintenance.parquet"
+    "sources\fmucd-maintenance\silver\fmucd_maintenance.parquet",
+    "sources\fmucd-maintenance\data\silver\fmucd_maintenance.parquet"
 )
 Assert-AnyPath -Description "StatCan water Silver Parquet" -RelativePaths @(
-    "sources\step10-water\silver\statcan_industrial_water\38100056.parquet",
-    "sources\step10-water\data\silver\statcan_industrial_water\38100056.parquet"
+    "sources\industrial-water\silver\statcan_industrial_water\38100056.parquet",
+    "sources\industrial-water\data\silver\statcan_industrial_water\38100056.parquet"
 )
 Assert-MatchingFile -Description "EIA MECS Silver Parquet" `
-    -RelativeDirectory "sources\step11-fuels\silver" -Filter "*.parquet" -Recurse
+    -RelativeDirectory "sources\manufacturing-fuels\silver" -Filter "*.parquet" -Recurse
 Assert-AnyPath -Description "EU ETS Silver Parquet" -RelativePaths @(
-    "sources\step12-emissions\silver\eea_eu_ets\sheet1.parquet",
-    "sources\step12-emissions\data\silver\eea_eu_ets\sheet1.parquet"
+    "sources\eu-ets-emissions\silver\eea_eu_ets\sheet1.parquet",
+    "sources\eu-ets-emissions\data\silver\eea_eu_ets\sheet1.parquet"
 )
 Assert-MatchingFile -Description "Eurostat Silver Parquet" `
-    -RelativeDirectory "sources\step14-eu-energy-prices\silver" `
+    -RelativeDirectory "sources\eurostat-energy-prices\silver" `
     -Filter "*.parquet" -Recurse
 
 Write-Host "Repository: $RepoRoot"
@@ -279,7 +279,7 @@ Write-Host "PostgreSQL user: $PgUser"
 Write-Host "psql: $script:PsqlExe"
 Write-Host "Python: $script:PythonExe"
 Write-Host "Verified governed production input: data\silver\synthetic_enterprise\production\production_operations_2024_2025.parquet"
-Write-Host "Accepted Stage 12D/12E outputs are materialized inputs; models will not be retrained."
+Write-Host "Accepted energy-anomaly and forecasting outputs are materialized inputs; models will not be retrained."
 Write-Host "Preflight passed. No database changes have been made yet."
 
 if ($PreflightOnly) {
@@ -314,9 +314,9 @@ foreach ($relative in $loaderFiles) {
     Invoke-PythonFile -RelativePath $relative -Arguments $connectionArguments
 }
 
-Write-Section "Stage 4 enforcing validation"
-Invoke-PythonFile -RelativePath "pipelines\postgres\validate_stage4_database.py" `
-    -Arguments $connectionArguments -StepName "Stage 4 enforcing validation"
+Write-Section "Database enforcing validation"
+Invoke-PythonFile -RelativePath "pipelines\postgres\validate_database.py" `
+    -Arguments $connectionArguments -StepName "Database enforcing validation"
 
 Write-Section "Production, energy, utility, and cost analytics"
 foreach ($relative in $coreAnalyticsSqlFiles) {
@@ -324,8 +324,8 @@ foreach ($relative in $coreAnalyticsSqlFiles) {
 }
 
 Write-Section "Core data-quality execution and reporting"
-Invoke-PythonFile -RelativePath "pipelines\postgres\run_stage7a_data_quality.py" `
-    -Arguments $connectionArguments -StepName "Stage 7A core DQ execution"
+Invoke-PythonFile -RelativePath "pipelines\postgres\run_data_quality.py" `
+    -Arguments $connectionArguments -StepName "Core data-quality execution"
 Invoke-PsqlFile -RelativePath "sql\analytics\300_create_data_quality_views.sql"
 
 Write-Section "Gold, Power BI compatibility, quality, and reliability"

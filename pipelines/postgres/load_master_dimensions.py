@@ -140,7 +140,7 @@ def load_shifts(cur):
 
 def load_lines(cur):
     synthetic_source_id = get_id(cur, "dim_source_dataset", "source_dataset_id", "source_code", "SYNTHETIC_ENTERPRISE")
-    path = ROOT / "data_model" / "dimensions" / "line_master_stage3b.csv"
+    path = ROOT / "data_model" / "dimensions" / "line_master.csv"
     for r in csv_rows(path):
         site_id = get_id(cur, "dim_site", "site_id", "site_code", r["site_code"])
         cur.execute("SELECT area_id FROM dim_area WHERE site_id=%s AND area_code='PROD'", (site_id,))
@@ -170,7 +170,7 @@ def load_lines(cur):
 
 def load_equipment(cur):
     synthetic_source_id = get_id(cur, "dim_source_dataset", "source_dataset_id", "source_code", "SYNTHETIC_ENTERPRISE")
-    path = ROOT / "data_model" / "dimensions" / "equipment_master_stage3c.csv"
+    path = ROOT / "data_model" / "dimensions" / "equipment_master.csv"
     for r in csv_rows(path):
         site_id = get_id(cur, "dim_site", "site_id", "site_code", r["site_code"])
         if none_if_blank(r["line_code"]):
@@ -300,7 +300,7 @@ def main():
             load_time(cur)
             print_counts(cur)
 
-    print("\nStage 4B/4C master-dimension load complete.")
+    print("\nmaster-dimension master-dimension load complete.")
 
 if __name__ == "__main__":
     main()

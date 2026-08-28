@@ -1,0 +1,16 @@
+{
+  "package": "manufacturing-intelligence-eurostat-energy-prices",
+  "created": "2026-08-24",
+  "public_release_contains_raw_data": false,
+  "local_acquisition_may_materialize_raw_data": true,
+  "synthetic_records_added": 0,
+  "expected_sources": [
+    "Eurostat nrg_pc_205"
+  ],
+  "canonical_workflow": [
+    "pipelines/bronze/download_eurostat_nrg_pc_205.py",
+    "pipelines/bronze/validate_eurostat_nrg_pc_205.py",
+    "pipelines/silver/expand_eurostat_nrg_pc_205.py"
+  ],
+  "canonical_output": "silver/eurostat_energy_prices/nrg_pc_205__six_site_countries_2024_2025.parquet"
+}

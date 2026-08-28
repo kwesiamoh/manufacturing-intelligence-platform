@@ -1,6 +1,6 @@
 \pset pager off
 
-\echo '=== Stage 6A row counts ==='
+\echo '=== energy row counts ==='
 SELECT 'vw_shift_energy_kpi' AS object_name, COUNT(*) AS row_count
 FROM vw_shift_energy_kpi
 UNION ALL
@@ -114,7 +114,7 @@ UNION ALL
 )
 ORDER BY group_name, rank;
 
-\echo '=== Mandatory Stage 6A gate ==='
+\echo '=== Mandatory energy gate ==='
 DO $validation$
 DECLARE
     bad_count bigint;
@@ -130,7 +130,7 @@ BEGIN
        OR (SELECT COUNT(*) FROM vw_line_energy_rank) <> 30
        OR (SELECT COUNT(*) FROM vw_site_energy_summary) <> 6
        OR (SELECT COUNT(*) FROM vw_site_energy_rank) <> 6 THEN
-        RAISE EXCEPTION 'Stage 6A view row counts do not match the canonical population';
+        RAISE EXCEPTION 'energy view row counts do not match the canonical population';
     END IF;
 
     SELECT COUNT(*) INTO bad_count
@@ -140,7 +140,7 @@ BEGIN
        OR kwh_per_1000_actual_units <= 0 OR kwh_per_1000_good_units <= 0
        OR kwh_per_operating_hour <= 0 OR kwh_per_planned_hour <= 0;
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Stage 6A energy gate found % invalid shift rows', bad_count;
+        RAISE EXCEPTION 'energy energy gate found % invalid shift rows', bad_count;
     END IF;
 
     SELECT SUM(electricity_kwh) INTO shift_energy FROM vw_shift_energy_kpi;
@@ -149,11 +149,11 @@ BEGIN
     SELECT SUM(electricity_kwh) INTO site_energy FROM vw_site_energy_summary;
     IF ABS(shift_energy - daily_energy) > 0.001
        OR ABS(line_energy - site_energy) > 0.001 THEN
-        RAISE EXCEPTION 'Stage 6A energy aggregation reconciliation failed';
+        RAISE EXCEPTION 'energy energy aggregation reconciliation failed';
     END IF;
 
     IF EXISTS (SELECT 1 FROM vw_site_energy_summary WHERE line_count <> 5) THEN
-        RAISE EXCEPTION 'Stage 6A site energy summary does not contain five lines per site';
+        RAISE EXCEPTION 'energy site energy summary does not contain five lines per site';
     END IF;
 END
 $validation$;

@@ -1,4 +1,4 @@
--- Stage 16A.6: Source-qualified maintenance -> downtime lineage
+-- source-qualified reliability: Source-qualified maintenance -> downtime lineage
 --
 -- fact_maintenance.source_dataset_id identifies the maintenance record's
 -- source.  It must not be assumed to identify the referenced downtime event's

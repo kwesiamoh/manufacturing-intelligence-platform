@@ -1,6 +1,6 @@
 \pset pager off
 
-\echo '=== Stage 5A row counts ==='
+\echo '=== OEE row counts ==='
 SELECT 'vw_shift_production_kpi' AS object_name, COUNT(*) AS row_count FROM vw_shift_production_kpi
 UNION ALL SELECT 'vw_shift_production_loss', COUNT(*) FROM vw_shift_production_loss
 UNION ALL SELECT 'vw_line_daily_kpi', COUNT(*) FROM vw_line_daily_kpi
@@ -55,7 +55,7 @@ FROM vw_shift_production_kpi
 GROUP BY site_code
 ORDER BY site_code;
 
-\echo '=== Mandatory Stage 5A gate ==='
+\echo '=== Mandatory OEE gate ==='
 DO $validation$
 DECLARE
     bad_count bigint;
@@ -64,7 +64,7 @@ BEGIN
        OR (SELECT COUNT(*) FROM vw_shift_production_loss) <> 65790
        OR (SELECT COUNT(*) FROM vw_line_daily_kpi) <> 21930
        OR (SELECT COUNT(*) FROM vw_site_daily_kpi) <> 4386 THEN
-        RAISE EXCEPTION 'Stage 5A view row counts do not match the canonical population';
+        RAISE EXCEPTION 'OEE view row counts do not match the canonical population';
     END IF;
 
     SELECT COUNT(*) INTO bad_count
@@ -76,7 +76,7 @@ BEGIN
        OR ABS(oee - (availability * performance * quality)) > 0.0000001
        OR actual_quantity <> good_quantity + reject_quantity;
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Stage 5A KPI gate found % invalid shift rows', bad_count;
+        RAISE EXCEPTION 'OEE KPI gate found % invalid shift rows', bad_count;
     END IF;
 
     SELECT COUNT(*) INTO bad_count
@@ -89,7 +89,7 @@ BEGIN
        OR speed_loss_units < 0
        OR quality_loss_units < 0;
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Stage 5A loss gate found % invalid shift rows', bad_count;
+        RAISE EXCEPTION 'OEE loss gate found % invalid shift rows', bad_count;
     END IF;
 END
 $validation$;

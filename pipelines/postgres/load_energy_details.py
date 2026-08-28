@@ -149,7 +149,7 @@ def main():
             print("Loading site energy detail ...")
             print(f"  {load_site(cur, sid, maps):,} rows")
 
-    print("\nStage 6B energy-detail load complete.")
+    print("\nutilities energy-detail load complete.")
 
 if __name__ == "__main__":
     main()
