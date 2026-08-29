@@ -300,7 +300,6 @@ The dashboard uses PostgreSQL `gold_bi` compatibility views.
 
 ![Reliability & Maintenance](powerbi/screenshots/06_reliability_maintenance.png)
 
-
 ### Data Quality
 
 ![Data Quality](powerbi/screenshots/05_data_quality.png)
@@ -326,22 +325,17 @@ The canonical workflow was verified through a disposable PostgreSQL clean build 
 
 **Result: PASS**
 
-All 19 mandatory validations passed:
+All 19 mandatory validation checks passed, covering schema integrity, dimensional and fact-table consistency, lineage, analytical outputs, energy and utility calculations, reliability metrics, forecasting inputs, and Power BI reporting views.
 
-```text
-010 020 030 040 050 100 110 120 200 210
-220 300 410 623 721 731 743 415 751
-```
+The repository provides governed inputs, build logic, manifests, and compact validation evidence rather than distributing a prebuilt PostgreSQL database.
 
-The repository provides governed inputs, build logic, manifests, and compact
-evidence rather than distributing a PostgreSQL database. The reproducible
-production-data boundary is:
+The canonical production seed is:
 
 ```text
 data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet
 ```
 
-The seed contains 65,790 rows and is hash-verified before the canonical build.
+It contains 65,790 rows and is hash-verified before the database build begins.
 See the [canonical build order](docs/reproducibility/canonical_build_order.md)
 and [clean-build proof](docs/reproducibility/clean_build_proof.md).
 
