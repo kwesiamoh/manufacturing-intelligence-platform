@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "pipelines" / "post
 from connection_auth import connection_parameters
 
 
-LOADER_VERSION = "16A.4"
+LOADER_VERSION = "1.0.0"
 FORECAST_TARGET_DOMAINS = {
     "daily_actual_quantity": "PRODUCTION",
     "daily_site_total_electricity_kwh": "ENERGY",

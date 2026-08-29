@@ -96,7 +96,8 @@ function Invoke-PsqlFile {
         "-p", "$PgPort",
         "-U", $PgUser,
         "-d", $Database,
-        "-v", "ON_ERROR_STOP=1"
+        "-v", "ON_ERROR_STOP=1",
+        "-P", "pager=off"
     )
 
     foreach ($name in ($Variables.Keys | Sort-Object)) {
