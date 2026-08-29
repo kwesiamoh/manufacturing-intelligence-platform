@@ -418,16 +418,9 @@ runner resolves from its own repository location, so callers do not need to
 change directory. Use `-DryRun` to inspect all action paths and states without
 executing downloads, validators, or transformations.
 
-The source manifest includes the nonstandard Steel Energy and MetroPT layouts.
-Steel Energy uses a complete `download -> validate/verify -> transform` route.
-Its downloader uses the recorded verified public GitHub mirror while UCI dataset
-851 remains the authoritative source; it validates and reuses the governed
-Bronze CSV without network access when the file already matches. Industrial
-Utilities is acquisition-only with no source redistribution; EU ETS requires
-manual acquisition with no source redistribution; ERA5 requires user-owned CDS
-credentials and terms acceptance; and Eurostat uses the structured acquisition,
-validation, and transformation route. Complete Bronze inputs are reused and
-checksummed; partial sets stop before acquisition rather than allowing overwrite.
+Acquisition modes, credentials, redistribution boundaries, and package-specific
+commands are maintained in the [source orchestration guide](../../sources/README.md)
+and [third-party data policy](../governance/third_party_data_redistribution.md).
 
 ## Optional real external benchmark reproduction
 
@@ -463,53 +456,9 @@ as follows:
 The hydraulic feature cache, models, and outputs are not loaded into the Velora
 operational PostgreSQL or Power BI layers.
 
-## Accepted analytical chains
+## Related documentation
 
-| Domain | Accepted artifact | Provenance / BI role |
-|---|---|---|
-| Quality SPC | `sql/analytics/622_create_quality_reject_laney_pprime.sql` | Synthetic Velora workflow; accepted primary SPC result |
-| MetroPT alerting | `scripts/select_metropt_alert_policy.py` | Real external benchmark; excluded from Velora operational BI |
-| Energy anomaly | `scripts/run_energy_anomaly_detection.py` | Synthetic Velora contextual-anomaly workflow; integrated through SQL 750 |
-| Forecasting | `scripts/run_production_energy_forecasting.py` | Synthetic Velora production and energy workflow; integrated through SQL 750 |
-| Reliability trend | `sql/analytics/742_create_reliability_trends.sql` | Synthetic Velora operational analytics; integrated through SQL 750 |
-| Hydraulic classification | `scripts/run_hydraulic_condition_classification.py` | Real external benchmark; excluded from Velora operational BI |
-
-## Supporting benchmark scripts
-
-- `scripts/run_metropt_anomaly_scoring.py` supplies the fixed score artifact
-  required by selected-policy regeneration. Its base-alert conclusion is not a
-  published result.
-- `scripts/prepare_hydraulic_features.py` creates
-  `hydraulic_cycle_features.parquet` when that generated cache is absent. Its
-  embedded baseline model is not a published result.
-
-## Reproducibility boundaries
-
-1. **Production first-principles limitation:** the verified Silver production
-   Parquet is the immutable governed seed. Downstream
-   regeneration is reproducible from that boundary; production generation from
-   documented seed/configuration alone remains unrecoverable.
-2. **Validation semantics:** mandatory SQL and Python gates propagate failure,
-   while DQ `WARN` remains nonfatal; the disposable proof records this behavior.
-3. **Advanced loader reruns:** the transactional stable-table refresh is safe
-   when dependent SQL 750 views already exist.
-4. **Reliability lineage:** maintenance-to-downtime linkage is source-qualified
-   lineage and protects failure/downtime metrics from one-to-many work-order
-   multiplication. The current accepted data remains one-to-one, but no
-   uniqueness constraint is imposed on the maintenance reference.
-5. **Power BI reproducibility:** PBIX refresh and visual verification remain
-   manual. The disposable proof validates its required database-facing `gold_bi` views
-   but did not edit or claim refresh of the binary.
-6. **External benchmark regeneration:** MetroPT and hydraulic source acquisition
-   remain outside the Velora clean database/BI sequence. The hydraulic
-   classifier depends on the generated feature cache.
-
-## Explicit exclusions
-
-The canonical build and retained disposable proof do not:
-
-- alter analytical methods, SQL calculations, DAX, datasets, models, or PBIX;
-- execute noncanonical analytical logic;
-- execute optional MetroPT or hydraulic benchmark reproduction as Velora inputs;
-- automate or claim a successful refresh of the binary PBIX;
-- claim realized business value or AWS deployment.
+- [Artifact classifications](../../config/artifact_manifest.json)
+- [Analytics methodology and limitations](../methodology/analytics_methodology_and_limitations.md)
+- [Clean-build proof](clean_build_proof.md)
+- [Source orchestration](../../sources/README.md)

@@ -121,19 +121,16 @@ The Silver layer is the main boundary between source-specific transformations an
 
 ## Governed production seed
 
-The accepted production population is handled differently from the other synthetic enterprise domains.
-
-The original first-principles generator for the final production dataset could not be recovered with sufficient confidence.
-
-Rather than reconstruct a replacement generator and present it as the original, the accepted population is retained as a governed canonical seed:
+The accepted production population is the governed upstream boundary for
+downstream synthetic regeneration:
 
 ```text
 data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet
 ```
 
-The canonical bootstrap verifies this seed before downstream processing.
-
-This preserves downstream reproducibility without misrepresenting provenance.
+The canonical bootstrap verifies its physical and logical identity before
+database mutation. The detailed boundary evidence is documented in the
+[canonical build order](../reproducibility/canonical_build_order.md).
 
 ---
 
@@ -170,36 +167,12 @@ Shared dimensions allow different operational domains to be analysed consistentl
 
 ## Analytical layer
 
-### Manufacturing performance
-
-Shift-, line-, site-, and enterprise-level calculations support production volume, OEE, downtime, loss analysis, site comparison, and technical opportunity.
-
-### Statistical process control
-
-Quality reject behaviour is analysed using the accepted Laney p′ methodology.
-
-The implementation uses 2024 as the baseline period and 2025 as the monitoring period.
-
-### Reliability
-
-Corrective maintenance is linked to source-qualified downtime events.
-
-The model protects against duplicated downtime contribution when maintenance and downtime records are combined.
-
-### Data quality
-
-Canonical rules evaluate the integrated enterprise model and support PASS, WARN, and FAIL states.
-
-### Advanced analytics
-
-Accepted model outputs are loaded into PostgreSQL for:
-
-- production forecasting
-- electricity forecasting
-- contextual electricity anomaly detection
-- reliability trend reporting
-
-External benchmark analytics such as MetroPT and hydraulic-condition modelling remain outside the canonical Velora operating history.
+The analytical layer covers manufacturing performance, Laney p′ SPC,
+source-qualified reliability, data quality, forecasting, and contextual energy
+anomalies. Accepted operational outputs flow into Gold and `gold_bi`; MetroPT
+and hydraulic-condition benchmarks remain separate. Method definitions and
+limitations are maintained in the
+[analytics methodology](../methodology/analytics_methodology_and_limitations.md).
 
 ---
 
@@ -237,16 +210,9 @@ The compatibility layer covers:
 
 ## Power BI reporting
 
-The final reporting layer contains six pages:
-
-1. Executive Overview
-2. Production Performance
-3. Loss & Opportunity
-4. Energy & Utilities
-5. Data Quality
-6. Reliability & Maintenance
-
-The dashboard is designed for batch refresh rather than real-time operational control.
+The six-page import-mode dashboard consumes the stable `gold_bi` contract and
+uses batch refresh. Page purposes, relationships, measures, and refresh rules
+are documented in the [Power BI report guide](../powerbi/final_powerbi_presentation.md).
 
 ---
 
@@ -280,26 +246,6 @@ ON_ERROR_STOP=1
 The accepted disposable clean-build proof passed all 19 mandatory validations.
 
 The proof database itself is not distributed through GitHub. Reproducibility is demonstrated through governed inputs, scripts, manifests, hashes, validation logic, and captured build evidence.
-
----
-
-## Current deployment model
-
-```text
-Local files
-    ↓
-Python / PowerShell
-    ↓
-Parquet
-    ↓
-PostgreSQL
-    ↓
-Analytics / Gold / gold_bi
-    ↓
-Power BI Desktop
-```
-
-This local implementation demonstrates the data engineering, analytics, reproducibility, and BI workflow.
 
 ---
 
@@ -353,35 +299,14 @@ A future industrial deployment could increase refresh frequency where source-sys
 
 ---
 
-## Security and credentials
+## Security and validation controls
 
-Local PostgreSQL credentials are resolved outside the repository using standard PostgreSQL/libpq credential handling.
-
-Credentials are not stored in source code or committed configuration.
-
-The AWS-ready architecture maps the same principle to managed services such as AWS Secrets Manager and IAM.
-
-Terraform state, local credential files, runtime caches, and similar machine-specific artifacts are excluded from the repository.
-
----
-
-## Validation and technical controls
-
-Key controls include:
-
-- governed artifact manifests
-- source provenance
-- hash verification
-- production-seed verification
-- database constraints
-- source-qualified maintenance lineage
-- data-quality rules
-- fail-fast SQL execution
-- transaction-safe advanced-analytics loading
-- mandatory validation scripts
-- reproducibility evidence capture
-
-The final clean-build proof passed all 19 mandatory validations.
+Credentials remain outside source control, local artifacts are excluded by the
+release boundary, and AWS mappings use Secrets Manager and IAM. Governed hashes,
+database constraints, lineage, DQ rules, fail-fast execution, and mandatory
+validators protect the build. See [cybersecurity controls](../security/cybersecurity_controls.md),
+the [threat model](../security/threat_model.md), and the
+[clean-build proof](../reproducibility/clean_build_proof.md).
 
 ---
 
@@ -405,7 +330,6 @@ Those capabilities would require additional operational infrastructure beyond th
 
 ## Related documentation
 
-- `docs/reproducibility/canonical_build_order.md`
-- `docs/reproducibility/clean_build_proof.md`
-- `reports/reproducibility/clean_build_evidence.json`
-- `docs/governance/third_party_data_redistribution.md`
+- [Canonical build order](../reproducibility/canonical_build_order.md)
+- [Clean-build proof](../reproducibility/clean_build_proof.md)
+- [Third-party data policy](../governance/third_party_data_redistribution.md)

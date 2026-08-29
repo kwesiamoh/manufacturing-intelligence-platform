@@ -15,7 +15,7 @@ https://itac.university/storage/ITAC_Database.zip
 Open Energy Data Initiative mirror/catalog:
 https://data.openei.org/submissions/281
 
-## Current source snapshot
+## Source snapshot
 The ITAC download page on 2026-08-24 reported:
 
 - Format: zipped Excel workbook

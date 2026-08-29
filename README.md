@@ -119,25 +119,6 @@ The enterprise layer is synthetic and governed. It provides a coherent multi-sit
 
 ---
 
-## Enterprise model
-
-Core PostgreSQL dimensions include time, site, manufacturing area, line, equipment, product, shift, failure reason, utility, and source dataset.
-
-The final clean build contains:
-
-- 15 source definitions
-- 6 sites
-- 12 manufacturing areas
-- 30 lines
-- 255 equipment assets
-- 6 products
-- 3 shifts
-- 23 failure reasons
-- 7 utilities
-- 8,035 time rows
-
----
-
 ## Manufacturing performance
 
 | Gold object | Rows |
@@ -198,8 +179,6 @@ The analytical layer uses:
 
 Monitoring subgroups are classified as in control, above the upper control limit, or below the lower control limit.
 
-SQL 623 materializes the accepted Laney view once in a session-local temporary table for validation. The calculation, thresholds, and control limits remain defined by SQL 622.
-
 ---
 
 ## Reliability and maintenance
@@ -248,11 +227,7 @@ The final Power BI bridge contains 360 production forecast rows and 360 energy f
 
 ### Contextual energy anomaly detection
 
-The 2025 monitoring population contains:
-
-- 32,850 shift observations
-- 254 high-energy anomalies
-- 282 low-energy anomalies
+The 2025 monitoring population contains 32,850 shift observations, with 254 high-energy and 282 low-energy anomaly flags.
 
 The model estimates expected electricity consumption from operating context and flags unusual residuals. Its very strong fit should be interpreted cautiously because the synthetic energy target is related to the operational features used for prediction.
 
@@ -321,13 +296,14 @@ The dashboard uses PostgreSQL `gold_bi` compatibility views.
 
 ![Energy & Utilities](powerbi/screenshots/04_energy_utilities.png)
 
-### Data Quality
-
-![Data Quality](powerbi/screenshots/05_data_quality.png)
-
 ### Reliability & Maintenance
 
 ![Reliability & Maintenance](powerbi/screenshots/06_reliability_maintenance.png)
+
+
+### Data Quality
+
+![Data Quality](powerbi/screenshots/05_data_quality.png)
 
 ---
 
@@ -335,18 +311,12 @@ The dashboard uses PostgreSQL `gold_bi` compatibility views.
 
 For the 2024–2025 period:
 
-**Two-year technical opportunity: €573.91 million**
+- **Two-year technical opportunity:** €573.91 million
+- **Simple annualized equivalent:** €286.95 million per year
 
-**Simple annualized equivalent: €286.95 million per year**
-
-| Capture rate | Annual value |
-|---|---:|
-| 0.5% | €1.43M |
-| 1% | €2.87M |
-| 2% | €5.74M |
-| 5% | €14.35M |
-
-These are model-derived technical opportunity estimates. They are not realized savings, audited financial benefits, or a forecast of actual company earnings.
+These are model-derived estimates, not realized savings. Site detail,
+sensitivity scenarios, evidence, and interpretation are maintained in the
+[business case](docs/business_case/business_case.md).
 
 ---
 
@@ -363,107 +333,42 @@ All 19 mandatory validations passed:
 220 300 410 623 721 731 743 415 751
 ```
 
-The repository does not distribute the PostgreSQL database itself. It distributes the governed inputs, scripts, manifests, validation logic, and evidence required to reconstruct the accepted environment.
-
-Key evidence:
-
-```text
-reports/reproducibility/clean_build_evidence.json
-docs/reproducibility/clean_build_proof.md
-docs/reproducibility/canonical_build_order.md
-config/artifact_manifest.json
-config/canonical_production_seed.json
-config/energy_artifact_manifest.json
-```
-
----
-
-## Governed production seed
-
-The governed production Silver dataset is the reproducible production-data boundary:
+The repository provides governed inputs, build logic, manifests, and compact
+evidence rather than distributing a PostgreSQL database. The reproducible
+production-data boundary is:
 
 ```text
 data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet
 ```
 
-The seed contains 65,790 rows and is hash-verified before the canonical build. This preserves downstream reproducibility without misrepresenting provenance.
+The seed contains 65,790 rows and is hash-verified before the canonical build.
+See the [canonical build order](docs/reproducibility/canonical_build_order.md)
+and [clean-build proof](docs/reproducibility/clean_build_proof.md).
 
 ---
 
 ## AWS-ready target architecture
 
-The demonstrated implementation runs locally. Its batch-oriented design maps to managed AWS services for a production deployment.
-
-| Current implementation | AWS target |
-|---|---|
-| Local Bronze/Silver files | Amazon S3 |
-| Python transformation | AWS Glue / managed processing |
-| PostgreSQL | Amazon RDS for PostgreSQL |
-| Batch orchestration | AWS Step Functions / EventBridge / managed jobs |
-| Local credentials | AWS Secrets Manager |
-| Local logging | Amazon CloudWatch |
-| Local access control | AWS IAM |
-| Infrastructure definitions | Terraform |
-
-Terraform source is included for the target architecture.
-
----
-
-## Repository structure
-
-```text
-manufacturing-intelligence-platform/
-├── config/
-├── data/
-│   ├── bronze/
-│   ├── silver/
-│   └── gold/
-├── docs/
-│   ├── architecture/
-│   ├── governance/
-│   └── reproducibility/
-├── infrastructure/
-│   └── terraform/
-├── pipelines/
-│   └── postgres/
-├── powerbi/
-│   └── screenshots/
-├── reports/
-│   └── reproducibility/
-├── scripts/
-├── sql/
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
-
-Bulk public Bronze/Silver artifacts, local database files, caches, credentials, runtime logs, Terraform state, and other machine-specific artifacts are intentionally excluded from release.
+The demonstrated implementation runs locally. Its batch components map to S3,
+managed processing, RDS for PostgreSQL, managed orchestration, Secrets Manager,
+CloudWatch, and IAM. Terraform source defines the AWS-ready target; the detailed
+mapping is in the [platform architecture](docs/architecture/platform_architecture.md).
 
 ---
 
 ## Running the project
 
-### Requirements
-
-- Python
-- PostgreSQL
-- PowerShell
-- Power BI Desktop
-- Git
-
-Install Python dependencies:
+Install dependencies, materialize the governed inputs, run the read-only
+preflight, and then execute the canonical bootstrap:
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-Configure PostgreSQL authentication with standard libpq credential handling such as a local `pgpass.conf`. Do not commit credentials.
-
-### Canonical PostgreSQL bootstrap
-
-A clone contains acquisition code, governed manifests, the production seed, and compact accepted analytics. Materialize the required external inputs and regenerate the ignored downstream Velora facts before running the bootstrap; the [installation guide](docs/INSTALL.md) gives the exact order.
-
 ```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass `
+  -File .\pipelines\postgres\bootstrap_database.ps1 -PreflightOnly
+
 powershell.exe -NoProfile -ExecutionPolicy Bypass `
   -File .\pipelines\postgres\bootstrap_database.ps1 `
   -PgHost localhost `
@@ -474,9 +379,10 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass `
   -PythonCommand python
 ```
 
-The PostgreSQL host, port, user, and database are configurable.
-
-See the [installation guide](docs/INSTALL.md) and [canonical build order](docs/reproducibility/canonical_build_order.md) for the authoritative workflow.
+The [installation guide](docs/INSTALL.md) covers prerequisites, acquisition,
+downstream fact regeneration, authentication, and Power BI refresh. The
+[canonical build order](docs/reproducibility/canonical_build_order.md) is the
+authoritative execution sequence.
 
 ---
 
@@ -496,43 +402,17 @@ The MIT repository license does not relicense third-party datasets. See the [thi
 
 ---
 
-## Methodological limitations
+## Interpretation boundaries
 
-### Synthetic enterprise data
+- Velora and its integrated operational history are synthetic.
+- Energy assumptions support portfolio analytics, not engineering sizing.
+- Forecasts use a 60-day rolling one-day-ahead evaluation.
+- Energy residuals are contextual anomaly flags, not confirmed faults.
+- MetroPT and hydraulic results are standalone external benchmarks.
+- Technical opportunity is modeled and is not realized savings.
 
-Velora Beverage Group is fictional. The integrated six-site enterprise history is synthetic.
-
-### Energy model
-
-The energy model supports manufacturing-intelligence analysis but is not an engineering design or utility-sizing model.
-
-### Energy anomaly model
-
-The anomaly model's strong fit is partly attributable to the synthetic target-generation structure. Residual anomalies are not validated equipment faults.
-
-### Forecasting
-
-The final evaluation uses a 60-day holdout with rolling one-day-ahead predictions. It is not a recursively generated 60-day forecast. Model selection and final reporting also use the same holdout period.
-
-### External benchmarks
-
-MetroPT and hydraulic-condition results are standalone external benchmarks and do not represent Velora assets or operating history.
-
-### Business case
-
-Technical opportunity values are model-derived estimates and not realized financial savings.
-
-### Statistical process control
-
-The accepted Laney p′ result is appropriate for the modelled quality population but has not been validated against a real Velora production process.
-
----
-
-## Portfolio focus
-
-This project demonstrates practical work across manufacturing data engineering, enterprise data modelling, PostgreSQL, Python, data quality, statistical process control, forecasting, anomaly detection, reliability analytics, manufacturing energy analysis, Power BI, reproducibility, AWS architecture, Terraform, and technical documentation.
-
-The focus is on demonstrating how a governed manufacturing intelligence platform can be designed, validated, analysed, and presented from source data through executive reporting.
+See [analytics methodology and limitations](docs/methodology/analytics_methodology_and_limitations.md)
+for method-specific evidence and caveats.
 
 ---
 

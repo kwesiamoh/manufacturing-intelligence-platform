@@ -75,29 +75,8 @@ The binary PBIX is not programmatically rewritten by the bootstrap.
 
 ## Screenshots
 
-### Executive Overview
-
-![Executive Overview](../../powerbi/screenshots/01_executive_overview.png)
-
-### Production Performance
-
-![Production Performance](../../powerbi/screenshots/02_production_performance.png)
-
-### Loss & Opportunity
-
-![Loss and Opportunity](../../powerbi/screenshots/03_loss_opportunity.png)
-
-### Energy & Utilities
-
-![Energy and Utilities](../../powerbi/screenshots/04_energy_utilities.png)
-
-### Data Quality
-
-![Data Quality](../../powerbi/screenshots/05_data_quality.png)
-
-### Reliability & Maintenance
-
-![Reliability and Maintenance](../../powerbi/screenshots/06_reliability_maintenance.png)
+All six final pages are displayed in the root [README](../../README.md#power-bi).
+The source PNG files remain under `powerbi/screenshots/`.
 
 ## Interpretation boundaries
 

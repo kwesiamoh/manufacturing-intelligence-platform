@@ -20,7 +20,7 @@ Final 2022 MECS results were released on 2026-03-18.
 The 2022 MECS sample included approximately 15,000 manufacturing establishments and supports
 industry-level estimates for U.S. manufacturing.
 
-## Tables targeted in this step
+## Source tables
 
 - Table 3.1 — Energy Consumption as a Fuel by Manufacturing Industry and Region (physical units)
 - Table 7.3 — Average Prices of Purchased Electricity, Natural Gas, and Steam by Supplier Type,

@@ -10,7 +10,7 @@ Datasets:
 - `nrg_pc_205` — Electricity prices for non-household consumers, bi-annual data
 - `nrg_pc_203` — Gas prices for non-household consumers, bi-annual data
 
-## Current reference
+## Dataset reference
 For the second half of 2025:
 - EU average non-household electricity price for Band IC (500–2,000 MWh/year): €18.37 per 100 kWh.
 - EU average non-household gas price for Band I3 (10,000–100,000 GJ/year): €6.05 per 100 kWh.
