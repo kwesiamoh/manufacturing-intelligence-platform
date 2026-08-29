@@ -5,7 +5,7 @@ import psycopg
 from connection_auth import connection_parameters
 
 EXPECTED_COUNTS = {
-    "dim_source_dataset": 15,
+    "dim_source_dataset": 16,
     "dim_site": 6,
     "dim_area": 12,
     "dim_line": 30,

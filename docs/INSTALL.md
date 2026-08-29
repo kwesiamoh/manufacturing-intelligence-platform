@@ -32,8 +32,7 @@ acquisition utilities, and supported optional benchmarks.
 ## PostgreSQL authentication
 
 Use standard libpq credential handling, such as a local `pgpass.conf`, or allow
-the Python database steps to prompt interactively. Do not place passwords in
-repository files or command examples.
+the Python database steps to prompt interactively.
 
 The canonical runner defaults to `localhost:5433`, user `postgres`, and database
 `manufacturing_intelligence`; every connection parameter can be overridden.
@@ -105,7 +104,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass `
 
 The runner creates the database, executes the complete DDL and migration chain,
 loads governed facts and references, builds analytics/Gold/`gold_bi`, loads the
-accepted advanced-analytics bridge, and executes all 19 mandatory fail-fast
+accepted advanced-analytics bridge, and executes all 20 mandatory fail-fast
 validations.
 
 See [canonical_build_order.md](reproducibility/canonical_build_order.md) for the
@@ -123,17 +122,28 @@ Point its PostgreSQL connection at the built database and refresh. The retained
 theme is `powerbi/theme/Velora_Manufacturing_Intelligence_Theme.json`; the
 versioned screenshots show the accepted six-page report.
 
-## Optional external benchmarks
+## Predictive-maintenance and optional benchmark workflows
 
-MetroPT and hydraulic-condition analytics are separate real-data benchmark
-demonstrations, not inputs to the Velora operational database.
+Original MetroPT telemetry remains real external data. The canonical build
+loads the governed enterprise compressor adaptation as a materialized input,
+executes its five enterprise DQ rules, and creates its PostgreSQL Gold views. It
+does not modify maintenance facts, reliability KPIs, or the Power BI model.
 
-MetroPT selected-policy reproduction:
+Full MetroPT source-model and enterprise-artifact regeneration is optional:
 
 ```powershell
 python .\scripts\run_metropt_anomaly_scoring.py
 python .\scripts\select_metropt_alert_policy.py
+python .\scripts\run_metropt_predictive_maintenance.py
+psql -h localhost -p 5433 -U postgres -d manufacturing_intelligence -v ON_ERROR_STOP=1 -f .\sql\migrations\006_create_metropt_predictive_maintenance.sql
+python .\pipelines\postgres\load_metropt_predictive_maintenance.py
+psql -h localhost -p 5433 -U postgres -d manufacturing_intelligence -v ON_ERROR_STOP=1 -f .\sql\analytics\760_create_metropt_predictive_maintenance_views.sql
+psql -h localhost -p 5433 -U postgres -d manufacturing_intelligence -v ON_ERROR_STOP=1 -f .\sql\validation\761_validate_metropt_predictive_maintenance.sql
 ```
+
+The result contains distinct `REAL_METROPT_BENCHMARK` and
+`METROPT_INFORMED_SYNTHETIC_ENTERPRISE` scopes. The synthetic degradation
+signals are not original MetroPT observations.
 
 Hydraulic condition-classification reproduction:
 

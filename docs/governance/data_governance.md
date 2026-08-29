@@ -90,6 +90,7 @@ the fictional enterprise operational history.
 | Quality | Quality Engineering | defect definitions, quality-rule ownership |
 | Energy | Energy / Utilities Management | utility definitions, intensity metrics |
 | Maintenance | Maintenance / Reliability | equipment hierarchy, failure taxonomy |
+| Telemetry / PdM | Maintenance / Reliability + Data Engineering | telemetry completeness, equipment mapping, lineage, cadence exceptions |
 | Enterprise master data | Data Engineering | keys, dimensions, integration mappings |
 | Reporting | BI / Analytics | semantic consistency, KPI definitions |
 | Data quality | Data Engineering + domain owner | rule design, exception review |
@@ -112,6 +113,12 @@ Each DQ rule should contain:
 
 Current reporting distinguishes PASS, WARN, and FAIL. WARN findings must not be
 reported as passes.
+
+The governed MetroPT-informed enterprise telemetry is subject to the canonical
+DQ framework. Its checks cover structural integrity, required fields,
+enterprise mapping, lineage, and source-supported cadence. Untouched MetroPT
+records remain external real data, and physical faults or analytical warning
+states are not classified as data defects merely because they are abnormal.
 
 ## Lineage
 
@@ -138,8 +145,10 @@ Examples:
 - operating-hours MTBF is explicitly a **proxy** because line operating hours
   are used rather than direct asset runtime;
 - hydraulic condition classification is not remaining-useful-life prediction;
-- MetroPT anomaly detection is not claimed as a two-hour predictive-maintenance
-  warning model.
+- real MetroPT evaluation is reported separately from the MetroPT-informed
+  synthetic enterprise degradation scenario;
+- synthetic precursor performance is not claimed as measured MetroPT or Velora
+  predictive-maintenance performance.
 
 ## Change control
 

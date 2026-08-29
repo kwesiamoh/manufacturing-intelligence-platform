@@ -134,6 +134,7 @@ $schemaSqlFiles = @(
     "sql\ddl\002_create_facts.sql",
     "sql\migrations\004_add_fact_lineage.sql",
     "sql\migrations\005_add_maintenance_downtime_source_lineage.sql",
+    "sql\migrations\006_create_metropt_predictive_maintenance.sql",
     "sql\ddl\003_seed_static_dimensions.sql",
     "sql\ddl\004_create_reference_tables.sql",
     "sql\ddl\005_create_loss_value_config.sql",
@@ -148,7 +149,8 @@ $loaderFiles = @(
     "pipelines\postgres\load_synthetic_facts.py",
     "pipelines\postgres\load_reference_datasets.py",
     "pipelines\postgres\load_energy_details.py",
-    "pipelines\postgres\load_eurostat_electricity_prices.py"
+    "pipelines\postgres\load_eurostat_electricity_prices.py",
+    "pipelines\postgres\load_metropt_predictive_maintenance.py"
 )
 
 $coreAnalyticsSqlFiles = @(
@@ -167,7 +169,8 @@ $reportingSqlFiles = @(
     "sql\analytics\622_create_quality_reject_laney_pprime.sql",
     "sql\analytics\720_create_reliability_kpis.sql",
     "sql\analytics\730_create_failure_downtime_analysis.sql",
-    "sql\analytics\742_create_reliability_trends.sql"
+    "sql\analytics\742_create_reliability_trends.sql",
+    "sql\analytics\760_create_metropt_predictive_maintenance_views.sql"
 )
 
 $validationSqlFiles = @(
@@ -188,6 +191,7 @@ $validationSqlFiles = @(
     "sql\validation\721_validate_reliability_kpis.sql",
     "sql\validation\731_validate_failure_downtime_analysis.sql",
     "sql\validation\743_validate_reliability_trends.sql",
+    "sql\validation\761_validate_metropt_predictive_maintenance.sql",
     "sql\validation\415_validate_can_air_powerbi.sql",
     "sql\validation\751_validate_powerbi_advanced_analytics_views.sql"
 )
@@ -199,6 +203,10 @@ $productionBoundaryPaths = @(
     "config\energy_artifact_manifest.json",
     "scripts\verify_energy_artifact.py",
     "scripts\load_powerbi_advanced_analytics.py",
+    "pipelines\postgres\load_metropt_predictive_maintenance.py",
+    "data\silver\synthetic_enterprise\telemetry\metropt_enterprise_telemetry.parquet",
+    "data\gold\advanced_analytics\metropt_predictive_maintenance\metropt_enterprise_warning_events.csv",
+    "data\gold\advanced_analytics\metropt_predictive_maintenance\metropt_predictive_maintenance_kpis.csv",
     "pipelines\postgres\connection_auth.py"
 )
 
@@ -245,6 +253,9 @@ Invoke-PythonFile -RelativePath "scripts\verify_energy_artifact.py" `
 Invoke-PythonFile -RelativePath "scripts\load_powerbi_advanced_analytics.py" `
     -Arguments @("--validate-only") `
     -StepName "Accepted energy-anomaly and forecasting input verification"
+Invoke-PythonFile -RelativePath "pipelines\postgres\load_metropt_predictive_maintenance.py" `
+    -Arguments @("--validate-only") `
+    -StepName "Governed enterprise telemetry input verification"
 
 foreach ($relative in ($requiredRepositoryPaths | Sort-Object -Unique)) {
     Assert-RequiredPath -RelativePath $relative
@@ -281,6 +292,7 @@ Write-Host "psql: $script:PsqlExe"
 Write-Host "Python: $script:PythonExe"
 Write-Host "Verified governed production input: data\silver\synthetic_enterprise\production\production_operations_2024_2025.parquet"
 Write-Host "Accepted energy-anomaly and forecasting outputs are materialized inputs; models will not be retrained."
+Write-Host "Governed MetroPT-informed enterprise telemetry is a materialized canonical input; its source model will not be rerun."
 Write-Host "Preflight passed. No database changes have been made yet."
 
 if ($PreflightOnly) {
@@ -324,9 +336,9 @@ foreach ($relative in $coreAnalyticsSqlFiles) {
     Invoke-PsqlFile -RelativePath $relative
 }
 
-Write-Section "Core data-quality execution and reporting"
+Write-Section "Enterprise data-quality execution and reporting"
 Invoke-PythonFile -RelativePath "pipelines\postgres\run_data_quality.py" `
-    -Arguments $connectionArguments -StepName "Core data-quality execution"
+    -Arguments $connectionArguments -StepName "Enterprise data-quality execution"
 Invoke-PsqlFile -RelativePath "sql\analytics\300_create_data_quality_views.sql"
 
 Write-Section "Gold, Power BI compatibility, quality, and reliability"
@@ -348,5 +360,5 @@ foreach ($relative in $validationSqlFiles) {
 
 Write-Section "Canonical Velora operational build complete"
 Write-Host "Database: $PgHost`:$PgPort / $PgDatabase"
-Write-Host "Optional MetroPT and hydraulic benchmark reproduction was not executed."
+Write-Host "Optional real-source MetroPT model and hydraulic benchmark reproduction was not executed."
 Write-Host "Power BI Desktop refresh and visual verification remain manual."

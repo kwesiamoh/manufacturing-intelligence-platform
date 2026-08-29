@@ -53,7 +53,10 @@
         "script": "sources/metropt-telemetry/pipelines/transform_metropt3.py",
         "required_inputs": ["sources/metropt-telemetry/data/bronze/metropt3/MetroPT3(AirCompressor).csv"]
       },
-      "canonical_silver": ["sources/metropt-telemetry/data/silver/telemetry/metropt3/"]
+      "canonical_silver": ["sources/metropt-telemetry/data/silver/telemetry/metropt3/"],
+      "integration_role": "external_real_basis_for_governed_enterprise_pdm_adaptation",
+      "downstream_workflow": "scripts/run_metropt_predictive_maintenance.py",
+      "lineage_note": "Original MetroPT records remain external real data. The downstream enterprise compressor-maintenance scenario is a separately labelled synthetic adaptation."
     },
     {
       "order": 3,

@@ -1,6 +1,7 @@
 source_code,source_name,publisher,source_domain,integration_role,is_real_data,source_url,reference_period,notes
 STEEL_ENERGY,Steel Industry Energy Consumption,UCI Machine Learning Repository,energy,OPERATIONAL,True,,,Real industrial energy dataset.
-METROPT3,MetroPT-3,UCI Machine Learning Repository,telemetry,OPERATIONAL,True,,,Real compressor telemetry.
+METROPT3,MetroPT-3,UCI Machine Learning Repository,telemetry,BENCHMARK,True,https://archive.ics.uci.edu/dataset/791/metropt%2B3%2Bdataset,February-August 2020,Real external compressor telemetry; source records retain UCI provenance.
+METROPT3_ENTERPRISE_PDM,MetroPT-Informed Enterprise Compressor Maintenance Scenario,Portfolio Project,predictive_maintenance,SYNTHETIC_INTEGRATION,False,,2024,Governed synthetic enterprise adaptation based on MetroPT operating behavior; controlled degradation is not an original MetroPT observation.
 SECOM,SECOM Manufacturing Data,UCI Machine Learning Repository,quality_process,OPERATIONAL,True,,,Real semiconductor process/quality data.
 HYDRAULIC_CM,Condition Monitoring of Hydraulic Systems,UCI Machine Learning Repository,reliability,OPERATIONAL,True,,,Real hydraulic condition-monitoring data.
 BEVERAGE_BOTTLING,Industrial Production Time-Series Dataset from a Beverage Bottling Line,Zenodo,production_downtime,OPERATIONAL,True,,,Real beverage production/downtime anchor source.

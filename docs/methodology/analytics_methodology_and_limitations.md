@@ -317,41 +317,53 @@ It demonstrates reliability KPI design and lineage control, but it is not valida
 
 ---
 
-## External MetroPT benchmark
+## MetroPT compressor telemetry and predictive maintenance
 
 ### Purpose
 
-MetroPT telemetry is used as a standalone external benchmark for anomaly/fault-event detection.
+MetroPT-3 supplies 1,516,948 real measurements from an industrial compressor Air Production Unit. The immutable Bronze records, standardized Silver telemetry, and four published failure windows retain UCI provenance and are not Velora operational observations.
 
-It is not part of the Velora enterprise history.
+### Causal features and evaluation design
 
-### Accepted policy
+Telemetry is aggregated into five-minute windows. Features use only current and trailing observations and include pressure, oil-temperature, and motor-current levels; trailing deviations; one-hour slopes; pressure relationships; and the accepted Isolation Forest anomaly score. No feature uses observations after its prediction timestamp.
 
-The selected adaptive policy is:
+The real predictive-warning experiment evaluates 2-, 4-, and 6-hour horizons. Failure event 1 supplies the positive training episode, event 2 is the chronological validation event, and events 3-4 form the later test period. A class-weighted logistic-regression candidate is compared with the accepted adaptive anomaly baseline:
 
 ```text
 q0.9850_3of4
 ```
 
-### Retained test result
+### Real MetroPT result
 
-- 2 of 2 retained events detected
-- 0 of 2 detected at least 2 hours early
-- median lead time approximately 20 minutes
-- false-alert rate approximately 0.0563 alerts/day
-- alert-time fraction approximately 0.1297%
+- selected real policy: adaptive anomaly baseline `q0.9850_3of4`
+- selected evaluation horizon: 2 hours
+- held-out fault events warned: 1 of 2
+- median warning lead: 0.67 hours
+- precision: 0.143
+- recall: 0.500
+- false alerts: 6, or 0.068 per operating day
+- supervised logistic candidate: no validation or test warnings
 
 ### Interpretation
 
-The result supports **fault-event / anomaly detection**.
+The real data supports anomaly/fault-event monitoring and a limited short-lead warning observation. It does not demonstrate reliable two-, four-, or six-hour advance prediction.
 
-It does not support a claim of predictive-maintenance early warning.
+### MetroPT-informed synthetic enterprise result
+
+The governed enterprise adaptation maps the compressor behavior to `SITE-DE-01-U-AIR-01`, shifts source timestamps by four years into the 2024 enterprise calendar, and retains the source timestamp on every row. Controlled six-hour degradation ramps add explicitly synthetic changes in oil temperature, motor current, and reservoir pressure.
+
+The selected six-hour condition policy warned all four synthetic scenario events, with 5.83 hours median lead, precision and recall of 1.0, and zero false alerts. These values demonstrate the controlled scenario design; they are not measured MetroPT predictive performance.
+
+Lineage fields identify the source as `EXTERNAL_REAL`, the scenario as `SYNTHETIC_ENTERPRISE_ADAPTATION`, the transformation basis as `METROPT_INFORMED`, and the degradation signal as `SYNTHETIC_CONTROLLED`.
+
+The Gold detail view can expose the nearest existing maintenance work order on
+the mapped compressor asset within seven days after fault onset. No such work
+orders exist in the accepted maintenance history for these four scenario
+events, so the integration leaves that context null rather than fabricating it.
 
 ### Limitation
 
-The retained test events were inspected before final evaluation.
-
-The final evaluation is therefore not a fully untouched end-to-end lifecycle test.
+Only four independent source failure events exist, and the retained events have been inspected during analytical review. The chronological evaluation is therefore small-sample evidence rather than a fully untouched lifecycle test. The synthetic scenario validates integration and decision-support semantics, not real-world model generalization.
 
 ---
 
@@ -389,14 +401,14 @@ It should not be presented as a predictive-maintenance forecasting result.
 
 ## Data quality
 
-The final canonical build contains **24 active core DQ rules**.
+The canonical build contains **29 active enterprise DQ rules**.
 
 Accepted clean-build result:
 
 | Status | Rules |
 |---|---:|
-| PASS | 24 |
-| WARN | 0 |
+| PASS | 28 |
+| WARN | 1 |
 | FAIL | 0 |
 
 The framework preserves explicit semantics:
@@ -405,11 +417,24 @@ The framework preserves explicit semantics:
 - WARN: nonfatal
 - FAIL: fail-fast
 
-The final Power BI score is 100% because all 24 active canonical rules passed.
+The established score is `1 - failed rows / evaluated rows`. Across 2,473,157
+evaluated rows and 248 failed rows, the enterprise result is **99.9900%**.
 
-This does not mean the data is universally perfect.
+The `telemetry` domain contains five rules covering required-field
+completeness, equipment/timestamp uniqueness, enterprise equipment mapping,
+governed lineage, and source-supported five-minute cadence. Four rules pass.
+The cadence rule evaluates 42,597 consecutive intervals and reports 248
+non-five-minute intervals as `WARN`, yielding a **99.8836%** telemetry-domain
+score. The maximum retained gap is 48 hours 50 minutes. These gaps reflect
+source availability and non-operating periods; the workflow does not fabricate
+missing observations.
 
-Optional benchmark DQ rules are excluded from the canonical Velora DQ score.
+Untouched MetroPT observations remain external real source data. The governed
+synthetic enterprise adaptation participates in enterprise DQ. Compressor
+faults, controlled degradation, anomaly scores, and warning states are
+operating or analytical signals, not DQ defects. No sensor plausibility rule is
+asserted because the repository does not govern defensible physical limits for
+every sensor.
 
 ---
 

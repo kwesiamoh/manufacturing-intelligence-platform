@@ -31,6 +31,7 @@ flowchart LR
     I --> O[Energy Anomaly Detection]
     I --> P[Reliability Analytics]
     I --> Q[Data Quality]
+    I --> R[Compressor Predictive Maintenance]
 ```
 
 The principal processing path is:
@@ -168,9 +169,14 @@ Shared dimensions allow different operational domains to be analysed consistentl
 ## Analytical layer
 
 The analytical layer covers manufacturing performance, Laney p′ SPC,
-source-qualified reliability, data quality, forecasting, and contextual energy
-anomalies. Accepted operational outputs flow into Gold and `gold_bi`; MetroPT
-and hydraulic-condition benchmarks remain separate. Method definitions and
+source-qualified reliability, data quality, forecasting, contextual energy
+anomalies, and compressor condition monitoring. Real MetroPT telemetry remains
+source-qualified external data; its governed enterprise adaptation maps only to
+an existing compressed-air utility asset and publishes warning-event and KPI
+views in Gold without changing maintenance facts or reliability KPIs. That
+adaptation participates in the canonical DQ layer through completeness,
+uniqueness, enterprise-mapping, lineage, and cadence checks. The
+hydraulic-condition workflow remains a separate benchmark. Method definitions and
 limitations are maintained in the
 [analytics methodology](../methodology/analytics_methodology_and_limitations.md).
 

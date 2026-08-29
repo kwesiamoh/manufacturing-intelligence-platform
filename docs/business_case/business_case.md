@@ -115,8 +115,6 @@ Potential mechanisms:
 - repeatable data-quality checks;
 - governed reporting model.
 
-No labor-saving value is assigned in the portfolio because no validated
-baseline effort/cost exists.
 
 ## Financial model
 

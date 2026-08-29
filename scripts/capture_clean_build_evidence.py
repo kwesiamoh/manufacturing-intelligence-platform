@@ -48,7 +48,7 @@ EXPECTED_FACTS = {
     "fact_site_energy_detail": 13158,
 }
 EXPECTED_DIMENSIONS = {
-    "dim_source_dataset": 15,
+    "dim_source_dataset": 16,
     "dim_site": 6,
     "dim_area": 12,
     "dim_line": 30,
@@ -90,6 +90,7 @@ MANDATORY_VALIDATIONS = [
     "sql/validation/721_validate_reliability_kpis.sql",
     "sql/validation/731_validate_failure_downtime_analysis.sql",
     "sql/validation/743_validate_reliability_trends.sql",
+    "sql/validation/761_validate_metropt_predictive_maintenance.sql",
     "sql/validation/415_validate_can_air_powerbi.sql",
     "sql/validation/751_validate_powerbi_advanced_analytics_views.sql",
 ]
@@ -196,7 +197,7 @@ def capture(args: argparse.Namespace) -> dict[str, Any]:
                 """,
             )
             dq = {key: int(value) for key, value in dq_rows.items()}
-            if dq != {"pass": 24, "warn": 0, "fail": 0, "total": 24}:
+            if dq != {"pass": 28, "warn": 1, "fail": 0, "total": 29}:
                 raise EvidenceError(f"Unexpected DQ summary: {dq}")
 
             line_energy = row_dict(

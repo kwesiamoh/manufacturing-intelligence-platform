@@ -1,6 +1,7 @@
 step,source_name,source_domain,canonical_target,integration_role
 1,Steel Industry Energy Consumption,energy,fact_energy,OPERATIONAL
-2,MetroPT-3,telemetry,fact_telemetry;dim_equipment;dim_sensor,OPERATIONAL
+2,MetroPT-3,telemetry,sources/metropt-telemetry/data/silver/telemetry/metropt3;analytics.metropt_pdm_policy_kpi,BENCHMARK
+2A,MetroPT-Informed Enterprise Compressor Maintenance Scenario,predictive maintenance,analytics.metropt_enterprise_telemetry;analytics.metropt_pdm_warning_event;gold.vw_compressor_predictive_maintenance_detail;gold.vw_compressor_predictive_maintenance_kpi,SYNTHETIC_INTEGRATION
 3,SECOM,quality/process,fact_quality;fact_telemetry;dim_sensor,OPERATIONAL
 4,Hydraulic Condition Monitoring,reliability,fact_telemetry;fact_maintenance;dim_equipment;dim_sensor,OPERATIONAL
 5,Beverage Bottling Production & Downtime,production/downtime,fact_production;fact_downtime;dim_line;dim_time,OPERATIONAL

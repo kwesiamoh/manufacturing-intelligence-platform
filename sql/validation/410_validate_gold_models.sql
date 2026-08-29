@@ -32,17 +32,15 @@ SELECT
         FROM dq_rule r
         LEFT JOIN gold.vw_data_quality_rule_status g ON g.rule_code = r.rule_code
         WHERE r.active_flag = TRUE
-          AND LEFT(r.rule_code, 8) <> 'METROPT_'
           AND g.rule_code IS NULL
-    ) AS active_core_dq_rules_present,
+    ) AS active_enterprise_dq_rules_present,
     NOT EXISTS (
         SELECT DISTINCT r.domain_name
         FROM dq_rule r
         WHERE r.active_flag = TRUE
-          AND LEFT(r.rule_code, 8) <> 'METROPT_'
         EXCEPT
         SELECT domain_name FROM gold.vw_data_quality_domain_summary
-    ) AS active_core_dq_domains_present;
+    ) AS active_enterprise_dq_domains_present;
 
 \echo ''
 \echo '=== Shift join uniqueness: expected zero ==='
@@ -122,6 +120,7 @@ SELECT
     domain_name,
     rule_count,
     passed_rules,
+    warning_rules,
     failed_rules,
     failed_rows,
     ROUND(weighted_data_quality_score, 4) AS dq_score_pct
@@ -172,17 +171,14 @@ BEGIN
         RAISE EXCEPTION 'Gold operational integrity gate found % invalid rows or key groups', bad_count;
     END IF;
 
-    -- Validate the active Velora/core DQ configuration dynamically. Optional
-    -- METROPT_* benchmark rules may be configured and/or executed, but are not
-    -- required inputs to this operational build.
+    -- Validate the complete active enterprise DQ configuration dynamically.
     SELECT COUNT(*) INTO bad_count
     FROM dq_rule r
     LEFT JOIN gold.vw_data_quality_rule_status g ON g.rule_code = r.rule_code
     WHERE r.active_flag = TRUE
-      AND LEFT(r.rule_code, 8) <> 'METROPT_'
       AND (g.rule_code IS NULL OR g.result_status = 'FAIL');
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Gold DQ gate has % active core rules missing or in FAIL status', bad_count;
+        RAISE EXCEPTION 'Gold DQ gate has % active enterprise rules missing or in FAIL status', bad_count;
     END IF;
 
     SELECT COUNT(*) INTO bad_count
@@ -190,12 +186,19 @@ BEGIN
         SELECT DISTINCT r.domain_name
         FROM dq_rule r
         WHERE r.active_flag = TRUE
-          AND LEFT(r.rule_code, 8) <> 'METROPT_'
         EXCEPT
         SELECT domain_name FROM gold.vw_data_quality_domain_summary
     ) missing_domains;
     IF bad_count <> 0 THEN
-        RAISE EXCEPTION 'Gold DQ domain summary is missing % active core domains', bad_count;
+        RAISE EXCEPTION 'Gold DQ domain summary is missing % active enterprise domains', bad_count;
+    END IF;
+
+    SELECT COUNT(*) INTO bad_count
+    FROM gold.vw_data_quality_domain_summary
+    WHERE passed_rules + warning_rules + failed_rules <> rule_count
+       OR failed_rows > evaluated_rows;
+    IF bad_count <> 0 THEN
+        RAISE EXCEPTION 'Gold DQ rule-status or evaluated-row reconciliation failed in % domains', bad_count;
     END IF;
 END
 $validation$;

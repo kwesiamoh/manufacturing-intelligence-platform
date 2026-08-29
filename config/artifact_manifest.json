@@ -3,8 +3,8 @@
   "release": "v1.0.0",
   "title": "Canonical build and analytical artifact manifest",
   "as_of_date": "2026-08-28",
-  "scope": "Canonical Velora operational PostgreSQL/Power BI build, separately identified optional external benchmark reproduction artifacts, and the v1.0.0 public-release boundary. This manifest does not change analytical implementation logic.",
-  "execution_required_definition": "True means the artifact is required by the canonical Velora operational build or its downstream synthetic regeneration from the governed Silver production boundary. Optional MetroPT and hydraulic benchmark reproduction artifacts are false even when their portfolio result is accepted.",
+  "scope": "Canonical Velora operational PostgreSQL/Power BI build including governed enterprise telemetry, separately identified real-source MetroPT model reproduction, optional external benchmark artifacts, and the v1.0.0 public-release boundary.",
+  "execution_required_definition": "True means the artifact is required by the canonical Velora operational build or its downstream regeneration from a governed materialized boundary. Real-source MetroPT model reproduction and the hydraulic benchmark remain optional even when their portfolio result is accepted.",
   "status_definitions": {
     "accepted": "Current canonical implementation or result for its stated purpose.",
     "superseded": "Retained historical implementation or result that must not be used as the current conclusion.",
@@ -77,9 +77,23 @@
         "data/silver/synthetic_enterprise/**/*.parquet"
       ],
       "release_exceptions": [
-        "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet"
+        "data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet",
+        "data/silver/synthetic_enterprise/telemetry/metropt_enterprise_telemetry.parquet"
       ],
-      "notes": "The 3.20 MiB canonical production Silver seed is explicitly included; other facts can be regenerated from that governed boundary and retained scripts."
+      "notes": "The canonical production Silver seed and governed enterprise telemetry adaptation are explicitly included; other facts can be regenerated from retained governed boundaries and scripts."
+    },
+    {
+      "id": "metropt-enterprise-telemetry-input",
+      "artifact": "Governed MetroPT-informed enterprise telemetry",
+      "path": "data/silver/synthetic_enterprise/telemetry/metropt_enterprise_telemetry.parquet",
+      "status": "accepted",
+      "purpose": "Provides the canonical 42,598-row materialized telemetry input for the enterprise PdM load and telemetry DQ domain.",
+      "execution_required": true,
+      "canonical_build_role": "governed_materialized_input",
+      "release_treatment": "include",
+      "row_count": 42598,
+      "sha256": "67f7c27dca3da007d167efec3c4b082d3b84608ffd71e0a96a4c50202475f640",
+      "notes": "Synthetic enterprise adaptation with separate METROPT3 external-real source lineage and METROPT3_ENTERPRISE_PDM scenario lineage; it is not untouched MetroPT operational data."
     },
     {
       "id": "external-public-source-materializations",
@@ -388,10 +402,10 @@
       "artifact": "MetroPT telemetry and failure-window inputs",
       "path": "sources/metropt-telemetry/",
       "status": "manual_input",
-      "purpose": "Supplies real external compressor telemetry for DQ and the separate anomaly-detection benchmark.",
+      "purpose": "Supplies real external compressor telemetry for source validation, anomaly/fault-event evaluation, and the governed enterprise compressor-maintenance adaptation.",
       "execution_required": false,
       "canonical_build_role": "optional",
-      "notes": "Optional real external benchmark input; never Velora operational data and not required by the canonical Velora PostgreSQL/Power BI build."
+      "notes": "The original records remain external real MetroPT data and are never represented as Velora observations. Acquisition is optional for the core Velora build and required for regenerating the predictive-maintenance extension."
     },
     {
       "id": "db-create",
@@ -494,10 +508,10 @@
     },
     {
       "id": "ddl-009-dq-rule-seed",
-      "artifact": "Core DQ rule seed",
+      "artifact": "Enterprise DQ rule seed",
       "path": "sql/ddl/009_seed_data_quality_rules.sql",
       "status": "accepted",
-      "purpose": "Seeds structured DQ rules for enterprise and benchmark domains.",
+      "purpose": "Seeds 29 structured DQ rules across operational, benchmark, and governed telemetry domains.",
       "execution_required": true,
       "notes": "Requires SQL 008."
     },
@@ -641,12 +655,12 @@
     },
     {
       "id": "dq-runner",
-      "artifact": "Core data-quality rule execution",
+      "artifact": "Enterprise data-quality rule execution",
       "path": "pipelines/postgres/run_data_quality.py",
       "status": "accepted",
       "purpose": "Evaluates the seeded structured DQ rules and stores results.",
       "execution_required": true,
-      "notes": "Mandatory failures propagate nonzero; legitimate WARN results remain nonfatal. The retained disposable proof records 24 PASS, 0 WARN, and 0 FAIL."
+      "notes": "Mandatory failures propagate nonzero; legitimate WARN results remain nonfatal. Current execution records 28 PASS, 1 WARN, and 0 FAIL across 29 rules; the telemetry cadence warning contributes 248 failed intervals through the established scoring formula."
     },
     {
       "id": "analytics-300-dq-views",
@@ -723,7 +737,44 @@
         "data/gold/advanced_analytics/metropt_anomaly/metropt_alert_policy_validation_grid.csv",
         "reports/advanced_analytics/metropt_alert_policy_metrics.json"
       ],
-      "notes": "Accepted optional external benchmark demonstration. It is deliberately excluded from Velora operational Power BI pages and the canonical Velora PostgreSQL/BI build."
+      "notes": "Accepted real-source anomaly baseline and input to the governed predictive-maintenance extension. It remains absent from the current Power BI model and does not alter Velora operational history."
+    },
+    {
+      "id": "metropt-predictive-maintenance-workflow",
+      "artifact": "MetroPT real early-warning evaluation and governed enterprise compressor adaptation",
+      "path": "scripts/run_metropt_predictive_maintenance.py",
+      "status": "accepted",
+      "purpose": "Evaluates real MetroPT warnings at 2-, 4-, and 6-hour horizons and creates a separately labelled MetroPT-informed synthetic enterprise degradation scenario.",
+      "execution_required": false,
+      "canonical_build_role": "optional_materialized_input_regeneration",
+      "inputs": [
+        "sources/metropt-telemetry/data/silver/telemetry/metropt3/",
+        "sources/metropt-telemetry/data/bronze/metropt3/reference/failure_windows.csv",
+        "data/gold/advanced_analytics/metropt_anomaly/metropt_selected_alert_policy_windows.parquet"
+      ],
+      "outputs": [
+        "data/silver/synthetic_enterprise/telemetry/metropt_enterprise_telemetry.parquet",
+        "data/gold/advanced_analytics/metropt_predictive_maintenance/metropt_enterprise_warning_events.csv",
+        "data/gold/advanced_analytics/metropt_predictive_maintenance/metropt_real_early_warning_evaluation.csv",
+        "data/gold/advanced_analytics/metropt_predictive_maintenance/metropt_predictive_maintenance_kpis.csv",
+        "reports/advanced_analytics/metropt_predictive_maintenance_metrics.json"
+      ],
+      "notes": "Real MetroPT and MetroPT-informed synthetic results remain explicitly separated. The controlled precursor behavior is synthetic and is not an original MetroPT observation. The canonical database build consumes the governed materialized telemetry output without rerunning this model workflow."
+    },
+    {
+      "id": "metropt-predictive-maintenance-postgres",
+      "artifact": "MetroPT predictive-maintenance PostgreSQL integration",
+      "path": "pipelines/postgres/load_metropt_predictive_maintenance.py",
+      "status": "accepted",
+      "purpose": "Loads the governed telemetry, warning-event, and policy-KPI outputs into the existing analytics schema using the established dimensional mappings.",
+      "execution_required": true,
+      "canonical_build_role": "canonical_enterprise_telemetry_load",
+      "related_artifacts": [
+        "sql/migrations/006_create_metropt_predictive_maintenance.sql",
+        "sql/analytics/760_create_metropt_predictive_maintenance_views.sql",
+        "sql/validation/761_validate_metropt_predictive_maintenance.sql"
+      ],
+      "notes": "Uses SITE-DE-01-U-AIR-01, an existing compressed-air utility asset. The canonical load does not insert into fact_maintenance or change accepted reliability KPIs and runs before enterprise DQ execution."
     },
     {
       "id": "energy-contextual-anomaly",
@@ -877,7 +928,7 @@
       "status": "accepted",
       "purpose": "Exposes accepted forecasts, energy anomalies, and reliability trends through gold_bi.",
       "execution_required": true,
-      "notes": "Requires the advanced landing tables and SQL 742. MetroPT and hydraulic benchmark results are intentionally absent."
+      "notes": "Requires the advanced landing tables and SQL 742. MetroPT predictive-maintenance and hydraulic benchmark results are intentionally absent from the retained Power BI compatibility layer."
     },
     {
       "id": "powerbi-model",
@@ -905,7 +956,7 @@
       "status": "accepted",
       "purpose": "Preflights governed inputs and executes the complete dependency-ordered Velora PostgreSQL and BI build.",
       "execution_required": true,
-      "notes": "Supported clean-database entry point. It verifies the governed production seed, governed energy snapshot, and accepted forecasting/energy-anomaly materialized inputs before database mutation. It uses configurable host, port, database, admin database, and user with local port 5433 as the default. Mandatory Python actions support interactive authentication or external libpq credentials such as pgpass without storing secrets. It excludes optional MetroPT/hydraulic benchmark reproduction and does not retrain models."
+      "notes": "Supported clean-database entry point. It verifies the governed production seed, governed energy snapshot, governed enterprise telemetry, and accepted forecasting/energy-anomaly materialized inputs before database mutation. It uses configurable host, port, database, admin database, and user with local port 5433 as the default. Mandatory Python actions support interactive authentication or external libpq credentials such as pgpass without storing secrets. It excludes real-source MetroPT model and hydraulic benchmark reproduction and does not retrain models."
     },
     {
       "id": "postgres-credential-resolution",
@@ -996,15 +1047,15 @@
     },
     {
       "id": "validation-data-quality-sql",
-      "artifact": "Core Velora data-quality validation",
+      "artifact": "Enterprise data-quality validation",
       "path": "sql/validation/300_validate_data_quality.sql",
       "status": "diagnostic",
-      "purpose": "Reports structured core DQ results after rule execution.",
+      "purpose": "Reports and reconciles all active enterprise DQ results after rule execution.",
       "execution_required": true,
       "inputs": [
         "sql/validation/300_validate_data_quality.sql"
       ],
-      "notes": "Mandatory fail-fast Velora operational gate. The retained disposable proof records 24 PASS, 0 WARN, and 0 FAIL; legitimate WARN status remains nonfatal."
+      "notes": "Mandatory fail-fast enterprise gate. Current execution records 28 PASS, 1 WARN, and 0 FAIL; legitimate WARN status remains nonfatal."
     },
     {
       "id": "validation-gold-powerbi-sql",
@@ -1016,7 +1067,7 @@
       "inputs": [
         "sql/validation/410_validate_gold_models.sql"
       ],
-      "notes": "Mandatory for the canonical Velora Gold layer. Core DQ rules and domains are validated dynamically while optional METROPT_* rules are explicitly excluded from the operational requirement. SQL analytics 410 contains its own inline compatibility-view checks."
+      "notes": "Mandatory for the canonical Velora Gold layer. All active enterprise DQ rules and domains, including telemetry, are validated dynamically. SQL analytics 410 contains its own inline compatibility-view checks."
     },
     {
       "id": "validation-quality-sql",

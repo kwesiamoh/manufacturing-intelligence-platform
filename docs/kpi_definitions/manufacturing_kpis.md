@@ -97,8 +97,14 @@ downtime multiplication.
 
 Rule results retain `PASS`, `WARN`, and `FAIL` semantics. Mandatory `FAIL`
 results stop the canonical build; legitimate `WARN` results remain nonfatal.
-The accepted proof contains 24 PASS, 0 WARN, and 0 FAIL for the canonical Velora
-rules. Optional external benchmark rules do not change that operational score.
+The enterprise score uses the established row-weighted formula:
+
+`1 - SUM(failed_row_count) / SUM(evaluated_row_count)`
+
+The current result contains 29 active rules: 28 PASS, one telemetry-cadence
+WARN, and zero FAIL. The governed enterprise telemetry adaptation contributes
+to both its `telemetry` domain score and the platform score; original MetroPT
+observations retain external-source provenance.
 
 ## Field-level reference
 

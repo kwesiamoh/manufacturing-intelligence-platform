@@ -21,7 +21,7 @@ Primary assets:
 | Data tampering | Bronze file overwritten | immutable Bronze, checksums |
 | Lineage loss | derived result cannot be traced | source IDs, documented pipeline lineage |
 | Misleading provenance | synthetic KPI presented as real | provenance labels and documentation |
-| Model misuse | anomaly detector called predictive maintenance | explicit model-scope statements |
+| Model misuse | synthetic precursor performance presented as real predictive performance | separate real/synthetic evaluation scopes and explicit lineage fields |
 | Dependency compromise | vulnerable Python package | dependency review/scanning |
 | Unapproved cloud deployment | target architecture mistaken for deployed resources | documentation-only Terraform configuration and explicit deployment status |
 | BI overexposure | users see unauthorized sites | workspace controls / RLS in target state |

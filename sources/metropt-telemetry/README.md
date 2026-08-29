@@ -1,6 +1,10 @@
 # Real equipment telemetry: MetroPT-3
 
-This package provides real industrial equipment telemetry for the standalone MetroPT benchmark. It does not create synthetic telemetry or supply Velora operational facts.
+This package provides real industrial compressor telemetry for anomaly,
+fault-event, and predictive-warning evaluation. Original records remain
+external UCI data. A downstream workflow creates a separately governed
+MetroPT-informed synthetic enterprise compressor-maintenance scenario; it does
+not turn the source observations into Velora operational telemetry.
 
 ## Source
 
@@ -35,8 +39,36 @@ The 208 MB raw CSV is not distributed in the repository. `ingestion/batch/downlo
 
 The transformation reads the CSV in chunks so the entire source does not need to be loaded into RAM at once.
 
+5. Reproduce the accepted anomaly score and adaptive alert policy from the
+   repository root:
+
+   `python scripts/run_metropt_anomaly_scoring.py`
+
+   `python scripts/select_metropt_alert_policy.py`
+
+6. Evaluate real 2-, 4-, and 6-hour warnings and create the governed enterprise
+   compressor adaptation:
+
+   `python scripts/run_metropt_predictive_maintenance.py`
+
+The enterprise output is
+`data/silver/synthetic_enterprise/telemetry/metropt_enterprise_telemetry.parquet`.
+It maps to the existing `SITE-DE-01-U-AIR-01` compressed-air asset, retains the
+original timestamp in `source_event_timestamp`, and identifies the controlled
+degradation signal as `SYNTHETIC_CONTROLLED`.
+
+The materialized enterprise output is a canonical PostgreSQL build input and
+participates in enterprise DQ through completeness, uniqueness, equipment
+mapping, lineage, and cadence checks. The source-model workflow above remains
+the optional regeneration route. Original source faults and analytical warning
+states are not treated as data-quality defects.
+
 ## Provenance rule
 
 The four rows in `data/bronze/metropt3/reference/failure_windows.csv` reproduce the failure-window metadata shown on the UCI MetroPT-3 dataset page. They are reference metadata, not generated failures. The sensor dictionary is likewise based on UCI's published variable descriptions.
 
-MetroPT is a source-qualified external benchmark and is not row-level joined to Steel Energy or the synthetic Velora enterprise.
+MetroPT is not row-level joined to unrelated source datasets. PostgreSQL Gold
+views integrate only the governed compressor adaptation with enterprise
+site/equipment dimensions and optional maintenance-work-order context. Real and
+synthetic evaluation scopes remain distinct, and the current Power BI report
+does not contain the predictive-maintenance outputs.

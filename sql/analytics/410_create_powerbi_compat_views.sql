@@ -26,7 +26,9 @@ BEGIN
         'vw_shift_manufacturing_performance',
         'vw_line_daily_performance',
         'vw_site_daily_performance',
-        'vw_site_executive_summary'
+        'vw_site_executive_summary',
+        'vw_data_quality_domain_summary',
+        'vw_data_quality_rule_status'
     ]
     LOOP
         SELECT string_agg(
@@ -72,7 +74,9 @@ WHERE table_schema = 'gold_bi'
       'vw_shift_manufacturing_performance',
       'vw_line_daily_performance',
       'vw_site_daily_performance',
-      'vw_site_executive_summary'
+      'vw_site_executive_summary',
+      'vw_data_quality_domain_summary',
+      'vw_data_quality_rule_status'
   )
 GROUP BY table_schema, table_name
 ORDER BY table_name;
@@ -88,4 +92,10 @@ FROM gold_bi.vw_site_daily_performance
 UNION ALL
 SELECT 'vw_site_executive_summary', COUNT(*)
 FROM gold_bi.vw_site_executive_summary
+UNION ALL
+SELECT 'vw_data_quality_domain_summary', COUNT(*)
+FROM gold_bi.vw_data_quality_domain_summary
+UNION ALL
+SELECT 'vw_data_quality_rule_status', COUNT(*)
+FROM gold_bi.vw_data_quality_rule_status
 ORDER BY view_name;

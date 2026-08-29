@@ -19,7 +19,7 @@ DECLARE
 BEGIN
     FOR expected IN
         SELECT * FROM (VALUES
-            ('dim_source_dataset', 15::bigint),
+            ('dim_source_dataset', 16::bigint),
             ('dim_site', 6::bigint),
             ('dim_area', 12::bigint),
             ('dim_line', 30::bigint),

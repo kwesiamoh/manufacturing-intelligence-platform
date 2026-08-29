@@ -6,14 +6,16 @@ Production seed manifest:
 [`config/canonical_production_seed.json`](../../config/canonical_production_seed.json)  
 Clean-build proof:
 [`clean_build_proof.md`](clean_build_proof.md)
-Scope: canonical Velora operational PostgreSQL/Power BI build, with external
+Scope: canonical Velora operational PostgreSQL/Power BI build, including the
+governed enterprise telemetry adaptation, with real-source model and external
 benchmark reproduction documented separately; no AWS deployment
 
 ## What this document does
 
 This document defines the accepted execution order for the Velora operational
-database and BI state. Optional MetroPT and hydraulic portfolio benchmarks are
-defined in separate sections and are not inputs to that operational build.
+database and BI state. The governed MetroPT-informed enterprise telemetry is a
+canonical materialized input. Full real-source MetroPT model reproduction and
+the hydraulic portfolio benchmark are defined separately.
 The retained proof records execution of this order through the canonical runner
 against a disposable database.
 
@@ -79,8 +81,9 @@ unique production record ID and canonicalizes typed values, so it is independent
 of row order and Parquet writer metadata.
 
 The six-site Velora enterprise data is fictional synthetic integration data.
-MetroPT and the hydraulic condition-monitoring dataset are real external
-benchmark demonstrations and are never Velora operational data. Eurostat and
+Original MetroPT and hydraulic condition-monitoring records are real external
+data and are never Velora operational observations. The MetroPT-informed
+enterprise compressor scenario is explicitly synthetic. Eurostat and
 weather records retain real external benchmark/context provenance even where
 they are combined with synthetic enterprise records.
 
@@ -195,13 +198,14 @@ Execute these files in exactly this order:
 3. Execute `sql/ddl/002_create_facts.sql`.
 4. Execute `sql/migrations/004_add_fact_lineage.sql`.
 5. Execute `sql/migrations/005_add_maintenance_downtime_source_lineage.sql`.
-6. Execute `sql/ddl/003_seed_static_dimensions.sql`.
-7. Execute `sql/ddl/004_create_reference_tables.sql`.
-8. Execute `sql/ddl/005_create_loss_value_config.sql`.
-9. Execute `sql/ddl/006_create_energy_detail_tables.sql`.
-10. Execute `sql/ddl/007_create_eurostat_price_observations.sql`.
-11. Execute `sql/ddl/008_create_data_quality_tables.sql`.
-12. Execute `sql/ddl/009_seed_data_quality_rules.sql`.
+6. Execute `sql/migrations/006_create_metropt_predictive_maintenance.sql`.
+7. Execute `sql/ddl/003_seed_static_dimensions.sql`.
+8. Execute `sql/ddl/004_create_reference_tables.sql`.
+9. Execute `sql/ddl/005_create_loss_value_config.sql`.
+10. Execute `sql/ddl/006_create_energy_detail_tables.sql`.
+11. Execute `sql/ddl/007_create_eurostat_price_observations.sql`.
+12. Execute `sql/ddl/008_create_data_quality_tables.sql`.
+13. Execute `sql/ddl/009_seed_data_quality_rules.sql`.
 
 Migration 005 adds the referenced downtime source to each maintenance lineage
 link. Existing Velora rows are backfilled only when the downtime event exists
@@ -213,19 +217,22 @@ order per downtime event.
 
 Execute these loaders in exactly this order:
 
-13. `pipelines/postgres/load_master_dimensions.py`
-14. `pipelines/postgres/load_synthetic_facts.py`
-15. `pipelines/postgres/load_reference_datasets.py`
-16. `pipelines/postgres/load_energy_details.py`
-17. `pipelines/postgres/load_eurostat_electricity_prices.py`
+14. `pipelines/postgres/load_master_dimensions.py`
+15. `pipelines/postgres/load_synthetic_facts.py`
+16. `pipelines/postgres/load_reference_datasets.py`
+17. `pipelines/postgres/load_energy_details.py`
+18. `pipelines/postgres/load_eurostat_electricity_prices.py`
+19. `pipelines/postgres/load_metropt_predictive_maintenance.py`
 
-The two supplemental loaders at positions 16 and 17 are mandatory. The reference
+The supplemental loaders at positions 17 through 19 are mandatory. The reference
 loader retains real external records in `ref_*` tables; it does not load them
-as synthetic Velora facts.
+as synthetic Velora facts. The telemetry loader consumes the governed 42,598-row
+materialized enterprise adaptation and preserves the real MetroPT source and
+synthetic scenario identifiers separately.
 
 After the Eurostat price loader, run the enforcing Python database validation:
 
-18. `pipelines/postgres/validate_database.py`
+20. `pipelines/postgres/validate_database.py`
 
 The validator enforces stable governed populations and requires the recursively
 loaded generic Eurostat reference table to be non-empty.
@@ -234,12 +241,12 @@ loaded generic Eurostat reference table to be non-empty.
 
 Execute these SQL files in exactly this order:
 
-19. `sql/analytics/100_create_oee_views.sql`
-20. `sql/analytics/110_create_production_loss_views.sql`
-21. `sql/analytics/120_create_production_benchmark_views.sql`
-22. `sql/analytics/200_create_energy_views.sql`
-23. `sql/analytics/210_create_utility_views.sql`
-24. `sql/analytics/220_create_energy_cost_views.sql`
+21. `sql/analytics/100_create_oee_views.sql`
+22. `sql/analytics/110_create_production_loss_views.sql`
+23. `sql/analytics/120_create_production_benchmark_views.sql`
+24. `sql/analytics/200_create_energy_views.sql`
+25. `sql/analytics/210_create_utility_views.sql`
+26. `sql/analytics/220_create_energy_cost_views.sql`
 
 SQL 220 is a mixed-provenance benchmark: synthetic enterprise consumption
 multiplied by real external Eurostat price observations. It is not a measured
@@ -249,19 +256,20 @@ Velora electricity tariff.
 
 Execute in this order:
 
-25. `pipelines/postgres/run_data_quality.py`
-26. `sql/analytics/300_create_data_quality_views.sql`
+27. `pipelines/postgres/run_data_quality.py`
+28. `sql/analytics/300_create_data_quality_views.sql`
 
 The runner returns nonzero for mandatory failures while preserving legitimate
-`WARN` results as nonfatal. Optional external benchmark DQ is not a Velora
-operational input.
+`WARN` results as nonfatal. The 29-rule enterprise population includes five
+telemetry rules. Its cadence rule quantifies retained source gaps without
+classifying physical faults or analytical warning states as data defects.
 
 ## Phase 5 - Gold and Power BI compatibility layer
 
 Execute in this order:
 
-27. `sql/analytics/400_create_gold_models.sql`
-28. `sql/analytics/410_create_powerbi_compat_views.sql`
+29. `sql/analytics/400_create_gold_models.sql`
+30. `sql/analytics/410_create_powerbi_compat_views.sql`
 
 SQL 400 depends on the production, energy, and utilities analytical views and
 the SQL 300 DQ views. SQL 410 must exist before the energy anomaly and
@@ -271,18 +279,19 @@ forecasting workflows because those Python scripts query `gold_bi`.
 
 Execute in this order:
 
-29. `sql/analytics/622_create_quality_reject_laney_pprime.sql`
-30. `sql/analytics/720_create_reliability_kpis.sql`
-31. `sql/analytics/730_create_failure_downtime_analysis.sql`
-32. `sql/analytics/742_create_reliability_trends.sql`
+31. `sql/analytics/622_create_quality_reject_laney_pprime.sql`
+32. `sql/analytics/720_create_reliability_kpis.sql`
+33. `sql/analytics/730_create_failure_downtime_analysis.sql`
+34. `sql/analytics/742_create_reliability_trends.sql`
+35. `sql/analytics/760_create_metropt_predictive_maintenance_views.sql`
 
 SQL 622 is self-contained apart from
 `gold_bi.vw_shift_manufacturing_performance`; the ordinary p-chart diagnostic
 is not an executable dependency. SQL 742 is the retained creator for the monthly
 reliability view names.
 
-The selected MetroPT policy remains a separate external benchmark and is not
-integrated into Velora Power BI.
+The MetroPT predictive-maintenance views are not integrated into the retained
+Velora Power BI report.
 
 SQL 720 defines the canonical reliability relationship at two explicit grains:
 one row per source-qualified maintenance/work-order link and one row per linked
@@ -300,8 +309,8 @@ fails before database mutation if either is absent; it does not retrain models.
 
 Then execute:
 
-33. `scripts/load_powerbi_advanced_analytics.py`
-34. `sql/analytics/750_create_powerbi_advanced_analytics_views.sql`
+36. `scripts/load_powerbi_advanced_analytics.py`
+37. `sql/analytics/750_create_powerbi_advanced_analytics_views.sql`
 
 The advanced-analytics loader receives the same host, port, database, and user parameters as the other
 canonical loaders. It consumes only these accepted materialized outputs:
@@ -325,37 +334,40 @@ loader before SQL 750 on a fresh database. On an existing database, the loader's
 transactional refresh preserves the stable landing tables, so SQL 750's
 dependent `gold_bi` views do not block a rerun.
 
-The MetroPT and hydraulic workflows are accepted portfolio
-benchmark demonstrations, but neither is executed in this Velora database/BI
-phase and neither is loaded into Velora operational views.
+The governed telemetry load and its predictive-maintenance Gold views are
+already present at this point. The real-source MetroPT model and hydraulic
+benchmark are not rerun, and neither workflow is loaded into the retained Power
+BI model.
 
 ## Phase 8 - final mandatory validations
 
-Execute every validation below after position 34, in this exact order. Use
+Execute every validation below after position 37, in this exact order. Use
 `ON_ERROR_STOP=1` for each psql call.
 
-35. `sql/admin/010_verify_schema.sql`
-36. `sql/validation/020_dimension_counts.sql`
-37. `sql/validation/030_synthetic_fact_counts.sql`
-38. `sql/validation/040_reference_counts.sql`
-39. `sql/validation/050_database_validation.sql`
-40. `sql/validation/100_validate_oee_views.sql`
-41. `sql/validation/110_validate_production_loss.sql`
-42. `sql/validation/120_validate_production_benchmark.sql`
-43. `sql/validation/200_validate_energy_views.sql`
-44. `sql/validation/210_validate_utility_views.sql`
-45. `sql/validation/220_validate_energy_cost.sql`
-46. `sql/validation/300_validate_data_quality.sql`
-47. `sql/validation/410_validate_gold_models.sql`
-48. `sql/validation/623_validate_quality_reject_laney_pprime.sql`
-49. `sql/validation/721_validate_reliability_kpis.sql`
-50. `sql/validation/731_validate_failure_downtime_analysis.sql`
-51. `sql/validation/743_validate_reliability_trends.sql`
-52. `sql/validation/415_validate_can_air_powerbi.sql`
-53. `sql/validation/751_validate_powerbi_advanced_analytics_views.sql`
+38. `sql/admin/010_verify_schema.sql`
+39. `sql/validation/020_dimension_counts.sql`
+40. `sql/validation/030_synthetic_fact_counts.sql`
+41. `sql/validation/040_reference_counts.sql`
+42. `sql/validation/050_database_validation.sql`
+43. `sql/validation/100_validate_oee_views.sql`
+44. `sql/validation/110_validate_production_loss.sql`
+45. `sql/validation/120_validate_production_benchmark.sql`
+46. `sql/validation/200_validate_energy_views.sql`
+47. `sql/validation/210_validate_utility_views.sql`
+48. `sql/validation/220_validate_energy_cost.sql`
+49. `sql/validation/300_validate_data_quality.sql`
+50. `sql/validation/410_validate_gold_models.sql`
+51. `sql/validation/623_validate_quality_reject_laney_pprime.sql`
+52. `sql/validation/721_validate_reliability_kpis.sql`
+53. `sql/validation/731_validate_failure_downtime_analysis.sql`
+54. `sql/validation/743_validate_reliability_trends.sql`
+55. `sql/validation/761_validate_metropt_predictive_maintenance.sql`
+56. `sql/validation/415_validate_can_air_powerbi.sql`
+57. `sql/validation/751_validate_powerbi_advanced_analytics_views.sql`
 
-The canonical runner executes all 19 files as mandatory fail-fast gates. The
-retained disposable proof covers the full set. SQL 623 materializes the
+The canonical runner executes all 20 files as mandatory fail-fast gates. The
+retained disposable proof records the 19-gate platform boundary captured before
+the governed telemetry integration; the current runner adds SQL 761. SQL 623 materializes the
 unchanged accepted Laney p-prime view once in a session-local temporary table
 for validation because repeatedly expanding that nested view is computationally
 expensive. This changes validation execution only, not accepted SPC formulas or
@@ -365,14 +377,14 @@ the view definition.
 
 After all database validations have been reviewed:
 
-54. Open `powerbi/Velora_Manufacturing_Intelligence.pbix` in Power BI Desktop.
-55. Refresh against the selected local database.
-56. Verify relationships, measures, page filters, accepted advanced-analytics
+58. Open `powerbi/Velora_Manufacturing_Intelligence.pbix` in Power BI Desktop.
+59. Refresh against the selected local database.
+60. Verify relationships, measures, page filters, accepted advanced-analytics
     visuals, and provenance labels.
 
 The PBIX is a binary manual artifact and is not modified by the canonical build
-definition. MetroPT and hydraulic results must remain separate portfolio
-benchmark demonstrations rather than Velora operational pages. No AWS step is
+definition. MetroPT predictive-maintenance and hydraulic results are absent
+from the retained Velora operational pages. No AWS step is
 part of this sequence.
 
 ## Supporting business-case evidence
@@ -422,23 +434,31 @@ Acquisition modes, credentials, redistribution boundaries, and package-specific
 commands are maintained in the [source orchestration guide](../../sources/README.md)
 and [third-party data policy](../governance/third_party_data_redistribution.md).
 
-## Optional real external benchmark reproduction
+## Optional source-model and benchmark reproduction
 
-The following paths are accepted portfolio demonstrations but are outside the
-canonical Velora operational clean build. None of their inputs, models, tables,
-or outputs is required by Velora operational PostgreSQL or Power BI.
+The following model-reproduction paths are outside the canonical clean build.
+The materialized enterprise telemetry is already a governed build input; these
+steps regenerate it from acquired real-source data. Neither optional workflow
+is required by the retained Power BI report.
 
-### Optional MetroPT analytical benchmark
+### MetroPT source-model regeneration
 
-To reproduce the accepted selected alert policy:
+To reproduce the source-qualified anomaly score, selected policy, real
+early-warning evaluation, and governed enterprise adaptation:
 
 1. Run `scripts/run_metropt_anomaly_scoring.py` to recreate the fixed anomaly
    score/model and `metropt_anomaly_windows.parquet` support artifact.
 2. Run `scripts/select_metropt_alert_policy.py` to recreate the
    accepted selected-policy outputs.
+3. Run `scripts/run_metropt_predictive_maintenance.py` to evaluate the 2-, 4-,
+   and 6-hour real warning horizons and create the explicitly synthetic
+   MetroPT-informed enterprise compressor scenario.
+4. Validate the regenerated materialized inputs with
+   `pipelines/postgres/load_metropt_predictive_maintenance.py --validate-only`.
 
-The anomaly-scoring workflow supplies the score artifact required by the
-selected-policy workflow; its base alert conclusion is not a published result.
+The anomaly-scoring workflow supplies the score artifact required downstream.
+The real MetroPT evaluation and controlled synthetic enterprise result retain
+separate scenario scopes and provenance fields.
 
 ### Optional hydraulic analytical benchmark
 

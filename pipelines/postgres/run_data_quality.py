@@ -157,6 +157,69 @@ FROM fact_site_energy_detail WHERE source_dataset_id=%s
 """),
 ]
 
+TELEMETRY_CHECKS = [
+("TELEMETRY_REQUIRED_FIELDS_COMPLETE", "analytics.metropt_enterprise_telemetry", """
+SELECT COUNT(*), COUNT(*) FILTER (
+WHERE event_timestamp IS NULL OR source_event_timestamp IS NULL
+OR site_id IS NULL OR equipment_id IS NULL OR source_dataset_id IS NULL
+OR scenario_source_dataset_id IS NULL OR condition_score IS NULL
+OR degradation_index IS NULL OR condition_state IS NULL
+OR selected_warning_state IS NULL OR selected_warning_horizon_hours IS NULL
+OR source_data_origin IS NULL OR scenario_type IS NULL
+OR transformation_basis IS NULL OR degradation_signal_origin IS NULL)
+FROM analytics.metropt_enterprise_telemetry
+""", "FAIL", None),
+("TELEMETRY_EQUIPMENT_TIMESTAMP_UNIQUE", "analytics.metropt_enterprise_telemetry", """
+WITH duplicates AS (
+ SELECT COUNT(*) - 1 AS duplicate_rows
+ FROM analytics.metropt_enterprise_telemetry
+ GROUP BY equipment_id, event_timestamp
+ HAVING COUNT(*) > 1
+)
+SELECT
+ (SELECT COUNT(*) FROM analytics.metropt_enterprise_telemetry),
+ COALESCE(SUM(duplicate_rows), 0)
+FROM duplicates
+""", "FAIL", None),
+("TELEMETRY_ENTERPRISE_MAPPING_VALID", "analytics.metropt_enterprise_telemetry", """
+SELECT COUNT(*), COUNT(*) FILTER (
+WHERE s.site_id IS NULL OR e.equipment_id IS NULL
+OR s.site_id IS DISTINCT FROM t.site_id
+OR e.equipment_type IS DISTINCT FROM 'COMPRESSED_AIR_SYSTEM')
+FROM analytics.metropt_enterprise_telemetry t
+LEFT JOIN dim_equipment e ON e.equipment_id = t.equipment_id
+LEFT JOIN dim_area a ON a.area_id = e.area_id
+LEFT JOIN dim_site s ON s.site_id = a.site_id
+""", "FAIL", None),
+("TELEMETRY_LINEAGE_VALID", "analytics.metropt_enterprise_telemetry", """
+SELECT COUNT(*), COUNT(*) FILTER (
+WHERE t.source_data_origin IS DISTINCT FROM 'EXTERNAL_REAL'
+OR t.scenario_type IS DISTINCT FROM 'SYNTHETIC_ENTERPRISE_ADAPTATION'
+OR t.transformation_basis IS DISTINCT FROM 'METROPT_INFORMED'
+OR t.degradation_signal_origin IS DISTINCT FROM 'SYNTHETIC_CONTROLLED'
+OR src.source_code IS DISTINCT FROM 'METROPT3'
+OR scenario.source_code IS DISTINCT FROM 'METROPT3_ENTERPRISE_PDM'
+OR t.source_event_timestamp >= t.event_timestamp)
+FROM analytics.metropt_enterprise_telemetry t
+LEFT JOIN dim_source_dataset src
+  ON src.source_dataset_id = t.source_dataset_id
+LEFT JOIN dim_source_dataset scenario
+  ON scenario.source_dataset_id = t.scenario_source_dataset_id
+""", "FAIL", None),
+("TELEMETRY_CADENCE_CONTINUITY", "analytics.metropt_enterprise_telemetry", """
+WITH intervals AS (
+ SELECT event_timestamp - LAG(event_timestamp) OVER (
+   PARTITION BY equipment_id ORDER BY event_timestamp
+ ) AS observed_interval
+ FROM analytics.metropt_enterprise_telemetry
+)
+SELECT COUNT(*), COUNT(*) FILTER (WHERE observed_interval <> INTERVAL '5 minutes')
+FROM intervals
+WHERE observed_interval IS NOT NULL
+""", "WARN",
+ "Non-five-minute intervals quantify retained source availability and non-operating gaps; physical fault and warning states are not DQ defects."),
+]
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--host",default="localhost")
@@ -172,9 +235,11 @@ def main():
             syn=cur.fetchone()[0]
             cur.execute("SELECT source_dataset_id FROM dim_source_dataset WHERE source_code='EUROSTAT_ENERGY_PRICES'")
             eur=cur.fetchone()[0]
+            cur.execute("SELECT source_dataset_id FROM dim_source_dataset WHERE source_code='METROPT3_ENTERPRISE_PDM'")
+            telemetry_source=cur.fetchone()[0]
 
             cur.execute("DELETE FROM dq_result")
-            print("Running data-quality data-quality rules...\n")
+            print("Running data-quality rules...\n")
 
             for code,obj,q in CHECKS:
                 params=(syn,syn) if q.count("%s")==2 else (syn,)
@@ -243,6 +308,24 @@ def main():
             """,(rid,eur,"ref_eurostat_electricity_price_observation",evaluated,failed,
                  failed/evaluated if evaluated else 0,status,None))
             print(f"{status:4s} {'EUROSTAT_PRICE_POSITIVE':28s} evaluated={evaluated:,} failed={failed:,}")
+
+            for code, obj, query, failure_status, detail in TELEMETRY_CHECKS:
+                cur.execute(query)
+                evaluated, failed = cur.fetchone()
+                cur.execute("SELECT dq_rule_id FROM dq_rule WHERE rule_code=%s", (code,))
+                rule_id = cur.fetchone()[0]
+                rate = (failed / evaluated) if evaluated else 0
+                status = "PASS" if failed == 0 else failure_status
+                result_statuses.append(status)
+                result_detail = detail if failed else None
+                cur.execute("""
+                    INSERT INTO dq_result
+                    (dq_rule_id,source_dataset_id,target_object,evaluated_row_count,
+                     failed_row_count,failure_rate,result_status,result_detail)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+                """, (rule_id, telemetry_source, obj, evaluated, failed, rate,
+                      status, result_detail))
+                print(f"{status:4s} {code:38s} evaluated={evaluated:,} failed={failed:,}")
 
             fail_rules = result_statuses.count("FAIL")
             print(f"\nFailed rules: {fail_rules}")

@@ -57,6 +57,7 @@ flowchart LR
     H --> N[Energy anomaly detection]
     H --> O[Reliability analysis]
     H --> P[Data quality]
+    H --> Q[Compressor predictive maintenance]
 ```
 
 **Source acquisition → Bronze → Silver → PostgreSQL → Analytics → Gold → Power BI**
@@ -213,8 +214,6 @@ A histogram-based gradient boosting regressor was used for rolling one-day-ahead
 | MAPE | 0.72% |
 | R² | 0.9865 |
 
-This is not a recursive 60-day forecast.
-
 ### Energy forecasting
 
 | Metric | Result |
@@ -233,15 +232,13 @@ The model estimates expected electricity consumption from operating context and 
 
 ---
 
-## External benchmark analytics
+## Compressor telemetry and predictive maintenance
 
-### MetroPT telemetry
+MetroPT industrial compressor telemetry provides the real-data basis for the platform's telemetry analytics. The source records retain UCI provenance and are transformed into a governed scenario mapped to the existing `SITE-DE-01-U-AIR-01` compressed-air asset. Original MetroPT observations are not represented as Velora operational telemetry.
 
-MetroPT industrial telemetry was used for standalone anomaly/fault-event detection benchmarking. The selected policy detected both retained test events but did not achieve the two-hour early-warning objective.
+On the strict chronological real-data test, the adaptive anomaly baseline warned one of two fault events within the two-hour evaluation window, with 0.67 hours of lead and 0.068 false alerts per operating day. The supervised logistic candidate produced no validation warnings, so the result does not support reliable multi-hour prediction.
 
-It is therefore presented as **fault-event / anomaly detection**, not predictive-maintenance early warning.
-
-MetroPT is not Velora operational data.
+A separately labelled **MetroPT-informed synthetic enterprise degradation scenario** supplies controlled six-hour precursor behavior for maintenance decision-support testing. Its selected policy warned all four synthetic scenario events with 5.83 hours median lead and no false alerts. The synthetic precursor performance is not an original MetroPT result.
 
 ### Hydraulic condition monitoring
 
@@ -253,17 +250,26 @@ This remains an external benchmark and is not integrated into Velora operational
 
 ## Data quality
 
-The canonical build contains **24 active core DQ rules**.
+The canonical build contains **29 active enterprise DQ rules**, including five
+rules for the governed MetroPT-informed telemetry adaptation.
 
 | Status | Rules |
 |---|---:|
-| PASS | 24 |
-| WARN | 0 |
+| PASS | 28 |
+| WARN | 1 |
 | FAIL | 0 |
 
-A 100% dashboard score means that all active canonical DQ rules passed in the accepted reproducibility build. It does not mean that the underlying datasets are universally error-free.
+The canonical row-weighted score is **99.9900%** across 2,473,157 evaluated
+rows, with 248 failed cadence intervals. The telemetry domain score is
+**99.8836%**. Those intervals retain genuine source availability and
+non-operating gaps and therefore produce a nonfatal warning rather than
+fabricated continuity.
 
-The framework retains explicit PASS, WARN, and FAIL semantics. Optional external benchmark DQ rules are excluded from the canonical Velora DQ score.
+The framework retains explicit PASS, WARN, and FAIL semantics. The governed
+enterprise telemetry participates in the platform score; untouched MetroPT
+source observations remain external real provenance. Physical faults,
+degradation, anomaly scores, and warning states are not automatically data
+quality defects.
 
 ---
 
@@ -298,11 +304,11 @@ The dashboard uses PostgreSQL `gold_bi` compatibility views.
 
 ### Reliability & Maintenance
 
-![Reliability & Maintenance](powerbi/screenshots/06_reliability_maintenance.png)
+![Reliability & Maintenance](powerbi/screenshots/05_reliability_maintenance.png)
 
 ### Data Quality
 
-![Data Quality](powerbi/screenshots/05_data_quality.png)
+![Data Quality](powerbi/screenshots/06_data_quality.png)
 
 ---
 
@@ -392,7 +398,7 @@ Not every public dataset is redistributed through this repository. The public bo
 | ERA5-Land | Automated authenticated acquisition using user-owned CDS credentials and accepted provider terms |
 | Eurostat prices | Automated structured JSON-stat acquisition and transformation |
 
-The MIT repository license does not relicense third-party datasets. See the [third-party data policy](docs/governance/third_party_data_redistribution.md) and [source acquisition catalog](sources/README.md).
+See the [third-party data policy](docs/governance/third_party_data_redistribution.md) and [source acquisition catalog](sources/README.md).
 
 ---
 
@@ -402,7 +408,8 @@ The MIT repository license does not relicense third-party datasets. See the [thi
 - Energy assumptions support portfolio analytics, not engineering sizing.
 - Forecasts use a 60-day rolling one-day-ahead evaluation.
 - Energy residuals are contextual anomaly flags, not confirmed faults.
-- MetroPT and hydraulic results are standalone external benchmarks.
+- Original MetroPT records remain external real data; the enterprise compressor scenario and controlled degradation signals are explicitly synthetic and MetroPT-informed.
+- Predictive-maintenance PostgreSQL outputs are not represented in the retained Power BI report.
 - Technical opportunity is modeled and is not realized savings.
 
 See [analytics methodology and limitations](docs/methodology/analytics_methodology_and_limitations.md)

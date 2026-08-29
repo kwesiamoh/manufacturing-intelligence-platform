@@ -1,24 +1,21 @@
 \pset pager off
 
-\echo '=== data-quality active core rule count ==='
+\echo '=== data-quality active enterprise rule count ==='
 SELECT COUNT(*) AS rule_count
 FROM dq_rule
-WHERE active_flag = TRUE
-  AND LEFT(rule_code, 8) <> 'METROPT_';
+WHERE active_flag = TRUE;
 
-\echo '=== data-quality active core result count ==='
+\echo '=== data-quality active enterprise result count ==='
 SELECT COUNT(*) AS result_count
 FROM dq_rule r
 JOIN vw_data_quality_latest l ON l.rule_code = r.rule_code
-WHERE r.active_flag = TRUE
-  AND LEFT(r.rule_code, 8) <> 'METROPT_';
+WHERE r.active_flag = TRUE;
 
-\echo '=== Failed active core rules: expected zero ==='
+\echo '=== Failed active enterprise rules: expected zero ==='
 SELECT COUNT(*) AS failed_rules
 FROM dq_rule r
 JOIN vw_data_quality_latest l ON l.rule_code = r.rule_code
 WHERE r.active_flag = TRUE
-  AND LEFT(r.rule_code, 8) <> 'METROPT_'
   AND l.result_status = 'FAIL';
 
 \echo '=== Domain DQ summary ==='
@@ -26,6 +23,7 @@ SELECT
     domain_name,
     rule_count,
     passed_rules,
+    warning_rules,
     failed_rules,
     evaluated_rows,
     failed_rows,
@@ -37,6 +35,7 @@ ORDER BY domain_name;
 SELECT
     rule_count,
     passed_rules,
+    warning_rules,
     failed_rules,
     evaluated_rows,
     failed_rows,
@@ -54,34 +53,38 @@ SELECT
 FROM vw_data_quality_latest
 ORDER BY domain_name, rule_code;
 
-\echo '=== Mandatory core DQ gate ==='
+\echo '=== Mandatory enterprise DQ gate ==='
 DO $validation$
 DECLARE
     missing_results bigint;
     failed_results bigint;
+    count_mismatch bigint;
 BEGIN
-    -- METROPT_* rules belong to the optional external benchmark extension.
-    -- The canonical Velora gate follows the active core configuration and does
-    -- not require or reject optional benchmark WARN results.
     SELECT COUNT(*) INTO missing_results
     FROM dq_rule r
     LEFT JOIN vw_data_quality_latest l ON l.rule_code = r.rule_code
     WHERE r.active_flag = TRUE
-      AND LEFT(r.rule_code, 8) <> 'METROPT_'
       AND l.rule_code IS NULL;
 
     SELECT COUNT(*) INTO failed_results
     FROM dq_rule r
     JOIN vw_data_quality_latest l ON l.rule_code = r.rule_code
     WHERE r.active_flag = TRUE
-      AND LEFT(r.rule_code, 8) <> 'METROPT_'
       AND l.result_status = 'FAIL';
 
+    SELECT COUNT(*) INTO count_mismatch
+    FROM vw_data_quality_enterprise_summary
+    WHERE passed_rules + warning_rules + failed_rules <> rule_count
+       OR failed_rows > evaluated_rows;
+
     IF missing_results <> 0 THEN
-        RAISE EXCEPTION 'Core DQ gate has % active rules without results', missing_results;
+        RAISE EXCEPTION 'Enterprise DQ gate has % active rules without results', missing_results;
     END IF;
     IF failed_results <> 0 THEN
-        RAISE EXCEPTION 'Core DQ gate has % mandatory FAIL results', failed_results;
+        RAISE EXCEPTION 'Enterprise DQ gate has % mandatory FAIL results', failed_results;
+    END IF;
+    IF count_mismatch <> 0 THEN
+        RAISE EXCEPTION 'Enterprise DQ counts or evaluated/failed rows do not reconcile';
     END IF;
 END
 $validation$;

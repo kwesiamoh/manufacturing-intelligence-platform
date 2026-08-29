@@ -1,0 +1,12 @@
+scenario_scope,model_name,policy,split,warning_horizon_hours,events_evaluated,events_warned,events_missed,warning_success_rate,average_lead_time_hours,median_lead_time_hours,precision,recall,false_alerts,false_alerts_per_operating_day,alert_episodes,operating_days,is_selected
+REAL_METROPT_BENCHMARK,adaptive_anomaly_policy_baseline,q0.9850_3of4,validation,2,1,0,1,0.0,,,0.0,0.0,3,0.4662709120345386,3,6.434027777777778,False
+REAL_METROPT_BENCHMARK,adaptive_anomaly_policy_baseline,q0.9850_3of4,test,2,2,1,1,0.5,0.6666666666666666,0.6666666666666666,0.14285714285714285,0.5,6,0.06818450854279288,7,87.99652777777777,True
+REAL_METROPT_BENCHMARK,adaptive_anomaly_policy_baseline,q0.9850_3of4,validation,4,1,0,1,0.0,,,0.0,0.0,3,0.4662709120345386,3,6.434027777777778,False
+REAL_METROPT_BENCHMARK,adaptive_anomaly_policy_baseline,q0.9850_3of4,test,4,2,1,1,0.5,0.6666666666666666,0.6666666666666666,0.14285714285714285,0.5,6,0.06818450854279288,7,87.99652777777777,False
+REAL_METROPT_BENCHMARK,adaptive_anomaly_policy_baseline,q0.9850_3of4,validation,6,1,0,1,0.0,,,0.0,0.0,3,0.4662709120345386,3,6.434027777777778,False
+REAL_METROPT_BENCHMARK,adaptive_anomaly_policy_baseline,q0.9850_3of4,test,6,2,1,1,0.5,0.6666666666666666,0.6666666666666666,0.14285714285714285,0.5,6,0.06818450854279288,7,87.99652777777777,False
+REAL_METROPT_BENCHMARK,logistic_regression,training-normal-q0.999_2of3,validation,6,1,0,1,0.0,,,0.0,0.0,0,0.0,0,6.434027777777778,False
+REAL_METROPT_BENCHMARK,logistic_regression,training-normal-q0.999_2of3,test,6,2,0,2,0.0,,,0.0,0.0,0,0.0,0,87.99652777777777,False
+METROPT_INFORMED_SYNTHETIC_ENTERPRISE,controlled_degradation_condition_policy,degradation-threshold-0.667,enterprise_scenario,2,4,4,0,1.0,1.8333333333333333,1.8333333333333333,1.0,1.0,0,0.0,4,183.9375,False
+METROPT_INFORMED_SYNTHETIC_ENTERPRISE,controlled_degradation_condition_policy,degradation-threshold-0.333,enterprise_scenario,4,4,4,0,1.0,3.8333333333333335,3.8333333333333335,1.0,1.0,0,0.0,4,183.9375,False
+METROPT_INFORMED_SYNTHETIC_ENTERPRISE,controlled_degradation_condition_policy,degradation-threshold-0.000,enterprise_scenario,6,4,4,0,1.0,5.833333333333333,5.833333333333333,1.0,1.0,0,0.0,4,183.9375,True

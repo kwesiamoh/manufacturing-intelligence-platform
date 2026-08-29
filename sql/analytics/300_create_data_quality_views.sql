@@ -27,7 +27,8 @@ SELECT
     CASE
         WHEN SUM(evaluated_row_count)>0
         THEN 1.0 - SUM(failed_row_count)::numeric/SUM(evaluated_row_count)
-    END AS weighted_data_quality_score
+    END AS weighted_data_quality_score,
+    COUNT(*) FILTER (WHERE result_status='WARN') AS warning_rules
 FROM vw_data_quality_latest
 GROUP BY domain_name;
 
@@ -42,5 +43,6 @@ SELECT
     CASE
         WHEN SUM(evaluated_row_count)>0
         THEN 1.0 - SUM(failed_row_count)::numeric/SUM(evaluated_row_count)
-    END AS weighted_data_quality_score
+    END AS weighted_data_quality_score,
+    COUNT(*) FILTER (WHERE result_status='WARN') AS warning_rules
 FROM vw_data_quality_latest;

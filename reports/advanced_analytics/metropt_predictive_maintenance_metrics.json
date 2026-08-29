@@ -1,0 +1,402 @@
+{
+  "source": {
+    "dataset": "MetroPT-3",
+    "dataset_id": "uci_791_metropt3",
+    "data_origin": "EXTERNAL_REAL",
+    "bronze_sha256_before": "db30ccb4ea402e3c8bf2c99db06e288d4f2a772f6928f9dbe26a920d69793e24",
+    "bronze_sha256_after": "db30ccb4ea402e3c8bf2c99db06e288d4f2a772f6928f9dbe26a920d69793e24",
+    "bronze_unchanged": true,
+    "silver_rows": 1516948,
+    "feature_windows": 42598,
+    "failure_events": [
+      {
+        "failure_id": "1",
+        "start": "2020-04-18T00:00:00",
+        "end": "2020-04-18T23:59:00"
+      },
+      {
+        "failure_id": "2",
+        "start": "2020-05-29T23:30:00",
+        "end": "2020-05-30T06:00:00"
+      },
+      {
+        "failure_id": "3",
+        "start": "2020-06-05T10:00:00",
+        "end": "2020-06-07T14:30:00"
+      },
+      {
+        "failure_id": "4",
+        "start": "2020-07-15T14:30:00",
+        "end": "2020-07-15T19:00:00"
+      }
+    ]
+  },
+  "real_metropt_result": {
+    "split": {
+      "training_end_exclusive": "2020-05-29T17:30:00",
+      "validation_start": "2020-05-29T17:30:00",
+      "test_start": "2020-06-05T04:00:00",
+      "training_failure_events": [
+        "1"
+      ],
+      "validation_failure_events": [
+        "2"
+      ],
+      "test_failure_events": [
+        "3",
+        "4"
+      ],
+      "chronological_integrity": true
+    },
+    "features": [
+      "tp2__mean",
+      "tp3__mean",
+      "h1__mean",
+      "dv_pressure__mean",
+      "reservoirs__mean",
+      "oil_temperature__mean",
+      "motor_current__mean",
+      "tp2__deviation_60m",
+      "tp3__deviation_60m",
+      "reservoirs__deviation_60m",
+      "oil_temperature__deviation_60m",
+      "motor_current__deviation_60m",
+      "pressure_delta",
+      "reservoir_pressure_slope_60m",
+      "oil_temperature_slope_60m",
+      "motor_current_slope_60m",
+      "iforest_anomaly_score"
+    ],
+    "models_compared": [
+      "adaptive_anomaly_policy_baseline",
+      "logistic_regression"
+    ],
+    "horizons_tested_hours": [
+      2,
+      4,
+      6
+    ],
+    "supervised_candidate_policy": {
+      "warning_horizon_hours": 6,
+      "threshold_quantile": 0.999,
+      "threshold": 0.9940352159614751,
+      "validation_events_evaluated": 1,
+      "validation_events_warned": 0,
+      "validation_events_missed": 1,
+      "validation_warning_success_rate": 0.0,
+      "validation_average_lead_time_hours": null,
+      "validation_median_lead_time_hours": null,
+      "validation_precision": 0.0,
+      "validation_recall": 0.0,
+      "validation_false_alerts": 0,
+      "validation_false_alerts_per_operating_day": 0.0,
+      "validation_alert_episodes": 0,
+      "validation_operating_days": 6.434027777777778
+    },
+    "selected_policy": {
+      "model_name": "adaptive_anomaly_policy_baseline",
+      "policy": "q0.9850_3of4",
+      "warning_horizon_hours": 2,
+      "selection_reason": "The supervised candidate produced no validation warnings; a no-alert classifier is not operationally useful, so the accepted adaptive anomaly baseline is retained."
+    },
+    "selected_result": {
+      "scenario_scope": "REAL_METROPT_BENCHMARK",
+      "model_name": "adaptive_anomaly_policy_baseline",
+      "policy": "q0.9850_3of4",
+      "split": "test",
+      "warning_horizon_hours": 2,
+      "events_evaluated": 2,
+      "events_warned": 1,
+      "events_missed": 1,
+      "warning_success_rate": 0.5,
+      "average_lead_time_hours": 0.6666666666666666,
+      "median_lead_time_hours": 0.6666666666666666,
+      "precision": 0.14285714285714285,
+      "recall": 0.5,
+      "false_alerts": 6,
+      "false_alerts_per_operating_day": 0.06818450854279288,
+      "alert_episodes": 7,
+      "operating_days": 87.99652777777777
+    },
+    "selected_test_event_records": [
+      {
+        "failure_id": "3",
+        "fault_onset_timestamp": "2020-06-05T10:00:00",
+        "fault_end_timestamp": "2020-06-07T14:30:00",
+        "first_warning_timestamp": null,
+        "warning_lead_time_hours": NaN,
+        "warning_outcome": "MISSED"
+      },
+      {
+        "failure_id": "4",
+        "fault_onset_timestamp": "2020-07-15T14:30:00",
+        "fault_end_timestamp": "2020-07-15T19:00:00",
+        "first_warning_timestamp": "2020-07-15T13:50:00",
+        "warning_lead_time_hours": 0.6666666666666666,
+        "warning_outcome": "WARNED"
+      }
+    ],
+    "evaluations": [
+      {
+        "scenario_scope": "REAL_METROPT_BENCHMARK",
+        "model_name": "adaptive_anomaly_policy_baseline",
+        "policy": "q0.9850_3of4",
+        "split": "validation",
+        "warning_horizon_hours": 2,
+        "events_evaluated": 1,
+        "events_warned": 0,
+        "events_missed": 1,
+        "warning_success_rate": 0.0,
+        "average_lead_time_hours": null,
+        "median_lead_time_hours": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_alerts": 3,
+        "false_alerts_per_operating_day": 0.4662709120345386,
+        "alert_episodes": 3,
+        "operating_days": 6.434027777777778
+      },
+      {
+        "scenario_scope": "REAL_METROPT_BENCHMARK",
+        "model_name": "adaptive_anomaly_policy_baseline",
+        "policy": "q0.9850_3of4",
+        "split": "test",
+        "warning_horizon_hours": 2,
+        "events_evaluated": 2,
+        "events_warned": 1,
+        "events_missed": 1,
+        "warning_success_rate": 0.5,
+        "average_lead_time_hours": 0.6666666666666666,
+        "median_lead_time_hours": 0.6666666666666666,
+        "precision": 0.14285714285714285,
+        "recall": 0.5,
+        "false_alerts": 6,
+        "false_alerts_per_operating_day": 0.06818450854279288,
+        "alert_episodes": 7,
+        "operating_days": 87.99652777777777
+      },
+      {
+        "scenario_scope": "REAL_METROPT_BENCHMARK",
+        "model_name": "adaptive_anomaly_policy_baseline",
+        "policy": "q0.9850_3of4",
+        "split": "validation",
+        "warning_horizon_hours": 4,
+        "events_evaluated": 1,
+        "events_warned": 0,
+        "events_missed": 1,
+        "warning_success_rate": 0.0,
+        "average_lead_time_hours": null,
+        "median_lead_time_hours": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_alerts": 3,
+        "false_alerts_per_operating_day": 0.4662709120345386,
+        "alert_episodes": 3,
+        "operating_days": 6.434027777777778
+      },
+      {
+        "scenario_scope": "REAL_METROPT_BENCHMARK",
+        "model_name": "adaptive_anomaly_policy_baseline",
+        "policy": "q0.9850_3of4",
+        "split": "test",
+        "warning_horizon_hours": 4,
+        "events_evaluated": 2,
+        "events_warned": 1,
+        "events_missed": 1,
+        "warning_success_rate": 0.5,
+        "average_lead_time_hours": 0.6666666666666666,
+        "median_lead_time_hours": 0.6666666666666666,
+        "precision": 0.14285714285714285,
+        "recall": 0.5,
+        "false_alerts": 6,
+        "false_alerts_per_operating_day": 0.06818450854279288,
+        "alert_episodes": 7,
+        "operating_days": 87.99652777777777
+      },
+      {
+        "scenario_scope": "REAL_METROPT_BENCHMARK",
+        "model_name": "adaptive_anomaly_policy_baseline",
+        "policy": "q0.9850_3of4",
+        "split": "validation",
+        "warning_horizon_hours": 6,
+        "events_evaluated": 1,
+        "events_warned": 0,
+        "events_missed": 1,
+        "warning_success_rate": 0.0,
+        "average_lead_time_hours": null,
+        "median_lead_time_hours": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_alerts": 3,
+        "false_alerts_per_operating_day": 0.4662709120345386,
+        "alert_episodes": 3,
+        "operating_days": 6.434027777777778
+      },
+      {
+        "scenario_scope": "REAL_METROPT_BENCHMARK",
+        "model_name": "adaptive_anomaly_policy_baseline",
+        "policy": "q0.9850_3of4",
+        "split": "test",
+        "warning_horizon_hours": 6,
+        "events_evaluated": 2,
+        "events_warned": 1,
+        "events_missed": 1,
+        "warning_success_rate": 0.5,
+        "average_lead_time_hours": 0.6666666666666666,
+        "median_lead_time_hours": 0.6666666666666666,
+        "precision": 0.14285714285714285,
+        "recall": 0.5,
+        "false_alerts": 6,
+        "false_alerts_per_operating_day": 0.06818450854279288,
+        "alert_episodes": 7,
+        "operating_days": 87.99652777777777
+      },
+      {
+        "scenario_scope": "REAL_METROPT_BENCHMARK",
+        "model_name": "logistic_regression",
+        "policy": "training-normal-q0.999_2of3",
+        "split": "validation",
+        "warning_horizon_hours": 6,
+        "events_evaluated": 1,
+        "events_warned": 0,
+        "events_missed": 1,
+        "warning_success_rate": 0.0,
+        "average_lead_time_hours": null,
+        "median_lead_time_hours": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_alerts": 0,
+        "false_alerts_per_operating_day": 0.0,
+        "alert_episodes": 0,
+        "operating_days": 6.434027777777778
+      },
+      {
+        "scenario_scope": "REAL_METROPT_BENCHMARK",
+        "model_name": "logistic_regression",
+        "policy": "training-normal-q0.999_2of3",
+        "split": "test",
+        "warning_horizon_hours": 6,
+        "events_evaluated": 2,
+        "events_warned": 0,
+        "events_missed": 2,
+        "warning_success_rate": 0.0,
+        "average_lead_time_hours": null,
+        "median_lead_time_hours": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_alerts": 0,
+        "false_alerts_per_operating_day": 0.0,
+        "alert_episodes": 0,
+        "operating_days": 87.99652777777777
+      }
+    ],
+    "interpretation": "Real MetroPT warning labels preserve the published fault onsets. All features are causal and all model selection precedes the two-event test period."
+  },
+  "metropt_informed_synthetic_enterprise_result": {
+    "mapping": {
+      "site_code": "SITE-DE-01",
+      "equipment_code": "SITE-DE-01-U-AIR-01",
+      "equipment_type": "COMPRESSED_AIR_SYSTEM",
+      "calendar_adaptation": "source timestamps shifted by 4 years"
+    },
+    "governance": {
+      "source_dataset_code": "METROPT3",
+      "source_data_origin": "EXTERNAL_REAL",
+      "scenario_type": "SYNTHETIC_ENTERPRISE_ADAPTATION",
+      "transformation_basis": "METROPT_INFORMED",
+      "degradation_signal_origin": "SYNTHETIC_CONTROLLED"
+    },
+    "controlled_degradation": {
+      "maximum_precursor_hours": 6,
+      "oil_temperature_increase_at_fault_c": 6.0,
+      "motor_current_increase_at_fault_a": 10.0,
+      "reservoir_pressure_reduction_at_fault_bar": 0.6
+    },
+    "horizon_results": [
+      {
+        "warning_horizon_hours": 2,
+        "degradation_threshold": 0.6666666666666667,
+        "events_evaluated": 4,
+        "events_warned": 4,
+        "events_missed": 0,
+        "warning_success_rate": 1.0,
+        "average_lead_time_hours": 1.8333333333333333,
+        "median_lead_time_hours": 1.8333333333333333,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_alerts": 0,
+        "false_alerts_per_operating_day": 0.0,
+        "alert_episodes": 4,
+        "operating_days": 183.9375
+      },
+      {
+        "warning_horizon_hours": 4,
+        "degradation_threshold": 0.33333333333333337,
+        "events_evaluated": 4,
+        "events_warned": 4,
+        "events_missed": 0,
+        "warning_success_rate": 1.0,
+        "average_lead_time_hours": 3.8333333333333335,
+        "median_lead_time_hours": 3.8333333333333335,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_alerts": 0,
+        "false_alerts_per_operating_day": 0.0,
+        "alert_episodes": 4,
+        "operating_days": 183.9375
+      },
+      {
+        "warning_horizon_hours": 6,
+        "degradation_threshold": 0.0,
+        "events_evaluated": 4,
+        "events_warned": 4,
+        "events_missed": 0,
+        "warning_success_rate": 1.0,
+        "average_lead_time_hours": 5.833333333333333,
+        "median_lead_time_hours": 5.833333333333333,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_alerts": 0,
+        "false_alerts_per_operating_day": 0.0,
+        "alert_episodes": 4,
+        "operating_days": 183.9375
+      }
+    ],
+    "selected_policy": {
+      "warning_horizon_hours": 6,
+      "degradation_threshold": 0.0,
+      "events_evaluated": 4,
+      "events_warned": 4,
+      "events_missed": 0,
+      "warning_success_rate": 1.0,
+      "average_lead_time_hours": 5.833333333333333,
+      "median_lead_time_hours": 5.833333333333333,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_alerts": 0,
+      "false_alerts_per_operating_day": 0.0,
+      "alert_episodes": 4,
+      "operating_days": 183.9375
+    },
+    "selected_metrics": {
+      "events_evaluated": 4,
+      "events_warned": 4,
+      "events_missed": 0,
+      "warning_success_rate": 1.0,
+      "average_lead_time_hours": 5.833333333333333,
+      "median_lead_time_hours": 5.833333333333333,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_alerts": 0,
+      "false_alerts_per_operating_day": 0.0,
+      "alert_episodes": 4,
+      "operating_days": 183.9375
+    }
+  },
+  "outputs": {
+    "enterprise_telemetry": "data/silver/synthetic_enterprise/telemetry/metropt_enterprise_telemetry.parquet",
+    "warning_events": "data/gold/advanced_analytics/metropt_predictive_maintenance/metropt_enterprise_warning_events.csv",
+    "real_evaluation": "data/gold/advanced_analytics/metropt_predictive_maintenance/metropt_real_early_warning_evaluation.csv",
+    "kpi_summary": "data/gold/advanced_analytics/metropt_predictive_maintenance/metropt_predictive_maintenance_kpis.csv"
+  }
+}

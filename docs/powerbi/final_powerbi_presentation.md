@@ -55,8 +55,8 @@ the accepted Gold and analytical logic.
   Percentage formatting; do not divide by 100 again.
 - Energy anomalies are contextual residual flags, not confirmed equipment
   faults.
-- MetroPT and hydraulic-condition benchmarks are not loaded into the Velora
-  operational report.
+- MetroPT predictive-maintenance Gold outputs and the hydraulic-condition
+  benchmark are not loaded into the retained Velora Power BI report.
 - Synthetic enterprise metrics and real external benchmarks retain distinct
   provenance labels.
 
@@ -81,7 +81,9 @@ The source PNG files remain under `powerbi/screenshots/`.
 ## Interpretation boundaries
 
 - Velora is fictional and its integrated operational history is synthetic.
-- A 100% DQ score means all 24 active canonical rules passed in the accepted
-  build; it is not a claim of universal data perfection.
+- The canonical PostgreSQL DQ result is 99.9900% across 29 active rules: 28
+  PASS, one nonfatal telemetry-cadence WARN, and zero FAIL. The retained PBIX
+  and screenshot require refresh to display the telemetry domain and current
+  score; neither asset is modified by the database integration.
 - Technical-opportunity values are model-derived, not realized savings.
 - The demonstrated platform is local; AWS is a target architecture.

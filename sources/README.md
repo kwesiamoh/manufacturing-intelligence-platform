@@ -54,3 +54,8 @@ and published atomically as one complete directory, ITAC workbook extraction
 uses a fresh temporary directory, and each ERA5 NetCDF extraction is published
 atomically from its immutable site ZIP. These routes cannot retain fragments
 from another extraction or partition set.
+
+MetroPT source orchestration ends at the source-qualified Silver telemetry.
+The downstream governed compressor-maintenance adaptation is executed with
+`scripts/run_metropt_predictive_maintenance.py`; it preserves source timestamps
+and labels controlled enterprise degradation separately from the real records.

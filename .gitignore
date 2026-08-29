@@ -110,6 +110,7 @@ sources/**/silver/**/*.parquet
 data/bronze/synthetic_enterprise/**/*.csv
 data/silver/synthetic_enterprise/**/*.parquet
 !data/silver/synthetic_enterprise/production/production_operations_2024_2025.parquet
+!data/silver/synthetic_enterprise/telemetry/metropt_enterprise_telemetry.parquet
 
 # Generated model binaries are reproducible and are not required by the clean
 # PostgreSQL/Power BI build, which consumes accepted Gold outputs.
@@ -133,8 +134,6 @@ data/gold/advanced_analytics/energy_anomaly/energy_anomaly_calibration_threshold
 data/gold/advanced_analytics/energy_anomaly/energy_anomaly_site_summary_2025.csv
 data/gold/advanced_analytics/forecasting/daily_site_forecast_holdout_2025.csv
 data/gold/advanced_analytics/hydraulic_condition/accepted_*_holdout_predictions.csv
-data_quality/metropt/
-reports/powerbi/
 reports/advanced_analytics/metropt_feature_columns.txt
 reports/advanced_analytics/metropt_anomaly_metrics.json
 reports/advanced_analytics/metropt_adaptive_alert_metrics.json

@@ -30,7 +30,13 @@ VALUES
 ('AUX_ENERGY_RECON','Auxiliary energy reconciliation','energy','fact_site_energy_detail','CONSISTENCY','HIGH','Auxiliary electricity must equal auxiliary kW multiplied by shift hours.'),
 
 ('EUROSTAT_PRICE_COVERAGE','Eurostat benchmark price coverage','external_benchmark','ref_eurostat_electricity_price_observation','COMPLETENESS','MEDIUM','Six target countries must have four semester benchmark prices for 2024-2025.'),
-('EUROSTAT_PRICE_POSITIVE','Eurostat benchmark prices positive','external_benchmark','ref_eurostat_electricity_price_observation','VALIDITY','HIGH','Selected EUR/kWh benchmark price observations must be positive.')
+('EUROSTAT_PRICE_POSITIVE','Eurostat benchmark prices positive','external_benchmark','ref_eurostat_electricity_price_observation','VALIDITY','HIGH','Selected EUR/kWh benchmark price observations must be positive.'),
+
+('TELEMETRY_REQUIRED_FIELDS_COMPLETE','Telemetry required fields present','telemetry','analytics.metropt_enterprise_telemetry','COMPLETENESS','HIGH','Required enterprise telemetry reporting, integration, condition, and lineage fields must not be null.'),
+('TELEMETRY_EQUIPMENT_TIMESTAMP_UNIQUE','Telemetry equipment timestamp unique','telemetry','analytics.metropt_enterprise_telemetry','UNIQUENESS','HIGH','Each governed enterprise equipment and event timestamp pair must be unique.'),
+('TELEMETRY_ENTERPRISE_MAPPING_VALID','Telemetry enterprise mapping valid','telemetry','analytics.metropt_enterprise_telemetry','REFERENTIAL','HIGH','Each telemetry row must resolve to its governed site and compressed-air equipment mapping.'),
+('TELEMETRY_LINEAGE_VALID','Telemetry lineage valid','telemetry','analytics.metropt_enterprise_telemetry','LINEAGE','HIGH','Each enterprise telemetry row must retain the governed external-source and synthetic-scenario lineage.'),
+('TELEMETRY_CADENCE_CONTINUITY','Telemetry cadence continuity','telemetry','analytics.metropt_enterprise_telemetry','TIMELINESS','MEDIUM','Consecutive observations should follow the source-supported five-minute cadence; retained source availability and non-operating gaps are reported as WARN rather than fabricated.')
 ON CONFLICT (rule_code) DO UPDATE SET
     rule_name=EXCLUDED.rule_name,
     domain_name=EXCLUDED.domain_name,

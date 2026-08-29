@@ -339,14 +339,15 @@ SELECT
     failed_rules,
     evaluated_rows,
     failed_rows,
-    weighted_data_quality_score
+    weighted_data_quality_score,
+    warning_rules
 FROM public.vw_data_quality_summary;
 
 
 -- ============================================================
 -- 6. DQ rule detail for operational drill-down
 -- Grain: one row per latest DQ rule
--- Expected rows: 30
+-- Expected rows: 29
 -- ============================================================
 CREATE OR REPLACE VIEW gold.vw_data_quality_rule_status AS
 SELECT

@@ -1,5 +1,5 @@
 table_name,grain,column_name,data_type,key_type,nullable,definition
-dim_source_dataset,one record per external/public dataset,source_dataset_id,INTEGER,PK,NO,Surrogate key
+dim_source_dataset,one record per governed source or scenario dataset,source_dataset_id,INTEGER,PK,NO,Surrogate key
 dim_source_dataset,one record per external/public dataset,source_code,VARCHAR,,NO,Short source identifier
 dim_source_dataset,one record per external/public dataset,source_name,VARCHAR,,NO,Official dataset name
 dim_source_dataset,one record per external/public dataset,publisher,VARCHAR,,YES,Publishing organization
