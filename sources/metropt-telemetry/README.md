@@ -3,8 +3,8 @@
 This package provides real industrial compressor telemetry for anomaly,
 fault-event, and predictive-warning evaluation. Original records remain
 external UCI data. A downstream workflow creates a separately governed
-MetroPT-informed synthetic enterprise compressor-maintenance scenario; it does
-not turn the source observations into Velora operational telemetry.
+MetroPT-informed synthetic enterprise compressor-maintenance scenario while the
+source observations retain their external identity outside Velora operations.
 
 ## Source
 
@@ -17,7 +17,11 @@ not turn the source observations into Velora operational telemetry.
 
 ## Acquisition boundary
 
-The 208 MB raw CSV is not distributed in the repository. `ingestion/batch/download_metropt3.py` acquires the official UCI archive in an internet-enabled environment, verifies it against the recorded reproducibility hash, extracts the raw CSV unchanged, and writes an acquisition manifest containing checksums.
+The public release excludes the 208 MB raw CSV.
+`ingestion/batch/download_metropt3.py` acquires the official UCI archive in an
+internet-enabled environment, verifies it against the recorded reproducibility
+hash, extracts the raw CSV unchanged, and writes an acquisition manifest
+containing checksums.
 
 ## Workflow
 
@@ -37,7 +41,8 @@ The 208 MB raw CSV is not distributed in the repository. `ingestion/batch/downlo
 
    `python pipelines/transform_metropt3.py`
 
-The transformation reads the CSV in chunks so the entire source does not need to be loaded into RAM at once.
+Chunked CSV processing keeps memory use independent of loading the entire source
+at once.
 
 5. Reproduce the accepted anomaly score and adaptive alert policy from the
    repository root:
@@ -61,14 +66,14 @@ The materialized enterprise output is a canonical PostgreSQL build input and
 participates in enterprise DQ through completeness, uniqueness, equipment
 mapping, lineage, and cadence checks. The source-model workflow above remains
 the optional regeneration route. Original source faults and analytical warning
-states are not treated as data-quality defects.
+states fall outside the definition of data-quality defects.
 
 ## Provenance rule
 
 The four rows in `data/bronze/metropt3/reference/failure_windows.csv` reproduce the failure-window metadata shown on the UCI MetroPT-3 dataset page. They are reference metadata, not generated failures. The sensor dictionary is likewise based on UCI's published variable descriptions.
 
-MetroPT is not row-level joined to unrelated source datasets. PostgreSQL Gold
-views integrate only the governed compressor adaptation with enterprise
-site/equipment dimensions and optional maintenance-work-order context. Real and
-synthetic evaluation scopes remain distinct, and the current Power BI report
-does not contain the predictive-maintenance outputs.
+No row-level relationship is asserted between MetroPT and unrelated source
+datasets. PostgreSQL Gold views connect only the governed compressor adaptation
+to enterprise site and equipment dimensions plus optional maintenance-work-order
+context. Real and synthetic evaluation scopes remain distinct; the current
+Power BI report excludes the predictive-maintenance outputs.

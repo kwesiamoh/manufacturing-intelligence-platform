@@ -58,4 +58,7 @@ The transformation standardizes field names/types and derives timestamp columns 
 
 ## Important limitation
 
-The real source contains downtime timing/duration but not a detailed root-cause taxonomy such as mechanical/electrical/material shortage. Those fields are not inferred. Synthetic Velora downtime causes remain separately labelled and governed.
+The real source supplies downtime timing and duration without a detailed
+root-cause taxonomy such as mechanical, electrical, or material shortage.
+Keeping those fields null avoids unsupported inference; synthetic Velora
+downtime causes remain separately labelled and governed.

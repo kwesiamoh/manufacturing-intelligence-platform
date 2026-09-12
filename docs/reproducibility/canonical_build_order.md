@@ -55,8 +55,8 @@ The evidence separates as follows:
   configuration.
 - Serialization evidence: the governed manifest records that the retained local
   Bronze CSV contains the same 65,790 logical table values as the canonical
-  Silver Parquet. The Bronze serialization is not part of the public release.
-- Not recoverable without guessing: exact per-row campaign/product assignment,
+  Silver Parquet. The public release excludes the Bronze serialization.
+- Unavailable from retained evidence: exact per-row campaign/product assignment,
   probability distributions, random draw order, site/line effects, and the
   complete formulas/parameterization that produced every accepted business
   value.
@@ -129,8 +129,8 @@ python .\path\to\loader.py `
 ```
 
 The loaders use standard external libpq credentials (including pgpass) when
-available and otherwise prompt interactively. Credentials are not stored in
-repository files or evidence.
+available and otherwise prompt interactively. Repository files and evidence
+contain no credentials.
 
 ## Phase 0 - required materialized inputs
 
@@ -147,8 +147,8 @@ coverage, null profile, provenance constants, or reconciliation values differ.
 The canonical bootstrap runs this gate during preflight before any database
 creation or mutation.
 
-Then verify that the remaining materialized inputs exist. Do not relabel their
-provenance.
+Then verify that the remaining materialized inputs exist and preserve their
+recorded provenance.
 
 - Synthetic master/configuration CSVs under `data_model/` and
   `synthetic/config/`.
@@ -163,12 +163,13 @@ provenance.
 - Structured Eurostat input:
   `sources/eurostat-energy-prices/silver/eurostat_energy_prices/nrg_pc_205__six_site_countries_2024_2025.parquet`.
 
-Downloads are not part of the canonical clean-database sequence. If the
+The canonical clean-database sequence begins from materialized inputs;
+acquisition workflows handle downloads separately. If the
 structured Eurostat Parquet is absent but its materialized source is present,
 the accepted transformation is
 `pipelines/silver/expand_eurostat_nrg_pc_205.py`. The downloader
-`pipelines/bronze/download_eurostat_nrg_pc_205.py` is an acquisition step, not a
-database-build step.
+`pipelines/bronze/download_eurostat_nrg_pc_205.py` belongs to source acquisition
+and is never invoked by the database build.
 
 ### Downstream synthetic regeneration from governed Silver production
 
@@ -183,8 +184,9 @@ governed Silver production input. Its exact dependency order is:
 The downtime and quality generators independently consume the governed
 production Silver artifact. Maintenance generation requires the downtime
 output. Energy generation requires the governed production Silver artifact plus
-the real external weather-context Parquet. This is downstream regeneration, not
-first-principles production regeneration. The same verified production columns
+the real external weather-context Parquet. These steps regenerate downstream
+facts from the governed boundary; first-principles production regeneration is
+unavailable. The same verified production columns
 also satisfy `pipelines/postgres/load_synthetic_facts.py`.
 
 ## Phase 1 - database and schema
@@ -209,9 +211,9 @@ Execute these files in exactly this order:
 
 Migration 005 adds the referenced downtime source to each maintenance lineage
 link. Existing Velora rows are backfilled only when the downtime event exists
-under the maintenance row's established `SYNTHETIC_ENTERPRISE` source. It does
-not assume textual event IDs are globally unique and does not require one work
-order per downtime event.
+under the maintenance row's established `SYNTHETIC_ENTERPRISE` source. The
+source-qualified relationship avoids any assumption that textual event IDs are
+globally unique and permits multiple work orders for one downtime event.
 
 ## Phase 2 - dimensions, facts, references, and supplemental data
 
@@ -225,8 +227,8 @@ Execute these loaders in exactly this order:
 19. `pipelines/postgres/load_metropt_predictive_maintenance.py`
 
 The supplemental loaders at positions 17 through 19 are mandatory. The reference
-loader retains real external records in `ref_*` tables; it does not load them
-as synthetic Velora facts. The telemetry loader consumes the governed 42,598-row
+loader retains real external records exclusively in `ref_*` tables, outside the
+synthetic Velora facts. The telemetry loader consumes the governed 42,598-row
 materialized enterprise adaptation and preserves the real MetroPT source and
 synthetic scenario identifiers separately.
 
@@ -249,8 +251,8 @@ Execute these SQL files in exactly this order:
 26. `sql/analytics/220_create_energy_cost_views.sql`
 
 SQL 220 is a mixed-provenance benchmark: synthetic enterprise consumption
-multiplied by real external Eurostat price observations. It is not a measured
-Velora electricity tariff.
+multiplied by real external Eurostat price observations. The resulting cost is a
+modeled benchmark and has no measured Velora tariff provenance.
 
 ## Phase 4 - DQ execution and reporting views
 
@@ -287,11 +289,8 @@ Execute in this order:
 
 SQL 622 is self-contained apart from
 `gold_bi.vw_shift_manufacturing_performance`; the ordinary p-chart diagnostic
-is not an executable dependency. SQL 742 is the retained creator for the monthly
+has no executable dependency role. SQL 742 is the retained creator for the monthly
 reliability view names.
-
-The MetroPT predictive-maintenance views are not integrated into the retained
-Velora Power BI report.
 
 SQL 720 defines the canonical reliability relationship at two explicit grains:
 one row per source-qualified maintenance/work-order link and one row per linked
@@ -305,7 +304,8 @@ attribution and source-qualifies that production join.
 The database must first contain the Gold BI views from position 28. The
 canonical database build treats the accepted energy-anomaly and forecasting
 Parquets as governed materialized inputs. The bootstrap preflight requires both files and
-fails before database mutation if either is absent; it does not retrain models.
+fails before database mutation if either is absent. Model training is a
+separate, optional workflow.
 
 Then execute:
 
@@ -320,8 +320,8 @@ canonical loaders. It consumes only these accepted materialized outputs:
 
 The loader validates and hashes these inputs before database mutation. It keeps
 stable landing-table objects and performs the replacement as a single
-transactional `TRUNCATE + COPY` operation, so reruns do not drop the dependent
-`gold_bi` views. It also validates the reliability source, records a
+transactional `TRUNCATE + COPY` operation, preserving dependent `gold_bi` views
+across reruns. It also validates the reliability source, records a
 successful-load audit row, and rolls back to the prior landing contents if any
 acceptance condition fails. Reliability downtime uses the accepted `14,856.65`
 hour snapshot with a `+/- 0.01` hour tolerance. `--forecast-path` and
@@ -332,12 +332,11 @@ checksum calculation without contacting PostgreSQL.
 SQL 750 also consumes the reliability views from SQL 742. Run the
 loader before SQL 750 on a fresh database. On an existing database, the loader's
 transactional refresh preserves the stable landing tables, so SQL 750's
-dependent `gold_bi` views do not block a rerun.
+dependent `gold_bi` views remain available during a rerun.
 
 The governed telemetry load and its predictive-maintenance Gold views are
-already present at this point. The real-source MetroPT model and hydraulic
-benchmark are not rerun, and neither workflow is loaded into the retained Power
-BI model.
+already present at this point. This run neither rebuilds the real-source MetroPT
+model nor the hydraulic benchmark.
 
 ## Phase 8 - final mandatory validations
 
@@ -370,8 +369,8 @@ retained disposable proof records the 19-gate platform boundary captured before
 the governed telemetry integration; the current runner adds SQL 761. SQL 623 materializes the
 unchanged accepted Laney p-prime view once in a session-local temporary table
 for validation because repeatedly expanding that nested view is computationally
-expensive. This changes validation execution only, not accepted SPC formulas or
-the view definition.
+expensive. This affects validation execution only; the accepted SPC formulas
+and view definition remain intact.
 
 ## Phase 9 - Power BI manual refresh and verification
 
@@ -382,16 +381,13 @@ After all database validations have been reviewed:
 60. Verify relationships, measures, page filters, accepted advanced-analytics
     visuals, and provenance labels.
 
-The PBIX is a binary manual artifact and is not modified by the canonical build
-definition. MetroPT predictive-maintenance and hydraulic results are absent
-from the retained Velora operational pages. No AWS step is
-part of this sequence.
+The PBIX is a binary manual artifact that the canonical build leaves untouched.
 
 ## Supporting business-case evidence
 
 Business-case evidence is reproducible after the governed production input and
-accepted loss-accounting definition are present. It is not an input to, or a
-mandatory step in, the Velora PostgreSQL/Power BI operational clean build.
+accepted loss-accounting definition are present. The Velora PostgreSQL/Power BI
+operational clean build neither consumes nor requires this supporting evidence.
 
 Generate and immediately validate the versioned evidence:
 
@@ -413,8 +409,9 @@ scenarios, and a JSON provenance/checksum manifest under
 `data/gold/business_case/`. The validator fails on schema/grain/period/value,
 reconciliation, canonical-input, or retained-output checksum discrepancies.
 The exported EUR 573,908,429.76 is a synthetic modeled technical opportunity
-for the two-year 2024-2025 period, not realized savings; EUR 286,954,214.88/year
-is its simple annualized base, not a forecast.
+for the two-year 2024-2025 period. Realized savings require operational
+evidence. EUR 286,954,214.88/year is the simple annualized base; this arithmetic
+calculation is not a forecast.
 
 ## Public-source orchestration
 
@@ -425,9 +422,9 @@ manifest:
 - `sources/source_pipeline_manifest.json`
 - `requirements.txt`
 
-They are not steps in the Velora operational clean-database sequence. The
-runner resolves from its own repository location, so callers do not need to
-change directory. Use `-DryRun` to inspect all action paths and states without
+The source runner operates independently of the Velora clean-database sequence.
+It resolves from its own repository location and can be called from any working
+directory. Use `-DryRun` to inspect all action paths and states without
 executing downloads, validators, or transformations.
 
 Acquisition modes, credentials, redistribution boundaries, and package-specific
@@ -436,7 +433,8 @@ and [third-party data policy](../governance/third_party_data_redistribution.md).
 
 ## Optional source-model and benchmark reproduction
 
-The following model-reproduction paths are outside the canonical clean build.
+The following model-reproduction paths are optional workflows independent of
+the canonical clean build.
 The materialized enterprise telemetry is already a governed build input; these
 steps regenerate it from acquired real-source data. Neither optional workflow
 is required by the retained Power BI report.
@@ -469,12 +467,14 @@ as follows:
 1. If `data/gold/advanced_analytics/hydraulic_condition/hydraulic_cycle_features.parquet`
    is absent, run
    `scripts/prepare_hydraulic_features.py` once to build
-   that support artifact; its embedded baseline model is not a published result.
+   that support artifact. The published result is limited to the accepted
+   classification workflow; the embedded baseline model remains supporting
+   material only.
 2. Run `scripts/run_hydraulic_condition_classification.py` for the
    accepted benchmark outputs.
 
-The hydraulic feature cache, models, and outputs are not loaded into the Velora
-operational PostgreSQL or Power BI layers.
+The hydraulic feature cache, models, and outputs remain external to the Velora
+operational PostgreSQL and Power BI layers.
 
 ## Related documentation
 

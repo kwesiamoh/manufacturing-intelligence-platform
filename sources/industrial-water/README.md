@@ -48,11 +48,9 @@ Use this dataset for:
 - process-water versus cooling/condensing/steam demand;
 - empirical calibration of site-level synthetic water assumptions where that integration is explicitly documented.
 
-Do not:
-- relabel Canadian survey values as beverage-plant meter readings;
-- invent line-level water consumption;
-- infer daily/hourly water telemetry from annual survey totals;
-- remove Statistics Canada data-quality flags.
+The survey supports industry-level water benchmarks. Beverage-plant and
+line-level consumption require operational meter data, while source quality
+flags and missing values remain unchanged.
 
 ## Storage workflow
 1. Keep the downloaded ZIP/CSV unchanged in Bronze.

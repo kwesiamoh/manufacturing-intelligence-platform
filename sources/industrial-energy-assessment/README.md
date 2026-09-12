@@ -31,8 +31,10 @@ energy and dollar savings, project cost, implementation status, and payback-rela
 ## Important integration rule
 These records belong to real U.S. industrial facilities assessed by the ITAC/IAC program.
 
-They MUST NOT be relabelled as records from the fictional European beverage manufacturer and MUST NOT
-be row-level joined to the bottling-line, MetroPT, SECOM, hydraulic-system, or other unrelated datasets.
+Their identity as real U.S. industrial-facility assessments remains explicit.
+The data supplies no common identifier for fictional European beverage records
+or row-level joins to the bottling-line, MetroPT, SECOM, hydraulic-system, and
+other unrelated datasets.
 
 Use this source for:
 - industrial energy-cost benchmarking;
@@ -42,11 +44,9 @@ Use this source for:
 - examples of energy-efficiency opportunity categories;
 - plant-level energy intensity studies where source fields support them.
 
-Do not use it to invent:
-- beverage-plant utility bills;
-- line-level energy tariffs;
-- steam/compressed-air meter readings;
-- site-specific production losses.
+The assessment records support empirical benchmarking. Beverage-plant bills,
+line tariffs, utility meter readings, and site-specific production losses
+require their own operational sources.
 
 ## Storage workflow
 1. `bronze/itac/` — preserve the downloaded ZIP/XLSX unchanged.

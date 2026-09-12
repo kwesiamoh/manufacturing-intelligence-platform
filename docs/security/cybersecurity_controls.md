@@ -1,34 +1,36 @@
-# Cybersecurity Controls
+# Security Controls and Threat Model
 
-## Current local portfolio environment
+## Implementation boundary
 
-The implementation runs locally using:
+The implemented platform uses:
 
 - Python;
 - PostgreSQL 18;
 - Power BI Desktop;
-- local source / Bronze / Silver / Gold files.
+- repository-managed source metadata and local Bronze, Silver, and Gold data
+  layers.
 
-The project is not a live production system.
+The included Terraform defines an AWS-ready target architecture; it does not
+represent a live cloud deployment or an operational production system.
 
 ## Credential controls
 
-- credentials must not be hard-coded;
-- PostgreSQL password prompts are acceptable for the local portfolio workflow;
-- `.env` or local secret files must be excluded from Git;
-- AWS access keys must not be created or committed solely for this portfolio.
+- PostgreSQL authentication uses standard libpq mechanisms such as password
+  prompts or a user-managed `pgpass.conf`;
+- secrets and credentials are kept outside version control;
+- the repository contains no AWS access keys or local secret files.
 
 ## Least privilege
 
-Target-state access should separate:
+Target-state access separates:
 
 - ingestion/write roles;
 - transformation roles;
 - read-only BI roles;
 - administrative roles.
 
-Power BI should use a read-oriented database identity in a deployed
-environment, not the PostgreSQL superuser.
+A deployed Power BI service uses a read-oriented database identity with no
+superuser privileges.
 
 ## Database controls
 
@@ -44,14 +46,14 @@ Recommended target controls:
 ## File controls
 
 - Bronze files are immutable;
-- generated Silver/Gold outputs should be created by controlled pipelines;
-- source checksums should be retained where available;
-- local secrets and transient logs containing sensitive values must be excluded
-  from Git.
+- controlled pipelines create generated Silver and Gold outputs;
+- source checksums are retained where available;
+- `.gitignore` keeps local secrets and transient sensitive logs outside Git.
 
 ## Dependency controls
 
-Python dependencies should be pinned or constrained through requirements files.
+The root requirements file constrains Python dependencies used by the supported
+workflows.
 
 Recommended CI controls for a deployed implementation:
 
@@ -60,14 +62,48 @@ Recommended CI controls for a deployed implementation:
 - SQL linting;
 - secret scanning.
 
+## Threat model
+
+### Protected assets
+
+- source datasets and Bronze, Silver, and Gold materializations;
+- the PostgreSQL database;
+- transformation and analytical code;
+- analytical models and the Power BI semantic model;
+- credentials and connection secrets.
+
+### Threats and mitigations
+
+| Threat | Example | Control |
+|---|---|---|
+| Credential leakage | Password committed to Git | External credential handling, `.gitignore`, and secret scanning |
+| Unauthorized database access | Overly broad database credentials | Role-based access, network restriction, and TLS |
+| Data tampering | Bronze file overwritten | Immutable-file behavior and governed checksums |
+| Lineage loss | Derived result cannot be traced | Source IDs, manifests, and documented pipeline lineage |
+| Misleading provenance | Synthetic KPI presented as real | Explicit provenance labels and separate operational and benchmark scopes |
+| Model misuse | Synthetic scenario performance presented as real predictive performance | Separate real/synthetic evaluations and lineage fields |
+| Dependency compromise | Vulnerable Python package | Dependency review and vulnerability scanning |
+| Unapproved cloud deployment | Target architecture mistaken for deployed infrastructure | Explicit deployment status and source-only Terraform treatment |
+| BI overexposure | Users see unauthorized sites | Workspace permissions and row-level security in a deployed environment |
+
+### Trust boundaries
+
+1. External source acquisition
+2. Local filesystem
+3. PostgreSQL analytical database
+4. Power BI Desktop and semantic layer
+5. AWS target environment
+
+Each transition preserves provenance and uses the minimum required access.
+
 ## Power BI controls
 
-For a production deployment:
+Target controls for a production deployment include:
 
-- dataset access should follow least privilege;
-- row-level security should be used if site access must be segmented;
-- workspace permissions should be role-based;
-- published semantic models should use controlled refresh credentials.
+- least-privilege dataset access;
+- row-level security where site access requires segmentation;
+- role-based workspace permissions;
+- controlled refresh credentials for published semantic models.
 
 ## Backup and recovery
 
@@ -79,4 +115,5 @@ Target recovery controls:
 - version-controlled SQL and Python;
 - reproducible Gold views.
 
-The portfolio does not claim tested enterprise RTO/RPO values.
+Recovery objectives require validation in a deployed organizational
+environment before RTO or RPO commitments can be stated.

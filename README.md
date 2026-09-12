@@ -34,7 +34,7 @@ The reporting layer is delivered through a six-page Power BI dashboard.
 
 The integrated model supports comparison of sites and lines, downtime concentration, production and energy performance, quality behaviour, corrective-maintenance burden, contextual electricity anomalies, and model-derived technical opportunity.
 
-The project is an analytical prototype rather than a real-time plant-control system.
+The project is an analytical prototype and does not provide real-time plant control.
 
 ---
 
@@ -87,7 +87,7 @@ For a detailed description of the implemented and AWS-ready target architectures
 
 ### Public reference and benchmark data
 
-The source acquisition catalog covers **14 public datasets**. Bulk source artifacts are not distributed with the repository unless their inclusion is explicitly governed.
+The source acquisition catalog covers **14 public datasets**.
 
 The public sources serve different roles, including manufacturing-energy reference data, equipment and maintenance classification, production and downtime examples, quality data, industrial telemetry, hydraulic-condition monitoring, energy-price references, emissions, and utility context.
 
@@ -116,7 +116,8 @@ The integrated operational backbone represents the fictional **Velora Beverage G
 | Line energy detail | 65,790 |
 | Site energy detail | 13,158 |
 
-The enterprise layer is synthetic and governed. It provides a coherent multi-site analytical backbone without implying that unrelated public datasets originated from one company.
+The enterprise layer is synthetic and governed, providing a coherent multi-site
+analytical backbone.
 
 ---
 
@@ -165,7 +166,7 @@ Compressed-air consumption:
 | CAN operations | 12.805 million Nm³ |
 | Enterprise total | 344,035,656.552 Nm³ |
 
-For canning lines, the model uses a governed design assumption of **5.0 Nm³ per 1,000 cans**. This is a portfolio modelling assumption, not measured Velora plant data.
+For canning lines, the model uses a governed design assumption of **5.0 Nm³ per 1,000 cans**. The value supports portfolio modelling and is not based on measurements from Velora plants.
 
 ---
 
@@ -234,9 +235,9 @@ The model estimates expected electricity consumption from operating context and 
 
 ## Compressor telemetry and predictive maintenance
 
-MetroPT industrial compressor telemetry provides the real-data basis for the platform's telemetry analytics. The source records retain UCI provenance and are transformed into a governed scenario mapped to the existing `SITE-DE-01-U-AIR-01` compressed-air asset. Original MetroPT observations are not represented as Velora operational telemetry.
+MetroPT industrial compressor telemetry provides the real-data basis for the platform's telemetry analytics. The source records retain UCI provenance and are transformed into a governed scenario mapped to the existing `SITE-DE-01-U-AIR-01` compressed-air asset. Original MetroPT observations remain outside Velora operational telemetry.
 
-On the strict chronological real-data test, the adaptive anomaly baseline warned one of two fault events within the two-hour evaluation window, with 0.67 hours of lead and 0.068 false alerts per operating day. The supervised logistic candidate produced no validation warnings, so the result does not support reliable multi-hour prediction.
+On the strict chronological real-data test, the adaptive anomaly baseline warned one of two fault events within the two-hour evaluation window, with 0.67 hours of lead and 0.068 false alerts per operating day. The supervised logistic candidate produced no validation warnings, leaving insufficient evidence to claim reliable multi-hour prediction.
 
 A separately labelled **MetroPT-informed synthetic enterprise degradation scenario** supplies controlled six-hour precursor behavior for maintenance decision-support testing. Its selected policy warned all four synthetic scenario events with 5.83 hours median lead and no false alerts. The synthetic precursor performance is not an original MetroPT result.
 
@@ -244,7 +245,7 @@ A separately labelled **MetroPT-informed synthetic enterprise degradation scenar
 
 A hydraulic-condition dataset was used for class-wise chronological classification of cooler, valve, pump, accumulator, and stable-condition states.
 
-This remains an external benchmark and is not integrated into Velora operational history.
+This is a standalone external benchmark, outside Velora operational history.
 
 ---
 
@@ -261,9 +262,9 @@ rules for the governed MetroPT-informed telemetry adaptation.
 
 The canonical row-weighted score is **99.9900%** across 2,473,157 evaluated
 rows, with 248 failed cadence intervals. The telemetry domain score is
-**99.8836%**. Those intervals retain genuine source availability and
-non-operating gaps and therefore produce a nonfatal warning rather than
-fabricated continuity.
+**99.8836%**. Those intervals preserve genuine source availability and
+non-operating gaps, so the rule reports a nonfatal warning; no continuity is
+fabricated.
 
 The framework retains explicit PASS, WARN, and FAIL semantics. The governed
 enterprise telemetry participates in the platform score; untouched MetroPT
@@ -319,7 +320,7 @@ For the 2024–2025 period:
 - **Two-year technical opportunity:** €573.91 million
 - **Simple annualized equivalent:** €286.95 million per year
 
-These are model-derived estimates, not realized savings. Site detail,
+These model-derived estimates carry no claim of realized savings. Site detail,
 sensitivity scenarios, evidence, and interpretation are maintained in the
 [business case](docs/business_case/business_case.md).
 
@@ -333,7 +334,7 @@ The canonical workflow was verified through a disposable PostgreSQL clean build 
 
 All 19 mandatory validation checks passed, covering schema integrity, dimensional and fact-table consistency, lineage, analytical outputs, energy and utility calculations, reliability metrics, forecasting inputs, and Power BI reporting views.
 
-The repository provides governed inputs, build logic, manifests, and compact validation evidence rather than distributing a prebuilt PostgreSQL database.
+The repository provides governed inputs, build logic, manifests, and compact validation evidence. A prebuilt PostgreSQL database is outside the public release boundary.
 
 The canonical production seed is:
 
@@ -349,8 +350,8 @@ and [clean-build proof](docs/reproducibility/clean_build_proof.md).
 
 ## AWS-ready target architecture
 
-The demonstrated implementation runs locally. Its batch components map to S3,
-managed processing, RDS for PostgreSQL, managed orchestration, Secrets Manager,
+The batch components map to S3, managed processing, RDS for PostgreSQL, managed
+orchestration, Secrets Manager,
 CloudWatch, and IAM. Terraform source defines the AWS-ready target; the detailed
 mapping is in the [platform architecture](docs/architecture/platform_architecture.md).
 
@@ -388,7 +389,7 @@ authoritative execution sequence.
 
 ## Source acquisition and redistribution
 
-Not every public dataset is redistributed through this repository. The public boundary is code, source manifests, checksums, acquisition instructions, and compact accepted evidence.
+The repository redistributes public datasets only where that treatment is explicitly governed. Its standard public boundary consists of code, source manifests, checksums, acquisition instructions, and compact accepted evidence.
 
 | Source | Public treatment |
 |---|---|
@@ -405,12 +406,9 @@ See the [third-party data policy](docs/governance/third_party_data_redistributio
 ## Interpretation boundaries
 
 - Velora and its integrated operational history are synthetic.
-- Energy assumptions support portfolio analytics, not engineering sizing.
+- Energy assumptions support portfolio analytics; engineering sizing requires plant-specific measurements.
 - Forecasts use a 60-day rolling one-day-ahead evaluation.
-- Energy residuals are contextual anomaly flags, not confirmed faults.
-- Original MetroPT records remain external real data; the enterprise compressor scenario and controlled degradation signals are explicitly synthetic and MetroPT-informed.
-- Predictive-maintenance PostgreSQL outputs are not represented in the retained Power BI report.
-- Technical opportunity is modeled and is not realized savings.
+- Energy residuals indicate contextual anomalies and require investigation before fault classification.
 
 See [analytics methodology and limitations](docs/methodology/analytics_methodology_and_limitations.md)
 for method-specific evidence and caveats.
@@ -419,19 +417,26 @@ for method-specific evidence and caveats.
 
 ## Documentation
 
+Build and architecture:
+
 - [Installation and build](docs/INSTALL.md)
 - [Platform architecture](docs/architecture/platform_architecture.md)
+- [Canonical reproducibility order](docs/reproducibility/canonical_build_order.md)
+
+Analytics and reporting:
+
 - [Analytics methodology and limitations](docs/methodology/analytics_methodology_and_limitations.md)
 - [Manufacturing KPI definitions](docs/kpi_definitions/manufacturing_kpis.md)
 - [Canonical data dictionary](docs/data_dictionary/canonical_data_dictionary.csv)
 - [Business case](docs/business_case/business_case.md)
-- [Canonical reproducibility order](docs/reproducibility/canonical_build_order.md)
-- [Clean-build proof](docs/reproducibility/clean_build_proof.md)
+- [Power BI report guide](docs/powerbi/final_powerbi_presentation.md)
+
+Governance and validation:
+
 - [Data governance](docs/governance/data_governance.md)
 - [Third-party data treatment](docs/governance/third_party_data_redistribution.md)
-- [Power BI report guide](docs/powerbi/final_powerbi_presentation.md)
-- [Cybersecurity controls](docs/security/cybersecurity_controls.md)
-- [Threat model](docs/security/threat_model.md)
+- [Security controls and threat model](docs/security/cybersecurity_controls.md)
+- [Clean-build proof](docs/reproducibility/clean_build_proof.md)
 
 ---
 

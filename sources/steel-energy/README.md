@@ -3,8 +3,8 @@
 This package contains the real measured UCI Steel Industry Energy Consumption
 dataset (UCI dataset ID 851, DOI `10.24432/C52G8C`, CC BY 4.0). UCI remains the
 authoritative publisher and metadata source. The public GitHub URL recorded in
-the source manifest is only the retrieval route used after the official UCI
-binary endpoint was unavailable in the original execution environment.
+the source manifest is a checksum-verified retrieval route, not the
+authoritative publication source.
 
 The canonical route is:
 

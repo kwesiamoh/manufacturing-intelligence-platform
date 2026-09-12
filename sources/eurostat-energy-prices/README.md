@@ -24,11 +24,9 @@ Use for:
 - sensitivity analysis by country and consumption band;
 - comparison with U.S. MECS energy prices.
 
-Do not:
-- assign these averages directly to a fictional site without an explicit tariff assumption;
-- treat them as hourly market prices;
-- infer site-level invoices or taxes from a single EU average;
-- join them row-by-row to unrelated plant telemetry.
+These statistics support country and consumption-band benchmarking within an
+explicit tariff assumption. They provide no evidence for site invoices or
+hourly market prices.
 
 No synthetic records are included.
 

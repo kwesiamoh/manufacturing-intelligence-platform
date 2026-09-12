@@ -19,13 +19,13 @@ Governance must therefore preserve:
 
 Bronze is immutable source capture.
 
-Rules:
+Controls:
 
 - preserve original file contents;
 - record source dataset, publisher, access date, licence/reference information,
   and checksum where available;
-- do not overwrite source files;
-- do not apply business transformations in Bronze.
+- source files remain immutable;
+- business transformations begin in Silver.
 
 ### Silver
 
@@ -43,14 +43,14 @@ Rules:
 
 Gold contains business-ready analytical views and reporting models.
 
-Rules:
+Controls:
 
-- metrics must have documented definitions;
-- calculations must reference known source fields;
-- synthetic and real-source metrics must not be blended in ways that imply a
-  shared physical plant;
-- Power BI-facing compatibility views may cast data types but must not silently
-  alter business meaning.
+- every metric has a documented definition;
+- calculations reference known source fields;
+- synthetic and real-source metrics remain distinct wherever blending could
+  imply a shared physical plant;
+- Power BI-facing compatibility views may cast data types while preserving
+  business meaning.
 
 ## Provenance classes
 
@@ -59,8 +59,8 @@ Rules:
 Examples include MetroPT telemetry and the hydraulic condition-monitoring
 benchmark.
 
-These may be described as real source data, but not as data from Velora
-Beverage Group or from the synthetic enterprise.
+These retain real-source status while remaining outside Velora Beverage Group
+and the synthetic enterprise.
 
 ### Synthetic enterprise integration
 
@@ -95,7 +95,8 @@ the fictional enterprise operational history.
 | Reporting | BI / Analytics | semantic consistency, KPI definitions |
 | Data quality | Data Engineering + domain owner | rule design, exception review |
 
-These are project role definitions, not claims about an actual organization.
+These roles define repository governance responsibilities; they do not assert
+the structure of an actual organization.
 
 ## Data-quality governance
 
@@ -111,8 +112,8 @@ Each DQ rule should contain:
 - owner;
 - remediation guidance where relevant.
 
-Current reporting distinguishes PASS, WARN, and FAIL. WARN findings must not be
-reported as passes.
+Current reporting distinguishes PASS, WARN, and FAIL. A WARN is a separate,
+nonfatal outcome and never counts as a pass.
 
 The governed MetroPT-informed enterprise telemetry is subject to the canonical
 DQ framework. Its checks cover structural integrity, required fields,
@@ -142,13 +143,14 @@ Metric definitions must distinguish:
 
 Examples:
 
-- operating-hours MTBF is explicitly a **proxy** because line operating hours
-  are used rather than direct asset runtime;
-- hydraulic condition classification is not remaining-useful-life prediction;
+- operating-hours MTBF is explicitly a **proxy** because direct asset runtime
+  is unavailable and line operating hours supply the exposure basis;
+- hydraulic condition analysis addresses state classification only;
+  remaining-useful-life prediction lies outside its scope;
 - real MetroPT evaluation is reported separately from the MetroPT-informed
   synthetic enterprise degradation scenario;
-- synthetic precursor performance is not claimed as measured MetroPT or Velora
-  predictive-maintenance performance.
+- synthetic precursor performance is reported solely as controlled scenario
+  behavior, without a measured MetroPT or Velora performance claim.
 
 ## Change control
 

@@ -15,8 +15,9 @@ A production implementation would aim to improve:
 - data-quality control;
 - planning and forecasting.
 
-The current portfolio proves the analytical and architectural workflow. It does
-not prove a future organization's realized financial benefit.
+The implemented platform demonstrates the analytical and architectural
+workflow. Modeled opportunities remain analytical estimates; establishing
+realized financial benefit requires evidence from an operating organization.
 
 ## Two-year modeled technical opportunity (2024-2025)
 
@@ -64,8 +65,8 @@ illustrative annual value would be:
 | 5.0% | €14,347,710.74 |
 
 These scenarios are arithmetic sensitivity tests applied to a simple two-year
-average. The annualized base is not a seasonality-adjusted estimate or forecast,
-and none of these values is realized savings. The supporting scenario export is
+average. The annualized base excludes seasonal adjustment and forecasting, and
+the supporting export is
 [`annual_realization_sensitivity_2024_2025.csv`](../../data/gold/business_case/annual_realization_sensitivity_2024_2025.csv).
 
 ## Benefit categories
@@ -96,9 +97,8 @@ Potential mechanisms:
 - reliability trend monitoring;
 - condition-classification workflows where suitable telemetry exists.
 
-The current portfolio's MTBF and availability metrics include explicitly
-labelled proxies and should not be converted directly into financial savings
-without site-specific validation.
+The MTBF and availability metrics include explicitly labelled proxies.
+Converting them into financial benefits requires site-specific validation.
 
 ### Quality
 
@@ -139,7 +139,8 @@ These calculations should only be populated after:
 
 ## Avoiding double counting
 
-Do not automatically sum:
+Keep the following categories separate unless event-level controls establish
+that their financial effects are distinct:
 
 - production opportunity;
 - quality benefit;
@@ -159,11 +160,3 @@ Proceed from pilot to scaled implementation only when:
 4. at least one measurable improvement use case is validated;
 5. expected recurring value exceeds recurring platform cost;
 6. governance and security requirements are satisfied.
-
-## Portfolio position
-
-The project demonstrates the capability to build the platform and the method
-for evaluating value.
-
-It does not claim that Velora Beverage Group is a real organization or that the
-modeled opportunity has been realized.

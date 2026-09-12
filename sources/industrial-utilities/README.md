@@ -25,8 +25,9 @@ contain flow-rate and pressure data for steam and compressed air.
 ## Important data-integrity rule
 These measurements belong to the real industrial park represented by the Zenodo source.
 
-They MUST NOT be relabelled as measurements from the fictional beverage sites and MUST NOT be
-row-level joined to unrelated public datasets unless a genuine common identifier exists.
+Their industrial-park provenance must remain intact. Relabelling them as
+fictional beverage-site measurements or joining them row by row to unrelated
+public datasets would require a genuine shared identifier that is absent here.
 
 This source can be used for:
 - steam-network pressure/flow analytics;
@@ -37,16 +38,16 @@ This source can be used for:
 - calibration of synthetic utility behavior where that use is explicitly documented.
 
 ## Public release treatment
-The four source workbooks are acquisition-only and are not redistributed in
-this repository. The retained source metadata does not establish redistribution
-rights. Users must obtain the files from the provider under the applicable
-terms, then use the included checksum, validation, and transformation workflow.
+The four source workbooks have an acquisition-only release classification and
+are excluded from this repository. Because the retained metadata establishes no
+redistribution rights, users obtain the files under the provider's terms before
+running the included checksum, validation, and transformation workflow.
 
 ## Storage workflow
 1. Download and preserve the four source `.xlsx` files unchanged in `bronze/industrial_park_ies/`.
 2. Validate each file's MD5 against the checksums published on Zenodo.
 3. Normalize sheet/column names only.
 4. Write cleaned tables to Parquet under `silver/industrial_park_ies/`.
-5. Do not fill missing values or fabricate timestamps/units without source evidence.
+5. Preserve missing values and source-provided timestamp and unit semantics.
 
 No synthetic records are included in this step.

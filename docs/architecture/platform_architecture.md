@@ -52,7 +52,8 @@ PostgreSQL provides the integrated enterprise model, analytical views, data-qual
 
 The Gold layer exposes business-facing manufacturing metrics.
 
-The `gold_bi` layer provides stable reporting interfaces for Power BI so that dashboard logic does not depend directly on lower-level analytical implementation details.
+The `gold_bi` layer provides stable reporting interfaces for Power BI and
+isolates dashboard logic from lower-level analytical implementation details.
 
 ---
 
@@ -60,7 +61,8 @@ The `gold_bi` layer provides stable reporting interfaces for Power BI so that da
 
 Public datasets are used for different purposes, including reference data, method development, benchmark analytics, and source-specific transformation exercises.
 
-They are not treated as if they originated from the same manufacturing company.
+Each source retains its own provenance; the catalog does not represent a single
+manufacturing company.
 
 The integrated enterprise backbone represents the fictional **Velora Beverage Group** and provides a controlled six-site structure for cross-domain analysis.
 
@@ -251,7 +253,8 @@ ON_ERROR_STOP=1
 
 The accepted disposable clean-build proof passed all 19 mandatory validations.
 
-The proof database itself is not distributed through GitHub. Reproducibility is demonstrated through governed inputs, scripts, manifests, hashes, validation logic, and captured build evidence.
+Governed inputs, scripts, manifests, hashes, validation logic, and captured
+build evidence provide the reproducibility record.
 
 ---
 
@@ -291,13 +294,15 @@ flowchart LR
 | Local access configuration | AWS IAM |
 | Infrastructure definitions | Terraform |
 
-The cloud architecture is a target deployment design. The portfolio implementation demonstrated in the repository runs locally.
+Terraform source documents the target deployment design; environment-specific
+production configuration is required before deployment.
 
 ---
 
 ## Why the architecture is batch-oriented
 
-The demonstrated use cases do not require sub-second or real-time processing.
+Scheduled batch refresh meets the demonstrated use cases; none depends on
+sub-second processing.
 
 Production performance, reliability trends, energy analysis, data-quality checks, forecasting, and executive reporting can be refreshed on scheduled batch cycles.
 
@@ -310,27 +315,16 @@ A future industrial deployment could increase refresh frequency where source-sys
 Credentials remain outside source control, local artifacts are excluded by the
 release boundary, and AWS mappings use Secrets Manager and IAM. Governed hashes,
 database constraints, lineage, DQ rules, fail-fast execution, and mandatory
-validators protect the build. See [cybersecurity controls](../security/cybersecurity_controls.md),
-the [threat model](../security/threat_model.md), and the
+validators protect the build. See [security controls and threat model](../security/cybersecurity_controls.md) and the
 [clean-build proof](../reproducibility/clean_build_proof.md).
 
 ---
 
 ## Architecture limitations
 
-The current implementation is a portfolio-scale analytical platform rather than a production manufacturing execution system.
-
-It does not implement:
-
-- real-time PLC or SCADA ingestion
-- streaming event processing
-- closed-loop process control
-- real-time alarm handling
-- production-grade high availability
-- enterprise identity federation
-- live AWS hosting
-
-Those capabilities would require additional operational infrastructure beyond the demonstrated portfolio scope.
+The current implementation is a batch-oriented analytical platform. Real-time
+plant control, production high availability, enterprise identity, and live
+cloud operation require production infrastructure beyond this repository.
 
 ---
 

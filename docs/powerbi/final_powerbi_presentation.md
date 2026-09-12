@@ -52,11 +52,11 @@ the accepted Gold and analytical logic.
 - Date, site, line, product, and shift dimensions filter facts in one direction.
 - Forecast rows are separated by `forecast_domain` (`PRODUCTION` or `ENERGY`).
 - Forecast MAPE is stored as a fractional ratio. Average it directly and apply
-  Percentage formatting; do not divide by 100 again.
-- Energy anomalies are contextual residual flags, not confirmed equipment
-  faults.
-- MetroPT predictive-maintenance Gold outputs and the hydraulic-condition
-  benchmark are not loaded into the retained Velora Power BI report.
+  Percentage formatting; an additional division by 100 would understate it.
+- Energy anomalies indicate contextual residual deviations. Confirmation of an
+  equipment fault requires separate investigation.
+- The retained Velora Power BI report excludes MetroPT predictive-maintenance
+  Gold outputs and the hydraulic-condition benchmark.
 - Synthetic enterprise metrics and real external benchmarks retain distinct
   provenance labels.
 
@@ -71,7 +71,7 @@ the selected database and refresh. The standard example database is
 `manufacturing_intelligence`; credentials remain outside the repository.
 
 The accepted database-facing proof confirms the required `gold_bi` populations.
-The binary PBIX is not programmatically rewritten by the bootstrap.
+The bootstrap leaves the binary PBIX unchanged.
 
 ## Screenshots
 
@@ -82,8 +82,6 @@ The source PNG files remain under `powerbi/screenshots/`.
 
 - Velora is fictional and its integrated operational history is synthetic.
 - The canonical PostgreSQL DQ result is 99.9900% across 29 active rules: 28
-  PASS, one nonfatal telemetry-cadence WARN, and zero FAIL. The retained PBIX
-  and screenshot require refresh to display the telemetry domain and current
-  score; neither asset is modified by the database integration.
-- Technical-opportunity values are model-derived, not realized savings.
-- The demonstrated platform is local; AWS is a target architecture.
+  PASS, one nonfatal telemetry-cadence WARN, and zero FAIL.
+- Technical-opportunity values are model-derived estimates. Realized savings
+  require operational evidence.

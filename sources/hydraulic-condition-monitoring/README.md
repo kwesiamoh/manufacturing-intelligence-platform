@@ -14,7 +14,10 @@ UCI states that the data were experimentally obtained from a hydraulic test rig 
 
 ## Important scope note
 
-This is **real measured experimental condition-monitoring data**, not synthetic maintenance work-order data. It is suitable for degradation, fault classification, reliability-condition and anomaly-analysis modules. It does not contain CMMS work orders, labor hours or spare-parts costs; those domains must be sourced separately if a public real dataset can be found.
+This is **real measured experimental condition-monitoring data** suitable for
+degradation, fault classification, reliability-condition, and anomaly-analysis
+modules. Maintenance work orders, labour hours, and spare-parts costs lie
+outside its schema and require a separate source.
 
 ## Folder layout
 

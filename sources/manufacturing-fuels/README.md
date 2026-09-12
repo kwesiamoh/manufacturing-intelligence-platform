@@ -39,8 +39,9 @@ Direct XLSX URLs:
 ## Important integration rule
 MECS values are U.S. manufacturing survey estimates.
 
-They MUST NOT be relabelled as measurements from the fictional European beverage sites and MUST NOT
-be directly joined to unrelated real plant datasets.
+Their U.S. manufacturing-survey provenance remains explicit. They provide no
+basis for fictional European beverage-site labels or direct joins to unrelated
+real plant datasets.
 
 Use this source for:
 - manufacturing natural-gas benchmark ranges;
@@ -49,12 +50,9 @@ Use this source for:
 - industry-level fuel-mix comparisons;
 - calibration of financial or energy models where explicitly documented.
 
-Do not use it to invent:
-- hourly gas-meter readings;
-- beverage-line steam usage;
-- site-level utility bills;
-- line-level CO2 emissions;
-- product-specific fuel intensity.
+The survey supports industry-level benchmarks; site and line meter readings,
+utility bills, emissions, and product-level intensity require separate
+operational evidence.
 
 ## Storage workflow
 1. Preserve the official XLSX files unchanged in Bronze.

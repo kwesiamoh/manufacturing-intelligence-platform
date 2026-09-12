@@ -23,7 +23,7 @@ and status, stops on the first blocking failure by default, and supports
 `-ContinueOnError` when a full inventory is preferable. `-OutputFormat Json`
 provides a machine-readable summary.
 
-The runner is the canonical portfolio-level Bronze safeguard. When every
+The runner is the repository-level Bronze safeguard. When every
 declared immutable Bronze artifact already exists, acquisition skips
 network work and the existing files are checksummed/reused. A source can opt
 into its downloader's stronger governed reuse verification; Steel Energy does this

@@ -127,7 +127,7 @@ versioned screenshots show the accepted six-page report.
 Original MetroPT telemetry remains real external data. The canonical build
 loads the governed enterprise compressor adaptation as a materialized input,
 executes its five enterprise DQ rules, and creates its PostgreSQL Gold views. It
-does not modify maintenance facts, reliability KPIs, or the Power BI model.
+leaves maintenance facts, reliability KPIs, and the Power BI model unchanged.
 
 Full MetroPT source-model and enterprise-artifact regeneration is optional:
 
@@ -143,7 +143,8 @@ psql -h localhost -p 5433 -U postgres -d manufacturing_intelligence -v ON_ERROR_
 
 The result contains distinct `REAL_METROPT_BENCHMARK` and
 `METROPT_INFORMED_SYNTHETIC_ENTERPRISE` scopes. The synthetic degradation
-signals are not original MetroPT observations.
+signals belong exclusively to the governed enterprise scenario; original
+MetroPT observations remain separately identified.
 
 Hydraulic condition-classification reproduction:
 

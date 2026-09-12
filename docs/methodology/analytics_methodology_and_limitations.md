@@ -37,7 +37,8 @@ The accepted site-level OEE values are:
 | Zaragoza, Spain | 83.96% |
 | Wrocław, Poland | 82.94% |
 
-These figures are model-derived from the governed synthetic enterprise history. They should not be interpreted as observed OEE from real Velora plants.
+These figures are derived from the governed synthetic enterprise history and do
+not represent observed OEE from physical Velora plants.
 
 ---
 
@@ -85,7 +86,9 @@ SQL 623 materializes the accepted Laney view once into a session-local temporary
 
 The Laney p′ method is appropriate for the modelled reject-rate population, but it has not been validated against an observed Velora production process because Velora is fictional.
 
-The result should therefore be interpreted as a statistically controlled portfolio implementation rather than evidence of deployed industrial SPC.
+The result demonstrates statistically controlled SPC analysis at portfolio
+scale. Evidence from a deployed industrial process would be required for an
+operational performance claim.
 
 ---
 
@@ -133,7 +136,9 @@ However, the final evaluation is **not** a recursive 60-day forecast. Each predi
 
 Model selection and final reporting also used the same final holdout period. This weakens the claim that the reported performance represents a completely untouched final test set.
 
-The result should therefore be presented as a strong portfolio forecasting demonstration rather than production-grade model validation.
+The result supports a strong portfolio forecasting demonstration.
+Production-grade validation would require an independent model-selection period
+or nested evaluation design.
 
 ---
 
@@ -163,7 +168,8 @@ The model provides useful short-horizon forecasting for the governed synthetic e
 The same evaluation limitation applies as for production forecasting:
 
 - the model is evaluated as rolling one-day-ahead forecasting
-- the 60-day period is a holdout window, not a recursive multi-step forecast
+- the 60-day holdout contains repeated one-day-ahead evaluations; recursive
+  multi-step forecasting lies outside the evaluation design
 - model selection and final reporting used the same holdout period
 
 ---
@@ -212,9 +218,11 @@ The target-generation process and predictor structure are therefore partly circu
 For that reason:
 
 - the anomalies are contextual residual extremes
-- they are **not** labeled equipment faults
-- the model is **not** validated as a real-plant fault detector
-- the very high predictive fit should not be generalized to live industrial data
+- they flag contextual deviations without assigning equipment-fault labels
+- validation covers the synthetic monitoring population, excluding claims of
+  real-plant fault-detection performance
+- the very high predictive fit does not establish generalization to live
+  industrial data
 
 The model is best interpreted as a contextual anomaly-detection demonstration.
 
@@ -257,13 +265,17 @@ Canning lines use the governed design assumption:
 5.0 Nm³ compressed air / 1,000 cans
 ```
 
-This is a portfolio modelling assumption and not measured Velora utility data.
+This governed portfolio assumption is a modeled input without measured Velora
+utility provenance.
 
 ### Limitation
 
-The energy model is suitable for manufacturing-intelligence analysis but should not be interpreted as an engineering utility-sizing or process-design model.
+The energy model supports manufacturing-intelligence analysis. Engineering
+utility sizing and process design require plant-specific measurements and
+design calculations.
 
-Some electricity and utility relationships are governed assumptions rather than field measurements.
+Governed assumptions supply several electricity and utility relationships for
+which field measurements are unavailable.
 
 ---
 
@@ -299,7 +311,7 @@ This prevents one downtime event from being counted multiple times when maintena
 
 ### MTBF interpretation
 
-Two different MTBF-style quantities appear in the project and should not be mixed:
+The project reports two MTBF-style quantities at distinct grains:
 
 1. **Equipment-level operating MTBF proxy**  
    Averaged across equipment populations and approximately 97.93 h in the accepted analytical output.
@@ -307,13 +319,15 @@ Two different MTBF-style quantities appear in the project and should not be mixe
 2. **Power BI aggregate operating-hours MTBF proxy**  
    Calculated as total line operating hours divided by total corrective failures and approximately 9.74 h.
 
-These are different aggregations and are not interchangeable.
+Their different aggregation grains prevent direct substitution.
 
 ### Limitation
 
 The reliability analysis is based on synthetic enterprise operations and modeled maintenance links.
 
-It demonstrates reliability KPI design and lineage control, but it is not validated against real Velora CMMS or historian data.
+The result demonstrates reliability KPI design and lineage control within the
+synthetic enterprise. Validation against real Velora CMMS or historian data is
+impossible because Velora is fictional.
 
 ---
 
@@ -321,7 +335,10 @@ It demonstrates reliability KPI design and lineage control, but it is not valida
 
 ### Purpose
 
-MetroPT-3 supplies 1,516,948 real measurements from an industrial compressor Air Production Unit. The immutable Bronze records, standardized Silver telemetry, and four published failure windows retain UCI provenance and are not Velora operational observations.
+MetroPT-3 supplies 1,516,948 real measurements from an industrial compressor
+Air Production Unit. The immutable Bronze records, standardized Silver
+telemetry, and four published failure windows retain UCI provenance and remain
+external to Velora operations.
 
 ### Causal features and evaluation design
 
@@ -346,24 +363,34 @@ q0.9850_3of4
 
 ### Interpretation
 
-The real data supports anomaly/fault-event monitoring and a limited short-lead warning observation. It does not demonstrate reliable two-, four-, or six-hour advance prediction.
+The real data supports anomaly and fault-event monitoring plus a limited
+short-lead warning observation. Reliable prediction at two-, four-, or six-hour
+horizons is unsupported by this evaluation.
 
 ### MetroPT-informed synthetic enterprise result
 
 The governed enterprise adaptation maps the compressor behavior to `SITE-DE-01-U-AIR-01`, shifts source timestamps by four years into the 2024 enterprise calendar, and retains the source timestamp on every row. Controlled six-hour degradation ramps add explicitly synthetic changes in oil temperature, motor current, and reservoir pressure.
 
-The selected six-hour condition policy warned all four synthetic scenario events, with 5.83 hours median lead, precision and recall of 1.0, and zero false alerts. These values demonstrate the controlled scenario design; they are not measured MetroPT predictive performance.
+The selected six-hour condition policy warned all four synthetic scenario
+events, with 5.83 hours median lead, precision and recall of 1.0, and zero false
+alerts. These values characterize the controlled scenario alone; they do not
+measure MetroPT predictive performance.
 
 Lineage fields identify the source as `EXTERNAL_REAL`, the scenario as `SYNTHETIC_ENTERPRISE_ADAPTATION`, the transformation basis as `METROPT_INFORMED`, and the degradation signal as `SYNTHETIC_CONTROLLED`.
 
 The Gold detail view can expose the nearest existing maintenance work order on
 the mapped compressor asset within seven days after fault onset. No such work
 orders exist in the accepted maintenance history for these four scenario
-events, so the integration leaves that context null rather than fabricating it.
+events. The integration therefore leaves that context null, preserving lineage
+without inventing work-order links.
 
 ### Limitation
 
-Only four independent source failure events exist, and the retained events have been inspected during analytical review. The chronological evaluation is therefore small-sample evidence rather than a fully untouched lifecycle test. The synthetic scenario validates integration and decision-support semantics, not real-world model generalization.
+Only four independent source failure events exist, and the retained events have
+been inspected during analytical review. This makes the chronological result
+small-sample evidence with no fully untouched lifecycle test. The synthetic
+scenario validates integration and decision-support semantics; real-world model
+generalization remains untested.
 
 ---
 
@@ -373,7 +400,7 @@ Only four independent source failure events exist, and the retained events have 
 
 The hydraulic-condition dataset is used as a standalone benchmark for chronological condition classification.
 
-It is not integrated into Velora operating history.
+It remains a separate benchmark outside Velora operating history.
 
 ### Evaluation design
 
@@ -395,7 +422,7 @@ The task is classification, not remaining-useful-life prediction or forward prog
 
 The benchmark demonstrates classification across multiple equipment-condition targets with materially different difficulty.
 
-It should not be presented as a predictive-maintenance forecasting result.
+Its classification scores provide no predictive-maintenance forecasting claim.
 
 ---
 
@@ -426,15 +453,15 @@ governed lineage, and source-supported five-minute cadence. Four rules pass.
 The cadence rule evaluates 42,597 consecutive intervals and reports 248
 non-five-minute intervals as `WARN`, yielding a **99.8836%** telemetry-domain
 score. The maximum retained gap is 48 hours 50 minutes. These gaps reflect
-source availability and non-operating periods; the workflow does not fabricate
-missing observations.
+source availability and non-operating periods, and no synthetic observations
+are inserted to fill them.
 
 Untouched MetroPT observations remain external real source data. The governed
 synthetic enterprise adaptation participates in enterprise DQ. Compressor
 faults, controlled degradation, anomaly scores, and warning states are
-operating or analytical signals, not DQ defects. No sensor plausibility rule is
-asserted because the repository does not govern defensible physical limits for
-every sensor.
+operating or analytical signals outside the DQ defect definition. Sensor
+plausibility checks are omitted because the repository has no governed,
+defensible physical limits for every sensor.
 
 ---
 

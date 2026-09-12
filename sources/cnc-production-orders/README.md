@@ -20,9 +20,13 @@ The source provides real industrial timestamps, NC variables, production/changeo
 
 ## Important limitation
 
-The source states that the sessions correspond to real customer/series orders, but the public dataset does **not** expose ERP production-order IDs, customer identities, planned quantities, due dates, routings, BOMs, or financial values. This package therefore does not invent those fields.
+The source states that the sessions correspond to real customer and series
+orders. Its public fields exclude ERP production-order IDs, customer identities,
+planned quantities, due dates, routings, BOMs, and financial values, so this
+package leaves those attributes absent.
 
-Any integrated enterprise fields that are unavailable from this source belong in a clearly separated synthetic integration layer and must not be represented as source data.
+Any additional enterprise fields belong in a clearly separated synthetic
+integration layer with explicit provenance.
 
 ## Folder structure
 

@@ -10,7 +10,8 @@ Purpose in the manufacturing-intelligence project:
 - timestamped production-entity observations
 - missing-value and feature-quality analysis
 
-This package does not fabricate production records. Raw UCI files belong in `bronze/secom/` and are transformed into a Silver Parquet dataset only after validation.
+This package is limited to the observed UCI quality records. Raw files belong in
+`bronze/secom/` and reach the Silver Parquet layer only after validation.
 
 ## Expected raw files
 
@@ -18,7 +19,11 @@ This package does not fabricate production records. Raw UCI files belong in `bro
 - `secom_labels.data`
 - `secom.names`
 
-The authoritative UCI page reports 1,567 instances and 591 features in its metadata. In the public raw file, users commonly load 590 anonymous sensor columns from `secom.data`, while the pass/fail label and timestamp are stored separately in `secom_labels.data`. The validation script records the observed structure rather than silently forcing the metadata count.
+The authoritative UCI page reports 1,567 instances and 591 features in its
+metadata. In the public raw file, users commonly load 590 anonymous sensor
+columns from `secom.data`, while the pass/fail label and timestamp are stored
+separately in `secom_labels.data`. The validation script records the observed
+structure and leaves the published metadata discrepancy visible.
 
 ## Workflow
 
@@ -26,7 +31,9 @@ The authoritative UCI page reports 1,567 instances and 591 features in its metad
 2. `python scripts/validate_bronze.py`
 3. `python scripts/build_silver.py`
 
-The downloader first tries the current UCI archive and legacy UCI file URLs. It does not silently replace the source with synthetic data.
+The downloader first tries the current UCI archive and legacy UCI file URLs.
+Failure leaves the source unresolved; synthetic substitution is outside this
+workflow.
 
 `build_silver.py` is the canonical Silver contract because it produces the
 integration-safe `sample_id`, parsed `event_timestamp`, source `raw_label`, and

@@ -14,7 +14,11 @@ This package adds a **real maintenance work-order reference domain** using the F
 - Reported raw size: ~1.34 GB
 
 ## Important scope note
-FMUCD is real CMMS data from university facilities, not a manufacturing production plant. It is retained because it provides genuine work-order timing, planned/unplanned maintenance, labour hours, and maintenance cost fields at large scale. It must **not** be relabelled as beverage-manufacturing work orders.
+FMUCD contains real CMMS records from university facilities. Its value here is
+the large-scale coverage of work-order timing, planned and unplanned
+maintenance, labour hours, and maintenance costs. The facilities provenance
+must remain explicit; beverage-manufacturing labels would misrepresent the
+source.
 
 For the manufacturing intelligence platform, this dataset supports:
 1. exercise large-scale maintenance ingestion and transformation;
@@ -22,7 +26,8 @@ For the manufacturing intelligence platform, this dataset supports:
 3. benchmark realistic missingness and cost/labour distributions;
 4. inform synthetic manufacturing-specific work-order calibration only when that use is explicitly documented and kept separate from the real source records.
 
-It is not joined directly to the separate real bottling-line production and downtime dataset.
+Direct joins to the separate real bottling-line production and downtime dataset
+are outside the supported integration.
 
 ## Layering
 - `bronze/`: original downloaded CSV, unchanged.

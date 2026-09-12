@@ -2,8 +2,8 @@
 
 ## Production and OEE
 
-All ratios guard against zero denominators. Aggregated ratios are recalculated
-from aggregated numerators and denominators rather than averaging row-level
+All ratios guard against zero denominators. Aggregated numerators and
+denominators are combined before division, avoiding averages of row-level
 percentages.
 
 | KPI | Definition |
@@ -20,7 +20,8 @@ percentages.
 
 ## Technical loss accounting
 
-The formal loss bridge uses technical capacity rather than the production plan:
+Technical capacity supplies the formal loss-bridge baseline. The production
+plan is reserved for plan-shortfall analysis:
 
 ```text
 Theoretical capacity = planned production hours × nominal rate
@@ -38,8 +39,8 @@ Technical gap        = availability loss + performance loss + quality loss
   separate because the production plan is not the OEE technical baseline.
 
 The synthetic product unit values translate technical loss into
-`opportunity_eur`. They are not retail prices, audited margins, booked losses,
-or realized savings.
+`opportunity_eur`. Retail prices, audited margins, booked losses, and realized
+savings all fall outside that definition.
 
 ## Electricity and utilities
 
@@ -55,14 +56,15 @@ or realized savings.
 Electricity intensity is lower-is-better. Site and line values use summed energy
 and summed output, avoiding an unweighted average of shift intensities.
 
-Average demand is not peak demand. Idle energy share is not downtime
-percentage. ERA5-Land temperature is real external context, while the resulting
-site auxiliary electricity remains synthetic enterprise data.
+Average demand describes the reporting period and cannot be read as peak
+demand. Idle energy share measures consumption allocation, not downtime.
+ERA5-Land temperature supplies real external context, while the resulting site
+auxiliary electricity remains synthetic enterprise data.
 
 PET compressed-air values use governed synthetic line-class assumptions. The
 CAN line uses exactly **5.0 Nm³/1,000 cans** for positive-production rows. A null
-compressed-air value means not modelled/not applicable; it is not equivalent to
-zero.
+compressed-air value denotes an inapplicable or unmodelled case; zero remains a
+distinct numerical observation.
 
 ## Electricity-cost benchmark
 
@@ -76,7 +78,8 @@ Benchmark cost intensity    = benchmark cost EUR / production units × 1,000
 
 The accepted band is `MWH2000-19999`, and the accepted tax basis is `X_VAT`.
 January–June maps to semester `S1`; July–December maps to `S2` in the same year.
-The result is a comparable benchmark, not a site invoice or contracted tariff.
+The result provides a comparable benchmark. Site invoices and contracted
+tariffs require separate commercial evidence.
 
 ## Reliability
 

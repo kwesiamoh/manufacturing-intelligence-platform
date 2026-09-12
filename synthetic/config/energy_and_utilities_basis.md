@@ -16,7 +16,8 @@ For the measured PET bottling plant, the study reports:
 - average unproductive-period electrical power: 12.327 kW
 - the stretch-blow moulder as the dominant consumer
 
-energy and utilities uses these measurements as an anchor, not as claimed measurements from the fictional sites.
+energy and utilities uses these measurements solely as an external anchor and
+never attributes them to the fictional sites.
 
 ## Can-line basis
 The fictional 60,000 cans/hour line uses a 250 kW production design point. This is within a published 120-450 kW load range for commercial can-filling lines rated from 12,000 to 60,000 cans/hour.
@@ -31,8 +32,8 @@ assumption. It is anchored to published canning-equipment pneumatic-demand
 specifications from Wild Goose Filling and Cask, which document clean/dry air
 requirements ranging from individual filler/seamer demand to total-system demand
 including air treatment. Because the published machines have different speeds
-and system boundaries, 5.0 is not a direct measurement or linear extrapolation
-from any one machine.
+and system boundaries, the 5.0 value is a governed design assumption without a
+direct-measurement or single-machine extrapolation claim.
 
 The can-line value uses the same generic energy and utilities formula as PET:
 
@@ -54,9 +55,11 @@ A deliberately simple auxiliary-load response is used:
 - above 22 C: small cooling-related increase
 - below 5 C: small heating/support-load increase
 
-This is for contextual analytics only and is not a building-energy simulation.
+This input supports contextual analytics only; building-energy simulation lies
+outside its scope.
 
 ## Scope boundary
 No steam model, boiler model, process-heat balance, refrigeration thermodynamics, water balance, or detailed compressed-air network simulation is introduced.
 
-Real Industrial Utilities steam/compressed-air data and Industrial Water water data are separate benchmark/reference sources and are not Velora operational observations.
+Real Industrial Utilities steam/compressed-air data and Industrial Water data
+remain separate benchmark and reference sources outside Velora operations.

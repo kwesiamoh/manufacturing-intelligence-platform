@@ -27,7 +27,10 @@ The source-native NetCDF files remain unchanged in Bronze. The ERA5-Land time-se
 ## Integration rule
 `integration_role = EXTERNAL_CONTEXT`
 
-Weather is joined to the fictional enterprise layer only through governed `site_code` and timestamp relationships. It does not imply that unrelated public industrial datasets came from these fictional sites or that ERA5-Land is an on-site weather station.
+Weather joins the fictional enterprise layer only through governed `site_code`
+and timestamp relationships. ERA5-Land remains external gridded context; the
+join creates no shared-site provenance with other public industrial datasets
+and never represents an on-site weather station.
 
 ## Authenticated acquisition
 

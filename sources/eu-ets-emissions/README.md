@@ -24,7 +24,9 @@ The EU ETS dataset contains verified emissions and allowance/compliance informat
 The stationary-installation records serve as a real European industrial-emissions benchmark.
 
 ## Important integration rule
-These are real EU ETS installations. They MUST NOT be renamed as the fictional beverage sites or row-level joined to unrelated public datasets unless a genuine common identifier exists.
+These records describe real EU ETS installations and retain that identity.
+Fictional beverage-site labels and row-level joins to unrelated public datasets
+would require a genuine common identifier that is absent here.
 
 Valid uses include:
 - industrial CO2/GHG benchmarking;

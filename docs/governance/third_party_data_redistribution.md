@@ -6,7 +6,10 @@ This document records the final public-release treatment of third-party source d
 
 The repository code license does **not** relicense third-party datasets. Each external source remains subject to the terms of its original provider.
 
-Where redistribution rights are not established, the repository provides acquisition guidance, expected local paths, validation logic, provenance, and transformation code rather than redistributing the source artifact itself.
+Where redistribution rights are unestablished, the public package consists of
+acquisition guidance, expected local paths, validation logic, provenance, and
+transformation code; the source artifact stays with the provider or authorized
+user.
 
 ---
 
@@ -21,9 +24,10 @@ steam_G.xlsx
 steam_P.xlsx
 ```
 
-They are acquisition-only and must not be redistributed. Reproduction requires
-user-supplied copies obtained under the provider's terms; the repository retains
-metadata, expected paths, schemas, validation, and transformation code.
+Their release classification is acquisition-only, so the public repository
+excludes all four workbooks. Reproduction uses copies supplied by users who
+obtained them under the provider's terms; metadata, expected paths, schemas,
+validation, and transformation code remain available here.
 
 ---
 
@@ -35,10 +39,10 @@ The EU ETS source is:
 ETS_Database_July_2026.xlsx
 ```
 
-This source requires manual acquisition and must not be redistributed. The
-runner reports `MANUAL_INPUT_REQUIRED` when the workbook is absent. Users place
-an authorized copy in the documented local path before validation and
-transformation.
+This source follows a manual-acquisition, no-redistribution policy. The runner
+reports `MANUAL_INPUT_REQUIRED` when the workbook is absent. Validation and
+transformation begin after the user places an authorized copy in the documented
+local path.
 
 ---
 
